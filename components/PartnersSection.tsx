@@ -1,0 +1,50 @@
+"use client";
+
+const partners = [
+  { src: "/partner1.webp", alt: "Binghatti" },
+  { src: "/patner2.webp", alt: "Select Group" },
+  { src: "/partner3.webp", alt: "City View" },
+  { src: "/partner4.webp", alt: "Ellington" },
+  { src: "/partner5.webp", alt: "Deyaar" },
+];
+
+export default function PartnersSection() {
+  // Duplicate for smooth scrolling effect
+  const duplicated = [...partners, ...partners];
+
+  return (
+
+    <section className="py-14 bg-[#f3f6fa] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-10 md:gap-0">
+        <div className="flex-1 flex items-center justify-center md:justify-start mb-6 md:mb-0">
+          <span className="text-gray-700 text-lg font-light leading-snug text-left" style={{letterSpacing: ".04em", fontFamily: "'Playfair Display', serif"}}>
+            Partners with<br />Dubai’s leading<br />developers
+          </span>
+        </div>
+        <div className="flex-[3] w-full max-w-4xl mx-auto overflow-hidden">
+          <div className="partner-marquee flex items-center gap-16" style={{ minWidth: '200vw', animation: 'marquee-rtl 22s linear infinite' }}>
+            {[...partners, ...partners, ...partners].map((partner, i) => (
+              <div key={i} className="flex items-center justify-center h-16">
+                <img
+                  src={partner.src}
+                  alt={partner.alt}
+                  className="h-12 md:h-14 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                  style={{ maxWidth: 160 }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <style jsx>{`
+        @keyframes marquee-rtl {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .partner-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+    </section>
+  );
+}
