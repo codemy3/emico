@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const navLinks = [
@@ -51,55 +52,96 @@ const navLinks = [
   { label: "Blogs", href: "/blogs" },
 ];
 
+/* Pages where the hero is a DARK background image → navbar should be white/transparent */
+const DARK_HERO_PAGES = ["/", "/home"];
+
+/* Pages where the hero is a LIGHT/WHITE background → navbar should be dark from the start */
+const LIGHT_HERO_PAGES = ["/developers", "/properties", "/projects", "/services", "/about", "/blogs"];
+
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]         = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen]     = useState(false);
+  const pathname                         = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+    setActiveDropdown(null);
+  }, [pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  /*
+    isTransparent = navbar sits on a dark hero image (transparent bg, white text)
+    Once scrolled past 50px, always switch to white bg + dark text.
+    On light-hero pages, always use white bg + dark text (never transparent).
+  */
+  const pageHasDarkHero = DARK_HERO_PAGES.includes(pathname ?? "");
+  const isTransparent   = pageHasDarkHero && !scrolled;
+
+  // Derived color tokens so we only define once
+  const textColor    = isTransparent ? "text-white/90"  : "text-gray-700";
+  const textHover    = isTransparent ? "hover:text-white" : "hover:text-black";
+  const burgerColor  = isTransparent ? "bg-white"       : "bg-black";
+  const logoSrc      = isTransparent ? "/logo.png"      : "/logo-black.png";
+
   return (
     <>
+      {/* ─── NAVBAR ─── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-white shadow-lg py-3"
-            : "bg-transparent py-5"
-        }`}
+        className={`
+          fixed top-0 left-0 right-0 z-50
+          transition-all duration-500
+          ${isTransparent
+            ? "bg-transparent py-5"
+            : "bg-white py-3"
+          }
+        `}
+        style={
+          isTransparent
+            ? { boxShadow: "none" }
+            : { boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }
+        }
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative flex flex-col items-start">
-              <img
-                src={scrolled ? "/logo-black.png" : "/logo.png"}
-                alt="Logo"
-                className="h-8 w-32 object-contain transition-all duration-300"
-              />
-              
-            </div>
+
+          {/* ── Logo ── */}
+          <Link href="/" className="flex items-center shrink-0">
+            <img
+              src={logoSrc}
+              alt="Logo"
+              className="h-8 w-32 object-contain transition-all duration-300"
+            />
           </Link>
 
-          {/* Desktop Nav */}
+          {/* ── Desktop Nav ── */}
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <div
                 key={link.label}
-                className="relative group"
+                className="relative"
                 onMouseEnter={() => link.dropdown && setActiveDropdown(link.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 <Link
                   href={link.href}
-                  className={`px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 flex items-center gap-1 ${
-                    scrolled
-                      ? "text-gray-700 hover:text-black"
-                      : "text-white/90 hover:text-white"
-                  }`}
+                  className={`
+                    px-4 py-2 text-sm font-medium tracking-wide
+                    flex items-center gap-1
+                    transition-colors duration-200
+                    ${textColor} ${textHover}
+                  `}
                 >
                   {link.label}
                   {link.dropdown && (
@@ -107,23 +149,26 @@ export default function Navbar() {
                       className={`w-3 h-3 transition-transform duration-200 ${
                         activeDropdown === link.label ? "rotate-180" : ""
                       }`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   )}
                 </Link>
 
-                {/* Dropdown */}
+                {/* Dropdown panel */}
                 {link.dropdown && (
                   <div
-                    className={`absolute top-full left-0 mt-1 w-52 bg-white shadow-2xl rounded-sm border-t-2 border-black transition-all duration-200 ${
-                      activeDropdown === link.label
+                    className={`
+                      absolute top-full left-0 mt-2 w-52
+                      bg-white rounded-sm border-t-2 border-black
+                      shadow-2xl
+                      transition-all duration-200
+                      ${activeDropdown === link.label
                         ? "opacity-100 translate-y-0 pointer-events-auto"
                         : "opacity-0 -translate-y-2 pointer-events-none"
-                    }`}
+                      }
+                    `}
                   >
                     {link.dropdown.map((item) => (
                       <Link
@@ -140,65 +185,107 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link
-              href="/contact"
-              className={`text-sm font-medium tracking-wide transition-colors duration-200 ${
-                scrolled ? "text-gray-700 hover:text-black" : "text-white/90 hover:text-white"
-              }`}
+          {/* ── Desktop CTA ── */}
+          <div className="hidden lg:flex items-center gap-4">
+            <a
+              href="tel:+97140000000"
+              className={`text-sm font-medium tracking-wide transition-colors duration-200 ${textColor} ${textHover}`}
             >
               +971 4 XXX XXXX
-            </Link>
+            </a>
             <Link
               href="/contact"
-              className={`px-5 py-2.5 text-sm font-semibold tracking-wide transition-all duration-300 ${
-                scrolled
-                  ? "bg-black text-white hover:bg-gray-800"
-                  : "bg-white text-black hover:bg-gray-100"
-              }`}
+              className={`
+                px-5 py-2.5 text-sm font-semibold tracking-wide
+                transition-all duration-300
+                ${isTransparent
+                  ? "bg-white text-black hover:bg-gray-100"
+                  : "bg-black text-white hover:bg-gray-800"
+                }
+              `}
             >
               List Property
             </Link>
           </div>
 
-          {/* Mobile Toggle */}
+          {/* ── Mobile Hamburger ── */}
           <button
-            className={`lg:hidden p-2 ${scrolled ? "text-black" : "text-white"}`}
-            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            className="lg:hidden p-2 -mr-2 flex flex-col justify-center items-center gap-[5px]"
+            onClick={() => setMobileOpen((v) => !v)}
           >
-            <div className="w-6 h-5 flex flex-col justify-between">
-              <span className={`block h-0.5 w-full transition-all duration-300 ${scrolled ? "bg-black" : "bg-white"} ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`block h-0.5 w-full transition-all duration-300 ${scrolled ? "bg-black" : "bg-white"} ${mobileOpen ? "opacity-0" : ""}`} />
-              <span className={`block h-0.5 w-full transition-all duration-300 ${scrolled ? "bg-black" : "bg-white"} ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-            </div>
+            {/* Three lines — animate to X when open */}
+            <span
+              className={`block h-0.5 w-6 rounded-full transition-all duration-300 ${burgerColor} ${
+                mobileOpen ? "rotate-45 translate-y-[7px]" : ""
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-6 rounded-full transition-all duration-300 ${burgerColor} ${
+                mobileOpen ? "opacity-0 scale-x-0" : ""
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-6 rounded-full transition-all duration-300 ${burgerColor} ${
+                mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""
+              }`}
+            />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* ─── MOBILE MENU OVERLAY ─── */}
+      {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-40 bg-white transition-transform duration-500 ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`
+          fixed inset-0 z-40 bg-black/40 backdrop-blur-sm
+          transition-opacity duration-300 lg:hidden
+          ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
+        `}
+        onClick={() => setMobileOpen(false)}
+      />
+
+      {/* Slide-in panel */}
+      <div
+        className={`
+          fixed top-0 right-0 bottom-0 z-40 w-80 max-w-[90vw]
+          bg-white shadow-2xl
+          transition-transform duration-500 ease-in-out lg:hidden
+          ${mobileOpen ? "translate-x-0" : "translate-x-full"}
+        `}
       >
-        <div className="pt-24 px-6 pb-8 h-full overflow-y-auto">
+        {/* Panel header */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100">
+          <img src="/logo-black.png" alt="Logo" className="h-7 w-28 object-contain" />
+          <button
+            aria-label="Close menu"
+            className="p-1 text-black"
+            onClick={() => setMobileOpen(false)}
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Links */}
+        <div className="overflow-y-auto h-[calc(100%-130px)]">
           {navLinks.map((link) => (
             <div key={link.label} className="border-b border-gray-100">
               <Link
                 href={link.href}
-                className="block py-4 text-lg font-semibold text-black"
+                className="block px-6 py-4 text-base font-semibold text-black hover:bg-gray-50 transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </Link>
               {link.dropdown && (
-                <div className="pb-3 pl-4">
+                <div className="pb-2 px-6 pl-8 bg-gray-50/60">
                   {link.dropdown.map((item) => (
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="block py-2 text-sm text-gray-600"
+                      className="block py-2.5 text-sm text-gray-600 hover:text-black transition-colors border-b border-gray-100 last:border-0"
                       onClick={() => setMobileOpen(false)}
                     >
                       {item.label}
@@ -208,15 +295,17 @@ export default function Navbar() {
               )}
             </div>
           ))}
-          <div className="mt-8">
-            <Link
-              href="/contact"
-              className="block w-full text-center py-4 bg-black text-white font-semibold"
-              onClick={() => setMobileOpen(false)}
-            >
-              List Your Property
-            </Link>
-          </div>
+        </div>
+
+        {/* Panel footer CTA */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100">
+          <Link
+            href="/contact"
+            className="block w-full text-center py-3.5 bg-black text-white text-sm font-semibold tracking-wide hover:bg-gray-800 transition-colors"
+            onClick={() => setMobileOpen(false)}
+          >
+            List Your Property
+          </Link>
         </div>
       </div>
     </>
