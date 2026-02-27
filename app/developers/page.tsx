@@ -32,25 +32,33 @@ const CSS = `
 
 /* ── HERO ── */
 .pv .pv-hero {
-  text-align: center;
-  padding-top: clamp(2.5rem, 6vw, 5rem);
-  padding-bottom: clamp(2rem, 5vw, 3.5rem);
-  padding-left: clamp(1rem, 4vw, 2rem);
-  padding-right: clamp(1rem, 4vw, 2rem);
+  max-width: 1320px; margin-left: auto; margin-right: auto;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-bottom: clamp(1rem, 2.5vw, 2rem);
+  padding-left: clamp(1rem, 4vw, 2.5rem);
+  padding-right: clamp(1rem, 4vw, 2.5rem);
 }
 .pv .pv-hero-eyebrow {
   font-size: 11px; font-weight: 600; letter-spacing: 0.15em;
-  text-transform: uppercase; color: #9a8060; margin-bottom: 16px; display: block;
+  text-transform: uppercase; color: #9a8060; margin-bottom: 10px; display: block;
+}
+
+/* ── HERO INLINE ROW: title + search on same line ── */
+.pv .pv-hero-inline {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  flex-wrap: wrap;
 }
 .pv .pv-hero-h1 {
   font-family: 'Libre Baskerville', Georgia, serif;
-  font-size: clamp(28px, 5.5vw, 58px); font-weight: 700;
-  color: #000; line-height: 1.12; margin-top: 0;
-  margin-bottom: clamp(1.5rem, 4vw, 2.5rem); letter-spacing: -0.02em;
+  font-size: clamp(20px, 3vw, 38px); font-weight: 700;
+  color: #000; line-height: 1.15; margin: 0;
+  letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0;
 }
 
 /* ── SEARCH ── */
-.pv .pv-search-wrap { max-width: 580px; margin-left: auto; margin-right: auto; }
+.pv .pv-search-wrap { flex: 1; min-width: 240px; max-width: 460px; }
 .pv .pv-search-form {
   display: flex; align-items: stretch;
   border: 1.5px solid #d8d3cc; border-radius: 4px;
@@ -60,7 +68,7 @@ const CSS = `
 .pv .pv-search-input {
   flex: 1; border: none; outline: none;
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px; color: #07234B; padding: 13px 18px; background: transparent; margin: 0;
+  font-size: 14px; color: #07234B; padding: 11px 16px; background: transparent; margin: 0;
 }
 .pv .pv-search-input::placeholder { color: #aaa; }
 .pv .pv-search-btn {
@@ -68,14 +76,14 @@ const CSS = `
   background: #000; color: #fff; border: none; cursor: pointer;
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
-  padding: 13px 22px; transition: background 0.18s; white-space: nowrap; margin: 0;
+  padding: 11px 20px; transition: background 0.18s; white-space: nowrap; margin: 0;
 }
 .pv .pv-search-btn:hover { background: #222; }
 
 /* ── COUNT BAR ── */
 .pv .pv-count-bar {
   max-width: 1320px; margin-left: auto; margin-right: auto;
-  padding-top: 16px;
+  padding-top: 12px;
   padding-left: clamp(1rem, 4vw, 2.5rem);
   padding-right: clamp(1rem, 4vw, 2.5rem);
 }
@@ -84,7 +92,7 @@ const CSS = `
 
 /* ── DIVIDER ── */
 .pv .pv-divider {
-  max-width: 1320px; margin-top: 14px; margin-left: auto; margin-right: auto;
+  max-width: 1320px; margin-top: 12px; margin-left: auto; margin-right: auto;
   padding-left: clamp(1rem, 4vw, 2.5rem);
   padding-right: clamp(1rem, 4vw, 2.5rem);
 }
@@ -93,7 +101,7 @@ const CSS = `
 /* ── GRID ── */
 .pv .pv-grid {
   max-width: 1320px; margin-left: auto; margin-right: auto;
-  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: clamp(1.2rem, 2.5vw, 2rem);
   padding-bottom: clamp(3rem, 8vh, 6rem);
   padding-left: clamp(1rem, 4vw, 2.5rem);
   padding-right: clamp(1rem, 4vw, 2.5rem);
@@ -104,11 +112,11 @@ const CSS = `
 @media (min-width: 900px)  { .pv .pv-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 1100px) { .pv .pv-grid { grid-template-columns: repeat(4, 1fr); } }
 
-/* ── CARD — full bleed image with dark overlay ── */
+/* ── CARD — reduced height (4:3 instead of 1:1) ── */
 .pv .pv-card {
   display: block; text-decoration: none; color: inherit;
   border-radius: 8px; overflow: hidden;
-  position: relative; aspect-ratio: 1 / 1;
+  position: relative; aspect-ratio: 4 / 3;
   background: #0d1b3e;
   animation: pvcardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
@@ -139,25 +147,25 @@ const CSS = `
   );
 }
 
-/* logo — centered in upper portion, no background */
+/* logo — centered in upper portion, zoomed */
 .pv .pv-card-logo-area {
-  position: absolute; top: 0; left: 0; right: 0; height: 62%;
+  position: absolute; top: 0; left: 0; right: 0; height: 58%;
   display: flex; align-items: center; justify-content: center;
-  z-index: 2; padding: 16px;
+  z-index: 2; padding: 12px;
 }
 .pv .pv-card-logo-pill {
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.22s ease;
 }
-.pv .pv-card:hover .pv-card-logo-pill { transform: scale(1.05); }
+.pv .pv-card:hover .pv-card-logo-pill { transform: scale(1.08); }
 .pv .pv-card-logo {
-  width: 110px; height: 44px;
+  width: 130px; height: 52px;
   object-fit: contain; display: block;
-  filter: brightness(0) invert(1); opacity: 0.92;
+  filter: brightness(0) invert(1); opacity: 0.95;
 }
 .pv .pv-card-logo-text {
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px; font-weight: 700; color: #fff;
+  font-size: 16px; font-weight: 700; color: #fff;
   letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
   text-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
@@ -165,15 +173,15 @@ const CSS = `
 /* bottom content */
 .pv .pv-card-body {
   position: absolute; bottom: 0; left: 0; right: 0;
-  z-index: 3; padding: 18px 16px 18px;
+  z-index: 3; padding: 14px 14px;
 }
 .pv .pv-card-name-row {
   display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 6px; margin-bottom: 5px;
+  gap: 6px; margin-bottom: 4px;
 }
 .pv .pv-card-name {
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 15px; font-weight: 600; color: #fff; line-height: 1.25; letter-spacing: -0.01em;
+  font-size: 14px; font-weight: 600; color: #fff; line-height: 1.25; letter-spacing: -0.01em;
 }
 .pv .pv-card-arrow {
   flex-shrink: 0; color: rgba(255,255,255,0.45);
@@ -182,7 +190,7 @@ const CSS = `
 .pv .pv-card:hover .pv-card-arrow { color: #fff; transform: translate(3px, -3px); }
 .pv .pv-card-location {
   font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.5);
-  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 9px;
+  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px;
 }
 .pv .pv-card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
 .pv .pv-card-tag {
@@ -271,25 +279,25 @@ export default function DevelopersPage() {
         </ol>
       </nav>
 
-      {/* HERO */}
+      {/* HERO — left aligned, title + search bar inline */}
       <div className="pv-hero">
         <span className="pv-hero-eyebrow">UAE Real Estate</span>
-        <h1 className="pv-hero-h1">
-          Top Developers<br />in Dubai &amp; The UAE
-        </h1>
-        <div className="pv-search-wrap">
-          <div className="pv-search-form">
-            <input
-              className="pv-search-input"
-              type="text"
-              placeholder="Search by developer name…"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            />
-            <button className="pv-search-btn" onClick={handleSearch}>
-              <Search size={14} /> Search
-            </button>
+        <div className="pv-hero-inline">
+          <h1 className="pv-hero-h1">Top Developers in Dubai &amp; The UAE</h1>
+          <div className="pv-search-wrap">
+            <div className="pv-search-form">
+              <input
+                className="pv-search-input"
+                type="text"
+                placeholder="Search by developer name…"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              />
+              <button className="pv-search-btn" onClick={handleSearch}>
+                <Search size={14} /> Search
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -317,7 +325,6 @@ export default function DevelopersPage() {
               className="pv-card"
               style={{ animationDelay: `${idx * 0.04}s` }}
             >
-              {/* Background image — dimmed */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={dev.coverImage}
@@ -325,11 +332,7 @@ export default function DevelopersPage() {
                 className="pv-card-img"
                 loading={idx < 8 ? "eager" : "lazy"}
               />
-
-              {/* Gradient overlay */}
               <div className="pv-card-gradient" />
-
-              {/* Logo — centered upper portion */}
               <div className="pv-card-logo-area">
                 <div className="pv-card-logo-pill">
                   {dev.logoIsText ? (
@@ -340,8 +343,6 @@ export default function DevelopersPage() {
                   )}
                 </div>
               </div>
-
-              {/* Bottom info */}
               <div className="pv-card-body">
                 <div className="pv-card-name-row">
                   <span className="pv-card-name">{dev.name}</span>

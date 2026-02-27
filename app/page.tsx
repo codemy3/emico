@@ -13,8 +13,9 @@ export default function Home() {
       <HeroSection />
       <CreativeSection />
       <PartnersSection />
-      <StatsSection />
+
       <ExploreProperties />
+      <StatsSection />
       <CTASection />
       
       <WhyChooseUs />

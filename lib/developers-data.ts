@@ -38,7 +38,7 @@ export const developers: Developer[] = [
   {
     id: "emaar-properties",
     name: "Emaar Properties",
-    coverImage: "/developers/downtown.jpeg",
+    coverImage: "/developers/emaar.jpg",
     logo: "/developers/emaar-logo.png",
     logoIsText: false,
     developer: "Emaar Properties",
