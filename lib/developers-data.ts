@@ -345,7 +345,7 @@ export const developers: Developer[] = [
     id: "meraas",
     name: "Meraas",
     coverImage: "/developers/dubaihills.jpeg",
-    logo: "/developers/meraas-logo.svg",
+    logo: "/developers/Meraas-logo.svg",
     logoIsText: false,
     developer: "Meraas",
     location: "Dubai, UAE",
