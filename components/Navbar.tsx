@@ -9,6 +9,8 @@ const navLinks = [
     label: "Properties",
     href: "/properties",
     dropdown: [
+      { label: "Buy", href: "/properties/buy" },
+      { label: "Rent", href: "/properties/rent" },
       { label: "Off-Plan Properties", href: "/properties/off-plan" },
       { label: "Ready to Move", href: "/properties/ready" },
       { label: "Luxury Villas", href: "/properties/villas" },
@@ -21,11 +23,10 @@ const navLinks = [
     label: "Developers",
     href: "/developers",
     dropdown: [
-      { label: "Emaar Properties", href: "/developers/emaar" },
-      { label: "DAMAC", href: "/developers/damac" },
+      { label: "Emaar Properties", href: "/developers/emaar-properties" },
+      { label: "DAMAC Properties", href: "/developers/damac-properties" },
       { label: "Nakheel", href: "/developers/nakheel" },
-      { label: "Meraas", href: "/developers/meraas" },
-      { label: "Sobha Realty", href: "/developers/sobha" },
+      { label: "Sobha Realty", href: "/developers/sobha-realty" },
       { label: "All Developers", href: "/developers" },
     ],
   },

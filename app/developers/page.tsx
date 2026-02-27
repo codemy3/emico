@@ -45,7 +45,7 @@ const CSS = `
 .pv .pv-hero-h1 {
   font-family: 'Libre Baskerville', Georgia, serif;
   font-size: clamp(28px, 5.5vw, 58px); font-weight: 700;
-  color: #07234B; line-height: 1.12; margin-top: 0;
+  color: #000; line-height: 1.12; margin-top: 0;
   margin-bottom: clamp(1.5rem, 4vw, 2.5rem); letter-spacing: -0.02em;
 }
 
@@ -65,12 +65,12 @@ const CSS = `
 .pv .pv-search-input::placeholder { color: #aaa; }
 .pv .pv-search-btn {
   display: flex; align-items: center; gap: 7px;
-  background: #07234B; color: #fff; border: none; cursor: pointer;
+  background: #000; color: #fff; border: none; cursor: pointer;
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
   padding: 13px 22px; transition: background 0.18s; white-space: nowrap; margin: 0;
 }
-.pv .pv-search-btn:hover { background: #0c3568; }
+.pv .pv-search-btn:hover { background: #222; }
 
 /* ── COUNT BAR ── */
 .pv .pv-count-bar {
@@ -108,7 +108,7 @@ const CSS = `
 .pv .pv-card {
   display: block; text-decoration: none; color: inherit;
   border-radius: 8px; overflow: hidden;
-  position: relative; aspect-ratio: 3 / 4;
+  position: relative; aspect-ratio: 1 / 1;
   background: #0d1b3e;
   animation: pvcardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
@@ -133,36 +133,33 @@ const CSS = `
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(
     to bottom,
-    rgba(5, 12, 35, 0.05) 0%,
-    rgba(5, 12, 35, 0.15) 35%,
-    rgba(5, 12, 35, 0.82) 100%
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.35) 35%,
+    rgba(0, 0, 0, 0.92) 100%
   );
 }
 
-/* logo — vertically centered in upper 60% */
+/* logo — centered in upper portion, no background */
 .pv .pv-card-logo-area {
   position: absolute; top: 0; left: 0; right: 0; height: 62%;
   display: flex; align-items: center; justify-content: center;
   z-index: 2; padding: 16px;
 }
 .pv .pv-card-logo-pill {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border-radius: 5px; padding: 10px 22px;
   display: flex; align-items: center; justify-content: center;
-  min-width: 88px; min-height: 42px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.28);
-  transition: transform 0.22s ease, background 0.22s ease;
+  transition: transform 0.22s ease;
 }
-.pv .pv-card:hover .pv-card-logo-pill {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.05);
+.pv .pv-card:hover .pv-card-logo-pill { transform: scale(1.05); }
+.pv .pv-card-logo {
+  width: 110px; height: 44px;
+  object-fit: contain; display: block;
+  filter: brightness(0) invert(1); opacity: 0.92;
 }
-.pv .pv-card-logo { max-width: 104px; max-height: 34px; width: auto; height: auto; object-fit: contain; display: block; }
 .pv .pv-card-logo-text {
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px; font-weight: 700; color: #07234B;
-  letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
+  font-size: 14px; font-weight: 700; color: #fff;
+  letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
 /* bottom content */
