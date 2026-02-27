@@ -27,6 +27,11 @@ export interface Developer {
   marketPosition: string[];
   href: string;
   projects?: ProjectItem[];
+  contact?: {
+    email: string;
+    phone: string;
+    whatsapp: string;
+  };
 }
 
 export const developers: Developer[] = [
@@ -81,6 +86,11 @@ export const developers: Developer[] = [
         highlights: ["Private Beach Access", "Marina & Sea Views", "Full amenities", "Premium finishes"],
       },
     ],
+    contact: {
+      email: "enquiry@emaar.ae",
+      phone: "+97180036227",
+      whatsapp: "+97180036227",
+    },
   },
   {
     id: "damac-properties",
@@ -133,6 +143,11 @@ export const developers: Developer[] = [
         highlights: ["Cavalli-designed interiors", "Dubai Harbour views", "Superyacht marina", "Ultra-luxury finish"],
       },
     ],
+    contact: {
+      email: "enquiry@damacgroup.com",
+      phone: "+97180033326",
+      whatsapp: "+97180033326",
+    },
   },
   {
     id: "nakheel",
@@ -185,6 +200,11 @@ export const developers: Developer[] = [
         highlights: ["Largest palm island", "Private beachfront", "Historic launch prices", "Major capital appreciation expected"],
       },
     ],
+    contact: {
+      email: "customercare@nakheel.com",
+      phone: "+97144088888",
+      whatsapp: "+97144088888",
+    },
   },
   {
     id: "sobha-realty",
@@ -225,6 +245,11 @@ export const developers: Developer[] = [
         highlights: ["Panoramic skyline views", "Premium Sobha quality", "MBR City address", "High appreciation"],
       },
     ],
+    contact: {
+      email: "enquiry@sobharealty.com",
+      phone: "+97180076242",
+      whatsapp: "+97180076242",
+    },
   },
   {
     id: "binghatti-developers",
@@ -265,6 +290,11 @@ export const developers: Developer[] = [
         highlights: ["JVC central location", "Signature architecture", "High rental yield", "Ready to move in"],
       },
     ],
+    contact: {
+      email: "info@binghatti.com",
+      phone: "+97144060800",
+      whatsapp: "+97144060800",
+    },
   },
   {
     id: "danube-properties",
@@ -305,6 +335,11 @@ export const developers: Developer[] = [
         highlights: ["Sports facilities on site", "Affordable entry", "Strong yields", "Dubai Sports City"],
       },
     ],
+    contact: {
+      email: "enquiry@danubeproperties.com",
+      phone: "+97144188000",
+      whatsapp: "+97144188000",
+    },
   },
   {
     id: "meraas",
@@ -345,6 +380,11 @@ export const developers: Developer[] = [
         highlights: ["Above City Walk retail", "Al Wasl Road", "Premium finishes", "Lifestyle destination"],
       },
     ],
+    contact: {
+      email: "enquiry@meraas.ae",
+      phone: "+97144088000",
+      whatsapp: "+97144088000",
+    },
   },
   {
     id: "ellington-properties",
@@ -385,6 +425,11 @@ export const developers: Developer[] = [
         highlights: ["Canal frontage", "Art-inspired interiors", "Business Bay", "Premium facilities"],
       },
     ],
+    contact: {
+      email: "info@ellingtonproperties.com",
+      phone: "+97144063232",
+      whatsapp: "+97144063232",
+    },
   },
   {
     id: "azizi-developments",
@@ -425,6 +470,11 @@ export const developers: Developer[] = [
         highlights: ["18km Crystal Lagoon", "Near Al Maktoum Airport", "Venice-inspired theme", "Expo City proximity"],
       },
     ],
+    contact: {
+      email: "info@azizidevelopments.com",
+      phone: "+97144096444",
+      whatsapp: "+97144096444",
+    },
   },
   {
     id: "select-group",
@@ -465,6 +515,11 @@ export const developers: Developer[] = [
         highlights: ["Marina Walk frontage", "Panoramic sea views", "5-star amenities", "Strong rental yields"],
       },
     ],
+    contact: {
+      email: "info@selectgroup.ae",
+      phone: "+97144536666",
+      whatsapp: "+97144536666",
+    },
   },
   {
     id: "majid-al-futtaim",
@@ -505,6 +560,11 @@ export const developers: Developer[] = [
         highlights: ["Lagoon beach access", "Cycling & jogging tracks", "Retail village", "Family-oriented"],
       },
     ],
+    contact: {
+      email: "enquiry@maf.ae",
+      phone: "+97180060520",
+      whatsapp: "+97180060520",
+    },
   },
   {
     id: "dubai-properties",
@@ -545,6 +605,11 @@ export const developers: Developer[] = [
         highlights: ["Spanish-inspired design", "Family-friendly", "Schools nearby", "Dubai-Al Ain Road"],
       },
     ],
+    contact: {
+      email: "enquiry@dubaiproperties.ae",
+      phone: "+97144232323",
+      whatsapp: "+97144232323",
+    },
   },
 ];
 

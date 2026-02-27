@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { X, MapPin, BedDouble, Bath, Maximize2, ChevronRight } from "lucide-react";
+import { X, MapPin, BedDouble, Bath, Maximize2, ChevronRight, Mail, Phone, MessageCircle } from "lucide-react";
 import type { Developer, ProjectItem } from "@/lib/developers-data";
 
 interface Project {
@@ -178,31 +178,63 @@ export default function DeveloperDetailClient({ dev }: { dev: Developer }) {
 
                 <div className="cd-prop-grid">
                   {projects.map((project) => (
-                    <button
-                      key={project.id}
-                      className="cd-prop-card"
-                      onClick={() => setSelectedProject(project)}
-                    >
-                      <div className="cd-prop-img-wrap">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={project.image} alt={project.name} className="cd-prop-img" />
-                        <span className={`cd-prop-badge cd-badge-${project.status.toLowerCase().replace(/\s/g, "-")}`}>
-                          {project.status}
-                        </span>
-                      </div>
-                      <div className="cd-prop-body">
-                        <p className="cd-prop-type">{project.type}</p>
-                        <h3 className="cd-prop-name">{project.name}</h3>
-                        <p className="cd-prop-price">{project.price}</p>
-                        <div className="cd-prop-meta">
-                          <span>{project.beds}</span>
-                          <span className="cd-dot">·</span>
-                          <span>{project.baths}</span>
-                          <span className="cd-dot">·</span>
-                          <span>{project.size}</span>
+                    <div key={project.id} className="cd-prop-card">
+                      {/* Clickable image + info area */}
+                      <button
+                        className="cd-prop-card-inner"
+                        onClick={() => setSelectedProject(project)}
+                      >
+                        <div className="cd-prop-img-wrap">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={project.image} alt={project.name} className="cd-prop-img" />
+                          <span className={`cd-prop-badge cd-badge-${project.status.toLowerCase().replace(/\s/g, "-")}`}>
+                            {project.status}
+                          </span>
                         </div>
+                        <div className="cd-prop-body">
+                          <p className="cd-prop-type">{project.type}</p>
+                          <h3 className="cd-prop-name">{project.name}</h3>
+                          <p className="cd-prop-price">{project.price}</p>
+                          <div className="cd-prop-meta">
+                            <span>{project.beds}</span>
+                            <span className="cd-dot">·</span>
+                            <span>{project.baths}</span>
+                            <span className="cd-dot">·</span>
+                            <span>{project.size}</span>
+                          </div>
+                        </div>
+                      </button>
+
+                      {/* Contact row */}
+                      <div className="cd-prop-contact">
+                        <a
+                          href={`mailto:${dev.contact?.email ?? "info@example.com"}?subject=Enquiry: ${encodeURIComponent(project.name)}`}
+                          className="cd-contact-btn cd-contact-email"
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <Mail size={14} />
+                          <span>Email</span>
+                        </a>
+                        <a
+                          href={`tel:${dev.contact?.phone ?? "+97100000000"}`}
+                          className="cd-contact-btn cd-contact-call"
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <Phone size={14} />
+                          <span>Call</span>
+                        </a>
+                        <a
+                          href={`https://wa.me/${(dev.contact?.whatsapp ?? "97100000000").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hi, I'm interested in ${project.name}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cd-contact-btn cd-contact-whatsapp"
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <MessageCircle size={14} />
+                          <span>WhatsApp</span>
+                        </a>
                       </div>
-                    </button>
+                    </div>
                   ))}
                 </div>
 
@@ -370,8 +402,9 @@ const CSS = `
 .cd .cd-prop-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media (min-width: 600px)  { .cd .cd-prop-grid { grid-template-columns: repeat(2,1fr); } }
 @media (min-width: 1000px) { .cd .cd-prop-grid { grid-template-columns: repeat(3,1fr); } }
-.cd .cd-prop-card { border: 1px solid #eee; border-radius: 6px; overflow: hidden; background: #fff; transition: box-shadow .22s, transform .22s; cursor: pointer; text-align: left; width: 100%; }
+.cd .cd-prop-card { border: 1px solid #eee; border-radius: 6px; overflow: hidden; background: #fff; transition: box-shadow .22s, transform .22s; text-align: left; width: 100%; display: flex; flex-direction: column; }
 .cd .cd-prop-card:hover { box-shadow: 0 12px 36px rgba(0,0,0,.10); transform: translateY(-4px); }
+.cd .cd-prop-card-inner { display: block; width: 100%; text-align: left; background: none; border: none; padding: 0; cursor: pointer; flex: 1; }
 .cd .cd-prop-img-wrap { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #eee; }
 .cd .cd-prop-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s cubic-bezier(.22,1,.36,1); }
 .cd .cd-prop-card:hover .cd-prop-img { transform: scale(1.05); }
@@ -379,13 +412,34 @@ const CSS = `
 .cd .cd-badge-off-plan           { background: #000; }
 .cd .cd-badge-ready              { background: #fff; color: #000; border: 1px solid #000; }
 .cd .cd-badge-under-construction { background: #fff; color: #000; border: 1px solid #000; }
-.cd .cd-prop-body { padding: 14px 16px 18px; }
+.cd .cd-prop-body { padding: 14px 16px 14px; }
 .cd .cd-prop-type  { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px; }
 .cd .cd-prop-name  { font-size: 14px; font-weight: 600; color: #000; margin-bottom: 6px; line-height: 1.4; }
 .cd .cd-prop-price { font-size: 15px; font-weight: 700; color: #000; margin-bottom: 8px; }
 .cd .cd-prop-meta  { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #888; flex-wrap: wrap; }
 .cd .cd-dot        { color: #bbb; }
 .cd .cd-prop-cta   { margin-top: 1.5rem; }
+
+/* CONTACT BUTTONS ROW */
+.cd .cd-prop-contact {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; border-top: 1px solid #f0f0f0;
+}
+.cd .cd-contact-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 11px 8px;
+  font-size: 12px; font-weight: 600;
+  text-decoration: none; border: none; background: #fff;
+  cursor: pointer; transition: background .15s, color .15s;
+  letter-spacing: .01em;
+}
+.cd .cd-contact-btn:not(:last-child) { border-right: 1px solid #f0f0f0; }
+.cd .cd-contact-email  { color: #374151; }
+.cd .cd-contact-email:hover  { background: #f8f7f5; color: #000; }
+.cd .cd-contact-call   { color: #d97706; }
+.cd .cd-contact-call:hover   { background: #fffbeb; }
+.cd .cd-contact-whatsapp { color: #16a34a; }
+.cd .cd-contact-whatsapp:hover { background: #f0fdf4; }
 
 /* BUTTONS */
 .cd .cd-btn-primary { display: inline-flex; align-items: center; justify-content: center; background: #000; color: #fff; border: none; cursor: pointer; font-size: 12px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; padding: 13px 28px; border-radius: 3px; transition: opacity .18s; }
