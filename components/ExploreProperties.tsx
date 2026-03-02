@@ -98,7 +98,6 @@ const properties = [
   },
 ];
 
-// ── Icons ──────────────────────────────────────────────────────────
 const BedIcon = () => (
   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -124,34 +123,21 @@ const PinIcon = () => (
   </svg>
 );
 
-// ── Typed easing tuple — fixes TS2322 Easing errors ───────────────
 const EASE_CUBIC: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94];
 
-// ── Framer Motion Variants ─────────────────────────────────────────
 const headerVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: EASE_CUBIC },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_CUBIC } },
 };
 
 const lineVariants: Variants = {
   hidden: { scaleX: 0 },
-  visible: {
-    scaleX: 1,
-    transition: { duration: 0.8, delay: 0.3, ease: "easeOut" as const },
-  },
+  visible: { scaleX: 1, transition: { duration: 0.8, delay: 0.3, ease: "easeOut" as const } },
 };
 
 const tabContainerVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: 0.2, ease: "easeOut" as const },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2, ease: "easeOut" as const } },
 };
 
 const cardVariants: Variants = {
@@ -159,11 +145,7 @@ const cardVariants: Variants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.55,
-      ease: EASE_CUBIC,
-    },
+    transition: { delay: i * 0.1, duration: 0.55, ease: EASE_CUBIC },
   }),
   exit: {
     opacity: 0,
@@ -173,13 +155,11 @@ const cardVariants: Variants = {
   },
 };
 
-// ── Component ──────────────────────────────────────────────────────
 export default function ExploreProperties() {
   const [active, setActive] = useState("All");
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
-  // Show max 3 cards
   const filtered = (
     active === "All"
       ? properties
@@ -188,21 +168,20 @@ export default function ExploreProperties() {
 
   return (
     <section
-      className="py-24 px-6 overflow-hidden"
+      className="pt-8 pb-16 px-6 overflow-hidden"
       ref={sectionRef}
       style={{ backgroundColor: "#f8f7f5" }}
     >
       <div className="max-w-7xl mx-auto">
 
-        {/* ── Header ───────────────────────────────────────────── */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
+        {/* ── Header ── */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-6 gap-4">
           <motion.div
             variants={headerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            {/* Eyebrow line + label */}
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-3">
               <motion.div
                 className="h-px bg-black origin-left"
                 style={{ width: 36 }}
@@ -218,7 +197,6 @@ export default function ExploreProperties() {
               </span>
             </div>
 
-            {/* Headline */}
             <h2
               className="text-black leading-[1.1]"
               style={{
@@ -251,9 +229,9 @@ export default function ExploreProperties() {
           </motion.div>
         </div>
 
-        {/* ── Filter Tabs ──────────────────────────────────────── */}
+        {/* ── Filter Tabs ── */}
         <motion.div
-          className="flex flex-wrap gap-2 mb-10"
+          className="flex flex-wrap gap-2 mb-8"
           variants={tabContainerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -279,7 +257,7 @@ export default function ExploreProperties() {
           ))}
         </motion.div>
 
-        {/* ── Property Grid — max 3 cards ───────────────────────── */}
+        {/* ── Property Grid ── */}
         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" layout>
           <AnimatePresence mode="popLayout">
             {filtered.map((property, i) => (
@@ -308,7 +286,6 @@ export default function ExploreProperties() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-                    {/* Tag badge */}
                     <div
                       className="absolute top-4 left-4 text-white text-[10px] font-bold px-3 py-1 tracking-widest uppercase"
                       style={{ backgroundColor: property.tagColor }}
@@ -316,7 +293,6 @@ export default function ExploreProperties() {
                       {property.tag}
                     </div>
 
-                    {/* Completion date */}
                     {property.completion && (
                       <div
                         className="absolute bottom-4 left-4 text-white/90 text-xs font-medium tracking-wide"
@@ -326,7 +302,6 @@ export default function ExploreProperties() {
                       </div>
                     )}
 
-                    {/* Sweep underline on hover */}
                     <motion.div
                       className="absolute bottom-0 left-0 h-0.5 bg-white"
                       initial={{ width: 0 }}
@@ -362,7 +337,6 @@ export default function ExploreProperties() {
                       </div>
                     </div>
 
-                    {/* Stats */}
                     <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-5 text-gray-400 text-xs tracking-wide">
                       {property.beds > 0 && (
                         <span className="flex items-center gap-1.5">
@@ -380,7 +354,6 @@ export default function ExploreProperties() {
                       </span>
                     </div>
 
-                    {/* Hover CTA */}
                     <div className="mt-4 flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-black opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       View Details
                       <motion.span
