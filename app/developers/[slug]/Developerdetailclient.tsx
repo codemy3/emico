@@ -23,16 +23,25 @@ interface Project {
 }
 
 const PLACEHOLDER_IMAGES = [
-  "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
-  "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80",
-  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-  "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
-  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
-  "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80",
-  "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800&q=80",
-  "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80",
+  "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1600&q=95",
+  "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1600&q=95",
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=95",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=95",
+  "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1600&q=95",
+  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600&q=95",
+  "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=95",
+  "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=1600&q=95",
+  "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=1600&q=95",
 ];
+
+/** Upgrade Unsplash URLs to full 1920px / q=100 for the hero. Local images pass through unchanged. */
+function heroSrc(url: string): string {
+  if (url.includes("unsplash.com")) {
+    const base = url.split("?")[0];
+    return `${base}?w=1920&q=100&fm=jpg&fit=crop&auto=format`;
+  }
+  return url; // local /developers/ images — Next.js serves at full quality
+}
 
 function resolveProjects(dev: Developer): Project[] {
   if (dev.projects && dev.projects.length > 0) {
@@ -104,7 +113,6 @@ function ImageCarousel({ images, projectName }: { images: string[]; projectName:
       <div className="cd-carousel-track">
         {images.map((src, i) => (
           <div key={i} className={`cd-carousel-slide${i === current ? " active" : ""}`} aria-hidden={i !== current}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={src} alt={`${projectName} — view ${i + 1}`} className="cd-carousel-img" />
           </div>
         ))}
@@ -131,7 +139,6 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       <div className="cd-modal" onClick={(e) => e.stopPropagation()}>
         <button className="cd-modal-close" onClick={onClose} aria-label="Close"><X size={18} /></button>
         <div className="cd-modal-img-wrap">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={project.images[0]} alt={project.name} className="cd-modal-img" />
           <div className="cd-modal-img-overlay" />
           <span className={`cd-modal-badge cd-badge-${project.status.toLowerCase().replace(/\s/g, "-")}`}>{project.status}</span>
@@ -193,14 +200,18 @@ export default function DeveloperDetailClient({ dev }: { dev: Developer }) {
 
         {/* HERO */}
         <div className="cd-hero">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={dev.coverImage} alt={dev.name} className="cd-hero-bg" />
+          <img
+            src={heroSrc(dev.coverImage)}
+            alt={dev.name}
+            className="cd-hero-bg"
+            fetchPriority="high"
+            decoding="sync"
+          />
           <div className="cd-hero-overlay" />
           <div className="cd-hero-logo-wrap">
             {dev.logoIsText ? (
               <span className="cd-hero-logo-text">{dev.name}</span>
             ) : (
-              // eslint-disable-next-line @next/next/no-img-element
               <img src={dev.logo} alt={`${dev.name} logo`} className="cd-hero-logo-img" />
             )}
           </div>
@@ -208,94 +219,78 @@ export default function DeveloperDetailClient({ dev }: { dev: Developer }) {
 
         {/* BODY */}
         <div className="cd-body">
-          <div className="cd-layout">
 
-            <main className="cd-main">
+          <section className="cd-section">
+            <div className="cd-section-header">
+              <h2 className="cd-section-h">Projects by {dev.name}</h2>
+              <p className="cd-section-sub">Browse the latest off-plan and ready properties from {dev.name}.</p>
+              <div className="cd-tabs">
+                {dev.propertyTypes.map((t, i) => (
+                  <button key={t} className={`cd-tab${i === activeTab ? " active" : ""}`} onClick={() => setActiveTab(i)}>{t}</button>
+                ))}
+              </div>
+            </div>
 
-              {/* PROJECTS */}
-              <section className="cd-section">
-                <h2 className="cd-section-h">Projects by {dev.name}</h2>
-                <p className="cd-section-sub">Browse the latest off-plan and ready properties from {dev.name}.</p>
-
-                <div className="cd-tabs">
-                  {dev.propertyTypes.map((t, i) => (
-                    <button key={t} className={`cd-tab${i === activeTab ? " active" : ""}`} onClick={() => setActiveTab(i)}>{t}</button>
-                  ))}
-                </div>
-
-                <div className="cd-prop-grid">
-                  {projects.map((project) => (
-                    <div key={project.id} className="cd-prop-card">
-                      <div className="cd-prop-carousel-wrap" onClick={() => setSelectedProject(project)}>
-                        <ImageCarousel images={project.images} projectName={project.name} />
-                        <span className={`cd-prop-badge cd-badge-${project.status.toLowerCase().replace(/\s/g, "-")}`}>{project.status}</span>
-                        <div className="cd-prop-price-overlay">{project.price}</div>
-                      </div>
-
-                      <button className="cd-prop-card-inner" onClick={() => setSelectedProject(project)}>
-                        <div className="cd-prop-body">
-                          <p className="cd-prop-type">{project.type}</p>
-                          <h3 className="cd-prop-name">{project.name}</h3>
-                          <div className="cd-prop-location"><MapPin size={11} /><span>{project.location}</span></div>
-                          <div className="cd-prop-stats">
-                            <span className="cd-prop-stat"><BedDouble size={12} />{project.beds}</span>
-                            <span className="cd-prop-stat-sep" />
-                            <span className="cd-prop-stat"><Bath size={12} />{project.baths}</span>
-                            <span className="cd-prop-stat-sep" />
-                            <span className="cd-prop-stat"><Maximize2 size={12} />{project.size}</span>
-                          </div>
-                        </div>
-                      </button>
-
-                      <div className="cd-prop-contact">
-                        <a href={`mailto:${dev.contact?.email ?? "info@example.com"}?subject=Enquiry: ${encodeURIComponent(project.name)}`} className="cd-contact-btn cd-contact-email" onClick={e => e.stopPropagation()}>
-                          <Mail size={13} /><span>Email</span>
-                        </a>
-                        <a href={`tel:${dev.contact?.phone ?? "+97100000000"}`} className="cd-contact-btn cd-contact-call" onClick={e => e.stopPropagation()}>
-                          <Phone size={13} /><span>Call</span>
-                        </a>
-                        <a href={`https://wa.me/${(dev.contact?.whatsapp ?? "97100000000").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hi, I'm interested in ${project.name}`)}`} target="_blank" rel="noopener noreferrer" className="cd-contact-btn cd-contact-whatsapp" onClick={e => e.stopPropagation()}>
-                          <MessageCircle size={13} /><span>WhatsApp</span>
-                        </a>
-                      </div>
+            <div className="cd-layout">
+              <div className="cd-prop-grid">
+                {projects.map((project) => (
+                  <div key={project.id} className="cd-prop-card">
+                    <div className="cd-prop-carousel-wrap" onClick={() => setSelectedProject(project)}>
+                      <ImageCarousel images={project.images} projectName={project.name} />
+                      <span className={`cd-prop-badge cd-badge-${project.status.toLowerCase().replace(/\s/g, "-")}`}>{project.status}</span>
+                      <div className="cd-prop-price-overlay">{project.price}</div>
                     </div>
-                  ))}
+                    <button className="cd-prop-card-inner" onClick={() => setSelectedProject(project)}>
+                      <div className="cd-prop-body">
+                        <p className="cd-prop-type">{project.type}</p>
+                        <h3 className="cd-prop-name">{project.name}</h3>
+                        <div className="cd-prop-location"><MapPin size={11} /><span>{project.location}</span></div>
+                        <div className="cd-prop-stats">
+                          <span className="cd-prop-stat"><BedDouble size={12} />{project.beds}</span>
+                          <span className="cd-prop-stat-sep" />
+                          <span className="cd-prop-stat"><Bath size={12} />{project.baths}</span>
+                          <span className="cd-prop-stat-sep" />
+                          <span className="cd-prop-stat"><Maximize2 size={12} />{project.size}</span>
+                        </div>
+                      </div>
+                    </button>
+                    <div className="cd-prop-contact">
+                      <a href={`mailto:${dev.contact?.email ?? "info@example.com"}?subject=Enquiry: ${encodeURIComponent(project.name)}`} className="cd-contact-btn cd-contact-email" onClick={e => e.stopPropagation()}>
+                        <Mail size={13} /><span>Email</span>
+                      </a>
+                      <a href={`tel:${dev.contact?.phone ?? "+97100000000"}`} className="cd-contact-btn cd-contact-call" onClick={e => e.stopPropagation()}>
+                        <Phone size={13} /><span>Call</span>
+                      </a>
+                      <a href={`https://wa.me/${(dev.contact?.whatsapp ?? "97100000000").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hi, I'm interested in ${project.name}`)}`} target="_blank" rel="noopener noreferrer" className="cd-contact-btn cd-contact-whatsapp" onClick={e => e.stopPropagation()}>
+                        <MessageCircle size={13} /><span>WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <aside className="cd-sidebar">
+                <div className="cd-sidebar-card">
+                  <h3 className="cd-sidebar-label">Market Position</h3>
+                  <div className="cd-pills">
+                    {dev.marketPosition.map((p) => (<span key={p} className="cd-pill">{p}</span>))}
+                  </div>
                 </div>
-              </section>
-
-              {/* ABOUT */}
-              <section className="cd-section">
-                <h2 className="cd-section-h">About {dev.name}</h2>
-                <p className="cd-section-text">{dev.longDescription}</p>
-              </section>
-
-            </main>
-
-            {/* SIDEBAR */}
-            <aside className="cd-sidebar">
-              <div className="cd-sidebar-card">
-                <h3 className="cd-sidebar-label">Key Facts</h3>
-                <ul className="cd-facts">
-                  <li className="cd-fact"><span className="cd-fact-k">Developer</span><span className="cd-fact-v">{dev.developer}</span></li>
-                  <li className="cd-fact"><span className="cd-fact-k">Location</span><span className="cd-fact-v">{dev.location}</span></li>
-                  <li className="cd-fact"><span className="cd-fact-k">Property Types</span><span className="cd-fact-v">{dev.propertyTypes.join(", ")}</span></li>
-                </ul>
-              </div>
-              <div className="cd-sidebar-card">
-                <h3 className="cd-sidebar-label">Market Position</h3>
-                <div className="cd-pills">
-                  {dev.marketPosition.map((p) => (<span key={p} className="cd-pill">{p}</span>))}
+                <div className="cd-sidebar-card cd-cta-card">
+                  <h3 className="cd-cta-title">Interested in {dev.name}?</h3>
+                  <p className="cd-cta-text">Speak with our expert advisors to find the best property for your needs and budget.</p>
+                  <button className="cd-btn-white cd-btn-full">Book a Free Consultation</button>
+                  <button className="cd-btn-outline-white cd-btn-full">Download Brochure</button>
                 </div>
-              </div>
-              <div className="cd-sidebar-card cd-cta-card">
-                <h3 className="cd-cta-title">Interested in {dev.name}?</h3>
-                <p className="cd-cta-text">Speak with our expert advisors to find the best property for your needs and budget.</p>
-                <button className="cd-btn-white cd-btn-full">Book a Free Consultation</button>
-                <button className="cd-btn-outline-white cd-btn-full">Download Brochure</button>
-              </div>
-            </aside>
+              </aside>
+            </div>
+          </section>
 
-          </div>
+          <section className="cd-section">
+            <h2 className="cd-section-h">About {dev.name}</h2>
+            <p className="cd-section-text">{dev.longDescription}</p>
+          </section>
+
         </div>
 
         <div className="cd-back-wrap">
@@ -305,7 +300,6 @@ export default function DeveloperDetailClient({ dev }: { dev: Developer }) {
         {selectedProject && (
           <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
         )}
-
       </div>
     </>
   );
@@ -318,11 +312,11 @@ const CSS = `
 .cd {
   --cd-black:   #0d0d0d;
   --cd-white:   #ffffff;
-  --cd-bg:      #f5f3ef;        /* warm off-white page background */
-  --cd-surface: #ffffff;        /* card surface — white on warm bg = contrast */
-  --cd-border:  #e2ddd6;        /* warm grey border */
+  --cd-bg:      #f5f3ef;
+  --cd-surface: #ffffff;
+  --cd-border:  #e2ddd6;
   --cd-muted:   #8a8178;
-  --cd-accent:  #b8955a;        /* warm gold accent */
+  --cd-accent:  #b8955a;
   --cd-sans:    'Jost', ui-sans-serif, system-ui, sans-serif;
   --cd-serif:   'Cormorant Garamond', Georgia, serif;
   --cd-radius:  10px;
@@ -331,12 +325,7 @@ const CSS = `
 }
 
 .cd *, .cd *::before, .cd *::after { box-sizing: border-box; margin: 0; padding: 0; }
-.cd {
-  background: var(--cd-bg);
-  min-height: 100vh;
-  font-family: var(--cd-sans);
-  color: var(--cd-black);
-}
+.cd { background: var(--cd-bg); min-height: 100vh; font-family: var(--cd-sans); color: var(--cd-black); }
 
 /* ── BREADCRUMB ── */
 .cd .cd-bc-wrap { max-width: 1280px; margin: 0 auto; padding: 20px clamp(1rem,4vw,2.5rem) 0; }
@@ -348,81 +337,95 @@ const CSS = `
 
 /* ── HERO ── */
 .cd .cd-hero {
-  width: 100%; position: relative;
-  height: clamp(180px, 24vw, 300px);
-  margin-bottom: 0;
+  width: 100%;
+  position: relative;
+  height: clamp(220px, 30vw, 380px);
+  overflow: hidden;
+  /* Isolation prevents backdrop-filter on child/sibling elements bleeding into hero */
+  isolation: isolate;
 }
-.cd .cd-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.cd .cd-hero-overlay {
+.cd .cd-hero-bg {
   position: absolute; inset: 0;
-  background: linear-gradient(105deg, rgba(0,0,0,0.64) 0%, rgba(0,0,0,0.28) 60%, rgba(0,0,0,0.18) 100%);
-  z-index: 1;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  /* Prevent any subpixel rendering issues */
+  will-change: auto;
+  image-rendering: auto;
+  /* No filter, no opacity — full native image quality */
+}
+.cd .cd-hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  /* Gradient only covers left third where logo sits — right 40%+ is fully clear */
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.55) 0%,
+    rgba(0,0,0,0.15) 35%,
+    rgba(0,0,0,0.00) 60%
+  );
 }
 .cd .cd-hero-logo-wrap {
   position: absolute; top: 0; bottom: 0;
-  left: clamp(1.5rem,5vw,3.5rem); right: 50%;
-  z-index: 2;
+  left: clamp(1.5rem,5vw,3.5rem); right: 50%; z-index: 2;
   display: flex; align-items: center; justify-content: flex-start;
 }
 .cd .cd-hero-logo-img {
-  width: 180px; height: 64px; object-fit: contain; display: block;
+  width: 400px; height: 150px; object-fit: contain; display: block;
   filter: brightness(0) invert(1) drop-shadow(0 2px 16px rgba(0,0,0,0.5));
 }
 .cd .cd-hero-logo-text {
   font-family: var(--cd-serif);
   font-size: clamp(26px,5vw,52px); font-weight: 700; color: #fff;
-  letter-spacing: 0.04em;
-  text-shadow: 0 2px 32px rgba(0,0,0,0.6);
+  letter-spacing: 0.04em; text-shadow: 0 2px 32px rgba(0,0,0,0.6);
 }
 
 /* ── BODY ── */
-.cd .cd-body { max-width: 1280px; margin: 0 auto; padding: clamp(2rem,4vw,3rem) clamp(1rem,4vw,2.5rem) 3rem; }
-.cd .cd-layout { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
-@media (min-width: 960px) { .cd .cd-layout { grid-template-columns: 1fr 300px; align-items: start; } }
+.cd .cd-body { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1rem,4vw,2.5rem) 3rem; }
 
-/* ── SECTIONS ── */
+/* ── SECTION ── */
 .cd .cd-section { margin-bottom: 3rem; }
+.cd .cd-section:first-child { padding-top: 0.5rem; }
+
+.cd .cd-section-header { margin-bottom: 1.75rem; }
 .cd .cd-section-h {
   font-family: var(--cd-serif);
-  font-size: clamp(22px,3vw,30px); font-weight: 600; color: var(--cd-black);
+  font-size: clamp(48px,5vw,60px); font-weight: 600; color: var(--cd-black);
   padding-bottom: .85rem; margin-bottom: 1rem;
-  border-bottom: 1px solid var(--cd-border);
-  letter-spacing: .01em;
+  border-bottom: 1px solid var(--cd-border); letter-spacing: .01em;
 }
-.cd .cd-section-text { font-size: 15px; color: #444; line-height: 1.85; font-weight: 300; }
 .cd .cd-section-sub { font-size: 13px; color: var(--cd-muted); margin-bottom: 1.5rem; line-height: 1.65; }
+.cd .cd-section-text { font-size: 15px; color: #444; line-height: 1.85; font-weight: 300; }
 
 /* ── TABS ── */
-.cd .cd-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.75rem; }
+.cd .cd-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .cd .cd-tab {
   font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
   color: var(--cd-muted); background: var(--cd-surface);
   border: 1.5px solid var(--cd-border); border-radius: 3px;
   padding: 8px 18px; cursor: pointer; transition: all .18s;
 }
-.cd .cd-tab.active, .cd .cd-tab:hover {
-  background: var(--cd-black); color: #fff; border-color: var(--cd-black);
-}
+.cd .cd-tab.active, .cd .cd-tab:hover { background: var(--cd-black); color: #fff; border-color: var(--cd-black); }
+
+/* ── LAYOUT ── */
+.cd .cd-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start; }
+@media (min-width: 960px) { .cd .cd-layout { grid-template-columns: 1fr 300px; gap: 2.5rem; } }
 
 /* ── PROPERTY GRID ── */
 .cd .cd-prop-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
 @media (min-width: 600px)  { .cd .cd-prop-grid { grid-template-columns: repeat(2,1fr); } }
-@media (min-width: 1000px) { .cd .cd-prop-grid { grid-template-columns: repeat(3,1fr); } }
+@media (min-width: 960px)  { .cd .cd-prop-grid { grid-template-columns: repeat(2,1fr); } }
+@media (min-width: 1100px) { .cd .cd-prop-grid { grid-template-columns: repeat(3,1fr); } }
 
-/* ── PROPERTY CARD — solid white on warm bg ── */
+/* ── PROPERTY CARD ── */
 .cd .cd-prop-card {
-  border-radius: var(--cd-radius);
-  overflow: hidden;
-  background: var(--cd-surface);           /* solid white = clearly visible on #f5f3ef */
-  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius); overflow: hidden;
+  background: var(--cd-surface); border: 1px solid var(--cd-border);
   box-shadow: var(--cd-shadow);
   transition: box-shadow .28s ease, transform .28s ease;
   display: flex; flex-direction: column;
 }
-.cd .cd-prop-card:hover {
-  box-shadow: var(--cd-shadow-hover);
-  transform: translateY(-5px);
-}
+.cd .cd-prop-card:hover { box-shadow: var(--cd-shadow-hover); transform: translateY(-5px); }
 
 /* ── CAROUSEL ── */
 .cd .cd-prop-carousel-wrap { position: relative; cursor: pointer; overflow: hidden; }
@@ -431,27 +434,22 @@ const CSS = `
 .cd .cd-carousel-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; }
 .cd .cd-carousel-slide.active { opacity: 1; }
 .cd .cd-carousel-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
 .cd .cd-carousel-btn {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  z-index: 10; width: 32px; height: 32px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.15);
-  color: #fff; border: 1px solid rgba(255,255,255,0.3);
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3);
   border-radius: 50%; cursor: pointer; transition: all .18s;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  opacity: 0; /* hidden by default, show on card hover */
+  /* No backdrop-filter on carousel buttons to avoid stacking context issues */
+  opacity: 0;
 }
 .cd .cd-prop-card:hover .cd-carousel-btn { opacity: 1; }
 .cd .cd-carousel-btn:hover { background: rgba(255,255,255,0.3); }
 .cd .cd-carousel-prev { left: 10px; }
 .cd .cd-carousel-next { right: 10px; }
-
 .cd .cd-carousel-dots { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; z-index: 10; }
 .cd .cd-carousel-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4); border: none; cursor: pointer; padding: 0; transition: all .2s; }
 .cd .cd-carousel-dot.active { background: #fff; transform: scale(1.4); }
 
-/* Badge */
 .cd .cd-prop-badge {
   position: absolute; top: 12px; left: 12px; z-index: 10;
   font-size: 9px; font-weight: 700; border-radius: 3px;
@@ -461,100 +459,60 @@ const CSS = `
 .cd .cd-badge-ready              { background: var(--cd-accent); color: #fff; }
 .cd .cd-badge-under-construction { background: rgba(255,255,255,0.92); color: var(--cd-black); border: 1px solid rgba(0,0,0,0.12); }
 
-/* Price overlay */
 .cd .cd-prop-price-overlay {
   position: absolute; bottom: 28px; right: 12px; z-index: 10;
-  background: rgba(13,13,13,0.80);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  color: #fff;
-  font-size: 13px; font-weight: 600;
-  padding: 5px 11px; border-radius: 4px;
-  letter-spacing: 0.02em;
-  font-family: var(--cd-sans);
+  /* Solid semi-transparent background — no backdrop-filter to avoid blur bleed */
+  background: rgba(13,13,13,0.82);
+  color: #fff; font-size: 13px; font-weight: 600;
+  padding: 5px 11px; border-radius: 4px; letter-spacing: 0.02em; font-family: var(--cd-sans);
 }
 
-/* ── CARD INNER ── */
-.cd .cd-prop-card-inner {
-  display: block; width: 100%; text-align: left;
-  background: transparent; border: none; padding: 0; cursor: pointer; flex: 1;
-}
+.cd .cd-prop-card-inner { display: block; width: 100%; text-align: left; background: transparent; border: none; padding: 0; cursor: pointer; flex: 1; }
 .cd .cd-prop-body { padding: 14px 16px 12px; }
-.cd .cd-prop-type {
-  font-size: 9px; font-weight: 700; color: var(--cd-accent);
-  text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px;
-}
-.cd .cd-prop-name {
-  font-family: var(--cd-serif);
-  font-size: 17px; font-weight: 600; color: var(--cd-black);
-  margin-bottom: 7px; line-height: 1.35;
-}
-.cd .cd-prop-location {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 11px; color: var(--cd-muted);
-  margin-bottom: 10px;
-}
-.cd .cd-prop-stats {
-  display: flex; align-items: center; gap: 0;
-  background: var(--cd-bg); border-radius: 5px;
-  padding: 8px 10px; border: 1px solid var(--cd-border);
-}
-.cd .cd-prop-stat {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 11px; color: #555; font-weight: 500; flex: 1; justify-content: center;
-}
+.cd .cd-prop-type { font-size: 9px; font-weight: 700; color: var(--cd-accent); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
+.cd .cd-prop-name { font-family: var(--cd-serif); font-size: 17px; font-weight: 600; color: var(--cd-black); margin-bottom: 7px; line-height: 1.35; }
+.cd .cd-prop-location { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--cd-muted); margin-bottom: 10px; }
+.cd .cd-prop-stats { display: flex; align-items: center; background: var(--cd-bg); border-radius: 5px; padding: 8px 10px; border: 1px solid var(--cd-border); }
+.cd .cd-prop-stat { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #555; font-weight: 500; flex: 1; justify-content: center; }
 .cd .cd-prop-stat svg { color: var(--cd-muted); flex-shrink: 0; }
 .cd .cd-prop-stat-sep { width: 1px; height: 16px; background: var(--cd-border); flex-shrink: 0; }
 
-/* ── CONTACT ROW ── */
+/* ── CONTACT BAR ── */
 .cd .cd-prop-contact {
   display: grid; grid-template-columns: repeat(3,1fr);
-  border-top: 1px solid var(--cd-border);
-  margin-top: auto;
+  border-top: 1px solid var(--cd-border); margin-top: auto;
 }
 .cd .cd-contact-btn {
   display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 12px 6px;
-  font-size: 11px; font-weight: 600; letter-spacing: .03em;
+  padding: 12px 6px; font-size: 11px; font-weight: 600; letter-spacing: .03em;
   text-decoration: none; border: none; background: transparent;
-  cursor: pointer; transition: background .15s, color .15s;
-  text-transform: uppercase;
+  cursor: pointer; transition: background .15s, color .15s; text-transform: uppercase;
 }
 .cd .cd-contact-btn:not(:last-child) { border-right: 1px solid var(--cd-border); }
-.cd .cd-contact-email   { color: #374151; }
-.cd .cd-contact-email:hover   { background: #f9f8f6; color: var(--cd-black); }
-.cd .cd-contact-call    { color: #b45309; }
-.cd .cd-contact-call:hover    { background: #fffbeb; }
-.cd .cd-contact-whatsapp { color: #15803d; }
-.cd .cd-contact-whatsapp:hover { background: #f0fdf4; }
+.cd .cd-contact-email            { color: #374151; }
+.cd .cd-contact-email:hover      { background: #f9f8f6; color: var(--cd-black); }
+.cd .cd-contact-call             { color: #b45309; }
+.cd .cd-contact-call:hover       { background: #fffbeb; }
+.cd .cd-contact-whatsapp         { color: #15803d; }
+.cd .cd-contact-whatsapp:hover   { background: #f0fdf4; }
 
 /* ── SIDEBAR ── */
 .cd .cd-sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 90px; }
 .cd .cd-sidebar-card {
-  background: var(--cd-surface);
-  border: 1px solid var(--cd-border);
-  border-radius: var(--cd-radius);
-  padding: 22px;
+  background: var(--cd-surface); border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius); padding: 22px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .cd .cd-sidebar-label { font-size: 9px; font-weight: 700; color: var(--cd-muted); text-transform: uppercase; letter-spacing: .14em; margin-bottom: 16px; }
-.cd .cd-facts { list-style: none; display: flex; flex-direction: column; gap: 13px; }
-.cd .cd-fact { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid var(--cd-border); }
-.cd .cd-fact:last-child { border-bottom: none; padding-bottom: 0; }
-.cd .cd-fact-k { font-size: 12px; color: var(--cd-muted); flex-shrink: 0; }
-.cd .cd-fact-v { font-size: 12px; font-weight: 600; color: var(--cd-black); text-align: right; }
 .cd .cd-pills { display: flex; flex-wrap: wrap; gap: 7px; }
 .cd .cd-pill {
   font-size: 10px; font-weight: 600; color: var(--cd-black);
   border: 1px solid var(--cd-border); border-radius: 3px;
-  padding: 5px 11px; letter-spacing: .05em; text-transform: uppercase;
-  background: var(--cd-bg);
+  padding: 5px 11px; letter-spacing: .05em; text-transform: uppercase; background: var(--cd-bg);
 }
-
-/* CTA card */
 .cd .cd-cta-card { background: var(--cd-black) !important; border-color: var(--cd-black) !important; }
 .cd .cd-cta-title { font-family: var(--cd-serif); font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 10px; line-height: 1.3; letter-spacing: .01em; }
 .cd .cd-cta-text { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 20px; font-weight: 300; }
-
 .cd .cd-btn-white {
   display: inline-flex; align-items: center; justify-content: center;
   background: #fff; color: #000; border: none; cursor: pointer;
@@ -580,10 +538,11 @@ const CSS = `
 /* ── MODAL ── */
 .cd-modal-overlay {
   position: fixed; inset: 0; z-index: 1000;
-  background: rgba(13,13,13,0.75);
+  /* Removed backdrop-filter: blur — it was creating a new stacking context
+     that caused the hero image to appear blurry even when modal was closed */
+  background: rgba(13,13,13,0.80);
   display: flex; align-items: center; justify-content: center;
   padding: 16px; animation: cdOverlayIn 0.2s ease;
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
 }
 .cd-modal {
   background: #fff; border-radius: 12px; width: 100%; max-width: 580px;
@@ -595,8 +554,7 @@ const CSS = `
   position: absolute; top: 14px; right: 14px; z-index: 10;
   width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
   background: rgba(255,255,255,0.95); border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 50%; cursor: pointer; color: #333; box-shadow: 0 2px 10px rgba(0,0,0,0.14);
-  transition: all .15s;
+  border-radius: 50%; cursor: pointer; color: #333; box-shadow: 0 2px 10px rgba(0,0,0,0.14); transition: all .15s;
 }
 .cd-modal-close:hover { background: #fff; transform: scale(1.08); }
 .cd-modal-img-wrap { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #eee; border-radius: 12px 12px 0 0; }
@@ -634,7 +592,7 @@ const CSS = `
   .cd-modal-stat-sep { width: 100%; height: 1px; }
   .cd-modal-actions  { flex-direction: column; }
   .cd-modal-btn-primary, .cd-modal-btn-outline { min-width: unset; }
-  .cd .cd-hero { height: clamp(140px, 42vw, 210px); }
-  .cd .cd-hero-logo-img { width: 130px; height: 48px; }
+  .cd .cd-hero { height: clamp(160px, 42vw, 240px); }
+  .cd .cd-hero-logo-img { width: 200px; height: 80px; }
 }
 `;

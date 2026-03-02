@@ -43,7 +43,7 @@ const CSS = `
   text-transform: uppercase; color: #9a8060; margin-bottom: 10px; display: block;
 }
 
-/* ── HERO INLINE ROW: title + search on same line ── */
+/* ── HERO INLINE ROW ── */
 .pv .pv-hero-inline {
   display: flex;
   align-items: center;
@@ -105,14 +105,14 @@ const CSS = `
   padding-bottom: clamp(3rem, 8vh, 6rem);
   padding-left: clamp(1rem, 4vw, 2.5rem);
   padding-right: clamp(1rem, 4vw, 2.5rem);
-  display: grid; grid-template-columns: 1fr;
-  gap: clamp(14px, 2vw, 20px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 cols on mobile */
+  gap: clamp(10px, 2vw, 20px);
 }
-@media (min-width: 540px)  { .pv .pv-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 900px)  { .pv .pv-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 720px)  { .pv .pv-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 1100px) { .pv .pv-grid { grid-template-columns: repeat(4, 1fr); } }
 
-/* ── CARD — reduced height (4:3 instead of 1:1) ── */
+/* ── CARD ── */
 .pv .pv-card {
   display: block; text-decoration: none; color: inherit;
   border-radius: 8px; overflow: hidden;
@@ -136,7 +136,7 @@ const CSS = `
 }
 .pv .pv-card:hover .pv-card-img { opacity: 0.32; transform: scale(1.07); }
 
-/* vignette gradient — strong at bottom */
+/* vignette gradient */
 .pv .pv-card-gradient {
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(
@@ -147,41 +147,55 @@ const CSS = `
   );
 }
 
-/* logo — centered in upper portion, zoomed */
+/* ── LOGO AREA ── */
 .pv .pv-card-logo-area {
-  position: absolute; top: 0; left: 0; right: 0; height: 58%;
+  position: absolute; top: 0; left: 0; right: 0; height: 62%;
   display: flex; align-items: center; justify-content: center;
-  z-index: 2; padding: 12px;
+  z-index: 2;
+  padding: 16px;
+  box-sizing: border-box;
 }
 .pv .pv-card-logo-pill {
   display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
   transition: transform 0.22s ease;
 }
 .pv .pv-card:hover .pv-card-logo-pill { transform: scale(1.08); }
+
+/* Logo: fill available space uniformly using % of card width */
 .pv .pv-card-logo {
-  width: 130px; height: 52px;
-  object-fit: contain; display: block;
-  filter: brightness(0) invert(1); opacity: 0.95;
+  width: 70%;          /* fills 70% of card width — same ratio on all cards */
+  max-width: 200px;    /* cap on large screens */
+  height: auto;        /* let height scale naturally */
+  max-height: 80px;    /* prevent very tall logos */
+  object-fit: contain;
+  object-position: center center; /* always center within box */
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
 }
+
 .pv .pv-card-logo-text {
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 16px; font-weight: 700; color: #fff;
+  font-size: clamp(13px, 2.5vw, 18px); font-weight: 700; color: #fff;
   letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
   text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  text-align: center;
 }
 
 /* bottom content */
 .pv .pv-card-body {
   position: absolute; bottom: 0; left: 0; right: 0;
-  z-index: 3; padding: 14px 14px;
+  z-index: 3; padding: 12px 12px;
 }
 .pv .pv-card-name-row {
   display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 6px; margin-bottom: 4px;
+  gap: 6px; margin-bottom: 3px;
 }
 .pv .pv-card-name {
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px; font-weight: 600; color: #fff; line-height: 1.25; letter-spacing: -0.01em;
+  font-size: clamp(11px, 1.8vw, 14px); font-weight: 600; color: #fff;
+  line-height: 1.25; letter-spacing: -0.01em;
 }
 .pv .pv-card-arrow {
   flex-shrink: 0; color: rgba(255,255,255,0.45);
@@ -189,15 +203,18 @@ const CSS = `
 }
 .pv .pv-card:hover .pv-card-arrow { color: #fff; transform: translate(3px, -3px); }
 .pv .pv-card-location {
-  font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.5);
-  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 7px;
+  font-size: clamp(8px, 1.2vw, 10px); font-weight: 500; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px;
 }
-.pv .pv-card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.pv .pv-card-tags { display: flex; gap: 4px; flex-wrap: wrap; }
 .pv .pv-card-tag {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  font-size: clamp(7px, 1vw, 9px); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
   color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 2px; padding: 3px 7px; background: rgba(255,255,255,0.07);
+  border-radius: 2px; padding: 2px 6px; background: rgba(255,255,255,0.07);
 }
+
+/* hide tags on very small screens to avoid overflow */
+@media (max-width: 380px) { .pv .pv-card-tags { display: none; } }
 
 /* ── PAGINATION ── */
 .pv .pv-pag {
@@ -279,7 +296,7 @@ export default function DevelopersPage() {
         </ol>
       </nav>
 
-      {/* HERO — left aligned, title + search bar inline */}
+      {/* HERO */}
       <div className="pv-hero">
         <span className="pv-hero-eyebrow">UAE Real Estate</span>
         <div className="pv-hero-inline">
@@ -339,14 +356,18 @@ export default function DevelopersPage() {
                     <span className="pv-card-logo-text">{dev.name}</span>
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={dev.logo} alt={`${dev.name} logo`} className="pv-card-logo" />
+                    <img
+                      src={dev.logo}
+                      alt={`${dev.name} logo`}
+                      className="pv-card-logo"
+                    />
                   )}
                 </div>
               </div>
               <div className="pv-card-body">
                 <div className="pv-card-name-row">
                   <span className="pv-card-name">{dev.name}</span>
-                  <ArrowUpRight size={16} className="pv-card-arrow" />
+                  <ArrowUpRight size={14} className="pv-card-arrow" />
                 </div>
                 <div className="pv-card-location">{dev.location}</div>
                 <div className="pv-card-tags">

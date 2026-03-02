@@ -25,39 +25,42 @@ interface Property {
   completionYear?: number;
   roi?: string;
   tags?: string[];
+  email?: string;
+  phone?: string;
+  whatsapp?: string;
 }
 
 /* ─────────────────────────────────────────
    SAMPLE DATA
 ───────────────────────────────────────── */
 const PROPERTIES: Property[] = [
-  { id: "p1",  title: "The Address Residences",       developer: "Emaar Properties",    developerLogo: "/developers/logos/emaar-logo.png",         location: "Downtown Dubai",    community: "Downtown Dubai",       type: "Apartment",  status: "Ready",              price: 2500000,  priceLabel: "AED 2,500,000",  beds: 2,       baths: 2, size: 1250, image: "/developers/downtown.jpeg",       roi: "6.2%",  tags: ["Burj Views", "High ROI"] },
-  { id: "p2",  title: "Park Lane Villas",              developer: "Emaar Properties",    developerLogo: "/developers/logos/emaar-logo.png",         location: "Dubai Hills Estate",community: "Dubai Hills Estate",   type: "Villa",      status: "Off-Plan",           price: 3200000,  priceLabel: "AED 3,200,000",  beds: 4,       baths: 4, size: 3400, image: "/developers/dubaihills.jpeg",    completionYear: 2027, tags: ["Golf Views", "Gated"] },
-  { id: "p3",  title: "Beach Vista",                   developer: "Emaar Properties",    developerLogo: "/developers/logos/emaar-logo.png",         location: "Emaar Beachfront",  community: "Emaar Beachfront",    type: "Apartment",  status: "Under Construction", price: 1800000,  priceLabel: "AED 1,800,000",  beds: 1,       baths: 1, size: 780,  image: "/developers/emaar.jpeg",         completionYear: 2026, tags: ["Sea Views", "Beach Access"] },
-  { id: "p4",  title: "Trump Villas",                  developer: "DAMAC Properties",    developerLogo: "/developers/logos/damac-logo.png",         location: "DAMAC Hills",       community: "DAMAC Hills",         type: "Villa",      status: "Ready",              price: 2800000,  priceLabel: "AED 2,800,000",  beds: 4,       baths: 4, size: 3800, image: "/developers/damac.jpg",          roi: "5.8%", tags: ["Golf Club", "Gated"] },
-  { id: "p5",  title: "Malta Cluster Townhouses",      developer: "DAMAC Properties",    developerLogo: "/developers/logos/damac-logo.png",         location: "DAMAC Lagoons",     community: "DAMAC Lagoons",       type: "Townhouse",  status: "Off-Plan",           price: 1600000,  priceLabel: "AED 1,600,000",  beds: 3,       baths: 3, size: 2200, image: "/developers/lagoos.jpg",         completionYear: 2027, tags: ["Lagoon", "Beach"] },
-  { id: "p6",  title: "DAMAC Bay by Cavalli",          developer: "DAMAC Properties",    developerLogo: "/developers/logos/damac-logo.png",         location: "Dubai Harbour",     community: "Dubai Harbour",       type: "Apartment",  status: "Off-Plan",           price: 4500000,  priceLabel: "AED 4,500,000",  beds: 3,       baths: 3, size: 2100, image: "/developers/damac2.webp",        completionYear: 2026, tags: ["Cavalli Design", "Ultra Luxury"] },
-  { id: "p7",  title: "Garden Homes – Palm Fronds",    developer: "Nakheel",             developerLogo: "/developers/logos/nakheel-logo.png",       location: "Palm Jumeirah",     community: "Palm Jumeirah",       type: "Villa",      status: "Ready",              price: 8000000,  priceLabel: "AED 8,000,000",  beds: 5,       baths: 5, size: 5500, image: "/developers/jvc.webp",           roi: "4.8%", tags: ["Private Beach", "Iconic"] },
-  { id: "p8",  title: "Canal Residences",              developer: "Nakheel",             developerLogo: "/developers/logos/nakheel-logo.png",       location: "JVC",               community: "Jumeirah Village Circle", type: "Apartment", status: "Ready",             price: 650000,   priceLabel: "AED 650,000",    beds: 1,       baths: 1, size: 720,  image: "/developers/jvc.webp",           roi: "7.5%",  tags: ["High Yield", "Central"] },
-  { id: "p9",  title: "Palm Jebel Ali – Frond Villa",  developer: "Nakheel",             developerLogo: "/developers/logos/nakheel-logo.png",       location: "Palm Jebel Ali",    community: "Palm Jebel Ali",      type: "Villa",      status: "Off-Plan",           price: 9500000,  priceLabel: "AED 9,500,000",  beds: 6,       baths: 6, size: 7200, image: "/developers/downtown.jpeg",      completionYear: 2028, tags: ["Beachfront", "Capital Growth"] },
-  { id: "p10", title: "Forest Villas",                 developer: "Sobha Realty",        developerLogo: "/developers/logos/sobha-logo.png",         location: "MBR City",          community: "Sobha Hartland",      type: "Villa",      status: "Ready",              price: 5500000,  priceLabel: "AED 5,500,000",  beds: 5,       baths: 5, size: 5200, image: "/developers/sobha.jpeg",         roi: "5.1%",  tags: ["Canal View", "Greenery"] },
-  { id: "p11", title: "Creek Vistas Heights",          developer: "Sobha Realty",        developerLogo: "/developers/logos/sobha-logo.png",         location: "MBR City",          community: "Sobha Hartland",      type: "Apartment",  status: "Off-Plan",           price: 1100000,  priceLabel: "AED 1,100,000",  beds: 2,       baths: 2, size: 1050, image: "/developers/soba2.webp",         completionYear: 2027, tags: ["Skyline Views", "Premium"] },
-  { id: "p12", title: "Bugatti Residences",            developer: "Binghatti",           developerLogo: "/developers/logos/binghatti-logo.png",     location: "Business Bay",      community: "Business Bay",        type: "Penthouse",  status: "Off-Plan",           price: 52000000, priceLabel: "AED 52,000,000", beds: 5,       baths: 6, size: 14000,image: "/developers/dubaicreek.jpeg",    completionYear: 2026, tags: ["World First", "Ultra Luxury"] },
-  { id: "p13", title: "Orchid – JVC",                  developer: "Binghatti",           developerLogo: "/developers/logos/binghatti-logo.png",     location: "JVC",               community: "Jumeirah Village Circle", type: "Apartment", status: "Ready",             price: 750000,   priceLabel: "AED 750,000",    beds: 1,       baths: 1, size: 820,  image: "/developers/jvc.webp",           roi: "7.2%",  tags: ["High ROI", "Ready"] },
-  { id: "p14", title: "Oceanz",                        developer: "Danube",              developerLogo: "/developers/logos/danube-logo.png",        location: "Dubai Maritime City", community: "Dubai Maritime City", type: "Apartment", status: "Off-Plan",            price: 950000,   priceLabel: "AED 950,000",    beds: 2,       baths: 2, size: 1100, image: "/developers/dubaisportcity.webp", completionYear: 2027, tags: ["1% Payment", "Sea Views"] },
-  { id: "p15", title: "Sportz",                        developer: "Danube",              developerLogo: "/developers/logos/danube-logo.png",        location: "Dubai Sports City", community: "Dubai Sports City",   type: "Apartment",  status: "Ready",              price: 600000,   priceLabel: "AED 600,000",    beds: "Studio", baths: 1, size: 490,  image: "/developers/dubaisportcity.webp", roi: "7.8%", tags: ["Affordable", "High Yield"] },
-  { id: "p16", title: "Bluewaters Island Residences",  developer: "Meraas",              developerLogo: "/developers/logos/meraas-logo.svg",        location: "Bluewaters Island", community: "Bluewaters Island",   type: "Apartment",  status: "Ready",              price: 3000000,  priceLabel: "AED 3,000,000",  beds: 2,       baths: 2, size: 1400, image: "/developers/dubaihills.jpeg",    roi: "5.4%",  tags: ["Island Living", "Ain Dubai"] },
-  { id: "p17", title: "City Walk Residences",          developer: "Meraas",              developerLogo: "/developers/logos/meraas-logo.svg",        location: "City Walk",         community: "City Walk",           type: "Apartment",  status: "Ready",              price: 2200000,  priceLabel: "AED 2,200,000",  beds: 2,       baths: 2, size: 1150, image: "/developers/arjan.jpg",          roi: "5.9%",  tags: ["Lifestyle", "Retail"] },
-  { id: "p18", title: "Ellington House",               developer: "Ellington",           developerLogo: "/developers/logos/ellington-logo.png",     location: "Dubai Hills Estate",community: "Dubai Hills Estate",   type: "Apartment",  status: "Ready",              price: 1400000,  priceLabel: "AED 1,400,000",  beds: 1,       baths: 1, size: 870,  image: "/developers/meydan.jpg",         roi: "6.1%",  tags: ["Design-Led", "Boutique"] },
-  { id: "p19", title: "The Crestmark",                 developer: "Ellington",           developerLogo: "/developers/logos/ellington-logo.png",     location: "Business Bay",      community: "Business Bay",        type: "Apartment",  status: "Off-Plan",           price: 1200000,  priceLabel: "AED 1,200,000",  beds: 1,       baths: 1, size: 740,  image: "/developers/mayden.jpg",         completionYear: 2026, tags: ["Canal View", "Art Interiors"] },
-  { id: "p20", title: "Riviera Phase 4",               developer: "Azizi",               developerLogo: "/developers/logos/azizi-logo.png",         location: "Meydan",            community: "Azizi Riviera",       type: "Apartment",  status: "Ready",              price: 700000,   priceLabel: "AED 700,000",    beds: 1,       baths: 1, size: 650,  image: "/developers/azizi.jpeg",         roi: "7.0%",  tags: ["Crystal Lagoon", "Meydan"] },
-  { id: "p21", title: "Venice Lagoon Residences",      developer: "Azizi",               developerLogo: "/developers/logos/azizi-logo.png",         location: "Dubai South",       community: "Azizi Venice",        type: "Apartment",  status: "Off-Plan",           price: 850000,   priceLabel: "AED 850,000",    beds: 2,       baths: 2, size: 1020, image: "/developers/azizivenice.webp",   completionYear: 2027, tags: ["Lagoon", "Expo City"] },
-  { id: "p22", title: "6 Senses Residences",           developer: "Select Group",        developerLogo: "/developers/logos/select-logo.png",        location: "Palm Jumeirah",     community: "Palm Jumeirah",       type: "Penthouse",  status: "Off-Plan",           price: 18000000, priceLabel: "AED 18,000,000", beds: 4,       baths: 4, size: 6500, image: "/developers/dubaicreek.jpeg",    completionYear: 2027, tags: ["Wellness", "6 Senses"] },
-  { id: "p23", title: "Marina Gate Tower 1",           developer: "Select Group",        developerLogo: "/developers/logos/select-logo.png",        location: "Dubai Marina",      community: "Dubai Marina",        type: "Apartment",  status: "Ready",              price: 1300000,  priceLabel: "AED 1,300,000",  beds: 1,       baths: 1, size: 840,  image: "/developers/al.jpg",             roi: "6.5%",  tags: ["Marina Views", "5-Star"] },
-  { id: "p24", title: "Serenity Mansions",             developer: "Majid Al Futtaim",    developerLogo: "/developers/logos/maf-logo.png",           location: "Tilal Al Ghaf",     community: "Tilal Al Ghaf",       type: "Villa",      status: "Off-Plan",           price: 12000000, priceLabel: "AED 12,000,000", beds: 6,       baths: 6, size: 10000,image: "/developers/dubaihills.jpeg",    completionYear: 2028, tags: ["Lagoon Access", "Mansion"] },
-  { id: "p25", title: "Aura Townhouses",               developer: "Majid Al Futtaim",    developerLogo: "/developers/logos/maf-logo.png",           location: "Tilal Al Ghaf",     community: "Tilal Al Ghaf",       type: "Townhouse",  status: "Ready",              price: 2500000,  priceLabel: "AED 2,500,000",  beds: 4,       baths: 4, size: 3200, image: "/developers/valley.jpg",         roi: "5.2%",  tags: ["Beach Access", "Family"] },
-  { id: "p26", title: "JBR – The Residence",          developer: "Dubai Properties",    developerLogo: "/developers/logos/dubai-properties-logo.png", location: "JBR",            community: "Jumeirah Beach Res.", type: "Apartment",  status: "Ready",              price: 1800000,  priceLabel: "AED 1,800,000",  beds: 2,       baths: 2, size: 1350, image: "/developers/dubaisportcity.webp", roi: "6.3%", tags: ["Beachfront", "The Walk"] },
-  { id: "p27", title: "La Rosa Townhouses",            developer: "Dubai Properties",    developerLogo: "/developers/logos/dubai-properties-logo.png", location: "Villanova",      community: "Villanova",           type: "Townhouse",  status: "Ready",              price: 1400000,  priceLabel: "AED 1,400,000",  beds: 3,       baths: 3, size: 1900, image: "/developers/valley.jpg",         roi: "5.6%",  tags: ["Family", "Spanish Style"] },
+  { id: "p1",  title: "The Address Residences",       developer: "Emaar Properties",    developerLogo: "/developers/logos/emaar-logo.png",         location: "Downtown Dubai",    community: "Downtown Dubai",       type: "Apartment",  status: "Ready",              price: 2500000,  priceLabel: "AED 2,500,000",  beds: 2,       baths: 2, size: 1250, image: "/developers/downtown.jpeg",       roi: "6.2%",  tags: ["Burj Views", "High ROI"],   email: "downtown@realestate.ae",   phone: "+97144000001", whatsapp: "97144000001" },
+  { id: "p2",  title: "Park Lane Villas",              developer: "Emaar Properties",    developerLogo: "/developers/logos/emaar-logo.png",         location: "Dubai Hills Estate",community: "Dubai Hills Estate",   type: "Villa",      status: "Off-Plan",           price: 3200000,  priceLabel: "AED 3,200,000",  beds: 4,       baths: 4, size: 3400, image: "/developers/dubaihills.jpeg",    completionYear: 2027, tags: ["Golf Views", "Gated"],      email: "hills@realestate.ae",      phone: "+97144000002", whatsapp: "97144000002" },
+  { id: "p3",  title: "Beach Vista",                   developer: "Emaar Properties",    developerLogo: "/developers/logos/emaar-logo.png",         location: "Emaar Beachfront",  community: "Emaar Beachfront",    type: "Apartment",  status: "Under Construction", price: 1800000,  priceLabel: "AED 1,800,000",  beds: 1,       baths: 1, size: 780,  image: "/developers/emaar.jpeg",         completionYear: 2026, tags: ["Sea Views", "Beach Access"],email: "beach@realestate.ae",      phone: "+97144000003", whatsapp: "97144000003" },
+  { id: "p4",  title: "Trump Villas",                  developer: "DAMAC Properties",    developerLogo: "/developers/logos/damac-logo.png",         location: "DAMAC Hills",       community: "DAMAC Hills",         type: "Villa",      status: "Ready",              price: 2800000,  priceLabel: "AED 2,800,000",  beds: 4,       baths: 4, size: 3800, image: "/developers/damac.jpg",          roi: "5.8%", tags: ["Golf Club", "Gated"],       email: "damac@realestate.ae",      phone: "+97144000004", whatsapp: "97144000004" },
+  { id: "p5",  title: "Malta Cluster Townhouses",      developer: "DAMAC Properties",    developerLogo: "/developers/logos/damac-logo.png",         location: "DAMAC Lagoons",     community: "DAMAC Lagoons",       type: "Townhouse",  status: "Off-Plan",           price: 1600000,  priceLabel: "AED 1,600,000",  beds: 3,       baths: 3, size: 2200, image: "/developers/lagoos.jpg",         completionYear: 2027, tags: ["Lagoon", "Beach"],          email: "lagoons@realestate.ae",    phone: "+97144000005", whatsapp: "97144000005" },
+  { id: "p6",  title: "DAMAC Bay by Cavalli",          developer: "DAMAC Properties",    developerLogo: "/developers/logos/damac-logo.png",         location: "Dubai Harbour",     community: "Dubai Harbour",       type: "Apartment",  status: "Off-Plan",           price: 4500000,  priceLabel: "AED 4,500,000",  beds: 3,       baths: 3, size: 2100, image: "/developers/damac2.webp",        completionYear: 2026, tags: ["Cavalli Design", "Ultra Luxury"], email: "harbour@realestate.ae", phone: "+97144000006", whatsapp: "97144000006" },
+  { id: "p7",  title: "Garden Homes – Palm Fronds",    developer: "Nakheel",             developerLogo: "/developers/logos/nakheel-logo.png",       location: "Palm Jumeirah",     community: "Palm Jumeirah",       type: "Villa",      status: "Ready",              price: 8000000,  priceLabel: "AED 8,000,000",  beds: 5,       baths: 5, size: 5500, image: "/developers/jvc.webp",           roi: "4.8%", tags: ["Private Beach", "Iconic"],  email: "palm@realestate.ae",       phone: "+97144000007", whatsapp: "97144000007" },
+  { id: "p8",  title: "Canal Residences",              developer: "Nakheel",             developerLogo: "/developers/logos/nakheel-logo.png",       location: "JVC",               community: "Jumeirah Village Circle", type: "Apartment", status: "Ready",             price: 650000,   priceLabel: "AED 650,000",    beds: 1,       baths: 1, size: 720,  image: "/developers/jvc.webp",           roi: "7.5%",  tags: ["High Yield", "Central"],    email: "jvc@realestate.ae",        phone: "+97144000008", whatsapp: "97144000008" },
+  { id: "p9",  title: "Palm Jebel Ali – Frond Villa",  developer: "Nakheel",             developerLogo: "/developers/logos/nakheel-logo.png",       location: "Palm Jebel Ali",    community: "Palm Jebel Ali",      type: "Villa",      status: "Off-Plan",           price: 9500000,  priceLabel: "AED 9,500,000",  beds: 6,       baths: 6, size: 7200, image: "/developers/downtown.jpeg",      completionYear: 2028, tags: ["Beachfront", "Capital Growth"], email: "jebeli@realestate.ae", phone: "+97144000009", whatsapp: "97144000009" },
+  { id: "p10", title: "Forest Villas",                 developer: "Sobha Realty",        developerLogo: "/developers/logos/sobha-logo.png",         location: "MBR City",          community: "Sobha Hartland",      type: "Villa",      status: "Ready",              price: 5500000,  priceLabel: "AED 5,500,000",  beds: 5,       baths: 5, size: 5200, image: "/developers/sobha.jpeg",         roi: "5.1%",  tags: ["Canal View", "Greenery"],   email: "sobha@realestate.ae",      phone: "+97144000010", whatsapp: "97144000010" },
+  { id: "p11", title: "Creek Vistas Heights",          developer: "Sobha Realty",        developerLogo: "/developers/logos/sobha-logo.png",         location: "MBR City",          community: "Sobha Hartland",      type: "Apartment",  status: "Off-Plan",           price: 1100000,  priceLabel: "AED 1,100,000",  beds: 2,       baths: 2, size: 1050, image: "/developers/soba2.webp",         completionYear: 2027, tags: ["Skyline Views", "Premium"], email: "sobha2@realestate.ae",     phone: "+97144000011", whatsapp: "97144000011" },
+  { id: "p12", title: "Bugatti Residences",            developer: "Binghatti",           developerLogo: "/developers/logos/binghatti-logo.png",     location: "Business Bay",      community: "Business Bay",        type: "Penthouse",  status: "Off-Plan",           price: 52000000, priceLabel: "AED 52,000,000", beds: 5,       baths: 6, size: 14000,image: "/developers/dubaicreek.jpeg",    completionYear: 2026, tags: ["World First", "Ultra Luxury"], email: "bugatti@realestate.ae", phone: "+97144000012", whatsapp: "97144000012" },
+  { id: "p13", title: "Orchid – JVC",                  developer: "Binghatti",           developerLogo: "/developers/logos/binghatti-logo.png",     location: "JVC",               community: "Jumeirah Village Circle", type: "Apartment", status: "Ready",             price: 750000,   priceLabel: "AED 750,000",    beds: 1,       baths: 1, size: 820,  image: "/developers/jvc.webp",           roi: "7.2%",  tags: ["High ROI", "Ready"],        email: "orchid@realestate.ae",     phone: "+97144000013", whatsapp: "97144000013" },
+  { id: "p14", title: "Oceanz",                        developer: "Danube",              developerLogo: "/developers/logos/danube-logo.png",        location: "Dubai Maritime City", community: "Dubai Maritime City", type: "Apartment", status: "Off-Plan",            price: 950000,   priceLabel: "AED 950,000",    beds: 2,       baths: 2, size: 1100, image: "/developers/dubaisportcity.webp", completionYear: 2027, tags: ["1% Payment", "Sea Views"], email: "oceanz@realestate.ae", phone: "+97144000014", whatsapp: "97144000014" },
+  { id: "p15", title: "Sportz",                        developer: "Danube",              developerLogo: "/developers/logos/danube-logo.png",        location: "Dubai Sports City", community: "Dubai Sports City",   type: "Apartment",  status: "Ready",              price: 600000,   priceLabel: "AED 600,000",    beds: "Studio", baths: 1, size: 490,  image: "/developers/dubaisportcity.webp", roi: "7.8%", tags: ["Affordable", "High Yield"], email: "sportz@realestate.ae", phone: "+97144000015", whatsapp: "97144000015" },
+  { id: "p16", title: "Bluewaters Island Residences",  developer: "Meraas",              developerLogo: "/developers/logos/meraas-logo.svg",        location: "Bluewaters Island", community: "Bluewaters Island",   type: "Apartment",  status: "Ready",              price: 3000000,  priceLabel: "AED 3,000,000",  beds: 2,       baths: 2, size: 1400, image: "/developers/dubaihills.jpeg",    roi: "5.4%",  tags: ["Island Living", "Ain Dubai"], email: "bluewaters@realestate.ae", phone: "+97144000016", whatsapp: "97144000016" },
+  { id: "p17", title: "City Walk Residences",          developer: "Meraas",              developerLogo: "/developers/logos/meraas-logo.svg",        location: "City Walk",         community: "City Walk",           type: "Apartment",  status: "Ready",              price: 2200000,  priceLabel: "AED 2,200,000",  beds: 2,       baths: 2, size: 1150, image: "/developers/arjan.jpg",          roi: "5.9%",  tags: ["Lifestyle", "Retail"],      email: "citywalk@realestate.ae",   phone: "+97144000017", whatsapp: "97144000017" },
+  { id: "p18", title: "Ellington House",               developer: "Ellington",           developerLogo: "/developers/logos/ellington-logo.png",     location: "Dubai Hills Estate",community: "Dubai Hills Estate",   type: "Apartment",  status: "Ready",              price: 1400000,  priceLabel: "AED 1,400,000",  beds: 1,       baths: 1, size: 870,  image: "/developers/meydan.jpg",         roi: "6.1%",  tags: ["Design-Led", "Boutique"],   email: "ellington@realestate.ae",  phone: "+97144000018", whatsapp: "97144000018" },
+  { id: "p19", title: "The Crestmark",                 developer: "Ellington",           developerLogo: "/developers/logos/ellington-logo.png",     location: "Business Bay",      community: "Business Bay",        type: "Apartment",  status: "Off-Plan",           price: 1200000,  priceLabel: "AED 1,200,000",  beds: 1,       baths: 1, size: 740,  image: "/developers/mayden.jpg",         completionYear: 2026, tags: ["Canal View", "Art Interiors"], email: "crestmark@realestate.ae", phone: "+97144000019", whatsapp: "97144000019" },
+  { id: "p20", title: "Riviera Phase 4",               developer: "Azizi",               developerLogo: "/developers/logos/azizi-logo.png",         location: "Meydan",            community: "Azizi Riviera",       type: "Apartment",  status: "Ready",              price: 700000,   priceLabel: "AED 700,000",    beds: 1,       baths: 1, size: 650,  image: "/developers/azizi.jpeg",         roi: "7.0%",  tags: ["Crystal Lagoon", "Meydan"], email: "riviera@realestate.ae",    phone: "+97144000020", whatsapp: "97144000020" },
+  { id: "p21", title: "Venice Lagoon Residences",      developer: "Azizi",               developerLogo: "/developers/logos/azizi-logo.png",         location: "Dubai South",       community: "Azizi Venice",        type: "Apartment",  status: "Off-Plan",           price: 850000,   priceLabel: "AED 850,000",    beds: 2,       baths: 2, size: 1020, image: "/developers/azizivenice.webp",   completionYear: 2027, tags: ["Lagoon", "Expo City"],      email: "venice@realestate.ae",     phone: "+97144000021", whatsapp: "97144000021" },
+  { id: "p22", title: "6 Senses Residences",           developer: "Select Group",        developerLogo: "/developers/logos/select-logo.png",        location: "Palm Jumeirah",     community: "Palm Jumeirah",       type: "Penthouse",  status: "Off-Plan",           price: 18000000, priceLabel: "AED 18,000,000", beds: 4,       baths: 4, size: 6500, image: "/developers/dubaicreek.jpeg",    completionYear: 2027, tags: ["Wellness", "6 Senses"],     email: "6senses@realestate.ae",    phone: "+97144000022", whatsapp: "97144000022" },
+  { id: "p23", title: "Marina Gate Tower 1",           developer: "Select Group",        developerLogo: "/developers/logos/select-logo.png",        location: "Dubai Marina",      community: "Dubai Marina",        type: "Apartment",  status: "Ready",              price: 1300000,  priceLabel: "AED 1,300,000",  beds: 1,       baths: 1, size: 840,  image: "/developers/al.jpg",             roi: "6.5%",  tags: ["Marina Views", "5-Star"],   email: "marina@realestate.ae",     phone: "+97144000023", whatsapp: "97144000023" },
+  { id: "p24", title: "Serenity Mansions",             developer: "Majid Al Futtaim",    developerLogo: "/developers/logos/maf-logo.png",           location: "Tilal Al Ghaf",     community: "Tilal Al Ghaf",       type: "Villa",      status: "Off-Plan",           price: 12000000, priceLabel: "AED 12,000,000", beds: 6,       baths: 6, size: 10000,image: "/developers/dubaihills.jpeg",    completionYear: 2028, tags: ["Lagoon Access", "Mansion"], email: "serenity@realestate.ae",   phone: "+97144000024", whatsapp: "97144000024" },
+  { id: "p25", title: "Aura Townhouses",               developer: "Majid Al Futtaim",    developerLogo: "/developers/logos/maf-logo.png",           location: "Tilal Al Ghaf",     community: "Tilal Al Ghaf",       type: "Townhouse",  status: "Ready",              price: 2500000,  priceLabel: "AED 2,500,000",  beds: 4,       baths: 4, size: 3200, image: "/developers/valley.jpg",         roi: "5.2%",  tags: ["Beach Access", "Family"],   email: "aura@realestate.ae",       phone: "+97144000025", whatsapp: "97144000025" },
+  { id: "p26", title: "JBR – The Residence",          developer: "Dubai Properties",    developerLogo: "/developers/logos/dubai-properties-logo.png", location: "JBR",            community: "Jumeirah Beach Res.", type: "Apartment",  status: "Ready",              price: 1800000,  priceLabel: "AED 1,800,000",  beds: 2,       baths: 2, size: 1350, image: "/developers/dubaisportcity.webp", roi: "6.3%", tags: ["Beachfront", "The Walk"],  email: "jbr@realestate.ae",        phone: "+97144000026", whatsapp: "97144000026" },
+  { id: "p27", title: "La Rosa Townhouses",            developer: "Dubai Properties",    developerLogo: "/developers/logos/dubai-properties-logo.png", location: "Villanova",      community: "Villanova",           type: "Townhouse",  status: "Ready",              price: 1400000,  priceLabel: "AED 1,400,000",  beds: 3,       baths: 3, size: 1900, image: "/developers/valley.jpg",         roi: "5.6%",  tags: ["Family", "Spanish Style"],  email: "larosa@realestate.ae",     phone: "+97144000027", whatsapp: "97144000027" },
 ];
 
 /* ─────────────────────────────────────────
@@ -121,7 +124,7 @@ function formatBeds(b: number | "Studio") {
 }
 
 /* ─────────────────────────────────────────
-   IMAGE CAROUSEL  (same as developers page)
+   IMAGE CAROUSEL
 ───────────────────────────────────────── */
 function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
   const [current, setCurrent] = useState(0);
@@ -142,23 +145,18 @@ function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
 
   return (
     <div className="pp-carousel" onMouseEnter={pause} onMouseLeave={resume}>
-      {/* Slides */}
       {images.map((src, i) => (
         <div key={i} className={`pp-carousel-slide${i === current ? " active" : ""}`} aria-hidden={i !== current}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={src} alt={`${alt} ${i + 1}`} className="pp-carousel-img" loading={i === 0 ? "eager" : "lazy"} />
         </div>
       ))}
-
-      {/* Arrows */}
       <button className="pp-carousel-btn pp-carousel-prev" onClick={e => { e.preventDefault(); pause(); goTo(current - 1); resume(); }} aria-label="Previous">
         <ChevronLeft size={14} />
       </button>
       <button className="pp-carousel-btn pp-carousel-next" onClick={e => { e.preventDefault(); pause(); goTo(current + 1); resume(); }} aria-label="Next">
         <ChevronRight size={14} />
       </button>
-
-      {/* Dots */}
       <div className="pp-carousel-dots">
         {images.map((_, i) => (
           <button key={i} className={`pp-carousel-dot${i === current ? " active" : ""}`}
@@ -260,28 +258,27 @@ function FilterPanel({ filters, onChange, onClear, count }: {
 }
 
 /* ─────────────────────────────────────────
-   PROPERTY CARD  (with carousel)
+   PROPERTY CARD  (with carousel + contact bar)
 ───────────────────────────────────────── */
 function PropertyCard({ p, idx }: { p: Property; idx: number }) {
   const images = useMemo(() => buildImages(p.image), [p.image]);
 
+  const email    = p.email    ?? "info@realestate.ae";
+  const phone    = p.phone    ?? "+97144000000";
+  const whatsapp = p.whatsapp ?? "97144000000";
+
   return (
     <div className="pp-card" style={{ animationDelay: `${(idx % PER_PAGE) * 0.04}s` }}>
-      {/* Carousel */}
+
+      {/* ── Carousel ── */}
       <div className="pp-card-carousel-wrap">
         <ImageCarousel images={images} alt={p.title} />
-
-        {/* Status badge */}
         <span className="pp-card-status" style={{ background: statusColor(p.status) }}>{p.status}</span>
-
-        {/* ROI badge */}
         {p.roi && <span className="pp-card-roi">{p.roi} ROI</span>}
-
-        {/* Price overlaid bottom-right */}
         <div className="pp-card-price-overlay">{p.priceLabel}</div>
       </div>
 
-      {/* Body */}
+      {/* ── Card body (clickable → detail page) ── */}
       <Link href={`/properties/${p.id}`} className="pp-card-body-link">
         <div className="pp-card-body">
           <div className="pp-card-dev-row">
@@ -309,6 +306,52 @@ function PropertyCard({ p, idx }: { p: Property; idx: number }) {
           {p.tags && p.tags.length > 0 && <span className="pp-card-tag">{p.tags[0]}</span>}
         </div>
       </Link>
+
+      {/* ── Contact action bar ── */}
+      <div className="pp-card-actions">
+        <a
+          href={`mailto:${email}`}
+          className="pp-card-action pp-card-action-email"
+          onClick={e => e.stopPropagation()}
+          aria-label="Email agent"
+        >
+          {/* Mail icon */}
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <span>Email</span>
+        </a>
+
+        <a
+          href={`tel:${phone}`}
+          className="pp-card-action pp-card-action-call"
+          onClick={e => e.stopPropagation()}
+          aria-label="Call agent"
+        >
+          {/* Phone icon */}
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.48 2 2 0 0 1 3.58 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l1.92-1.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <span>Call</span>
+        </a>
+
+        <a
+          href={`https://wa.me/${whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pp-card-action pp-card-action-whatsapp"
+          onClick={e => e.stopPropagation()}
+          aria-label="WhatsApp agent"
+        >
+          {/* WhatsApp icon */}
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+          </svg>
+          <span>WhatsApp</span>
+        </a>
+      </div>
+
     </div>
   );
 }
@@ -389,7 +432,7 @@ export default function PropertiesPage() {
         </ol>
       </nav>
 
-      {/* HERO — left aligned, title + search inline */}
+      {/* HERO */}
       <div className="pp-hero">
         <span className="pp-hero-eyebrow">UAE Real Estate</span>
         <div className="pp-hero-inline">
@@ -443,8 +486,6 @@ export default function PropertiesPage() {
 
         {/* CONTENT */}
         <div className="pp-content">
-
-          {/* Toolbar removed as requested */}
 
           {/* Active filter tags */}
           {activeFilterCount > 0 && (
@@ -558,7 +599,7 @@ const CSS = `
 .pp .pp-bc-sep { color: var(--pp-g5); }
 .pp .pp-bc-cur { color: var(--pp-navy); font-weight: 500; }
 
-/* ── HERO — left aligned, inline title + search ── */
+/* HERO */
 .pp .pp-hero {
   max-width: 1380px; margin: 0 auto;
   padding: clamp(1.5rem,3vw,2.5rem) clamp(1rem,4vw,2.5rem) clamp(1rem,2vw,1.5rem);
@@ -650,19 +691,6 @@ const CSS = `
 .pp .pp-select { width: 100%; font-family: var(--pp-sans); font-size: 12px; color: var(--pp-black); background: var(--pp-g7); border: 1px solid var(--pp-g6); border-radius: 4px; padding: 8px 28px 8px 10px; appearance: none; cursor: pointer; outline: none; }
 .pp .pp-select-icon { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); color: var(--pp-g4); pointer-events: none; }
 
-/* TOOLBAR */
-.pp .pp-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-.pp .pp-toolbar-count { font-size: 13px; color: var(--pp-g4); }
-.pp .pp-toolbar-count strong { color: var(--pp-navy); font-weight: 600; }
-.pp .pp-toolbar-count em { color: var(--pp-black); font-style: normal; font-weight: 500; }
-.pp .pp-toolbar-right { display: flex; align-items: center; gap: 10px; }
-.pp .pp-sort-wrap { position: relative; }
-.pp .pp-sort-sel { font-family: var(--pp-sans); font-size: 12px; font-weight: 500; color: var(--pp-black); background: var(--pp-white); border: 1px solid var(--pp-g5); border-radius: 4px; padding: 7px 28px 7px 12px; appearance: none; cursor: pointer; outline: none; }
-.pp .pp-sort-icon { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); color: var(--pp-g4); pointer-events: none; }
-.pp .pp-mob-filter-btn { display: none; align-items: center; gap: 6px; font-family: var(--pp-sans); font-size: 12px; font-weight: 600; color: var(--pp-black); background: var(--pp-white); border: 1px solid var(--pp-g5); border-radius: 4px; padding: 7px 14px; cursor: pointer; }
-.pp .pp-mob-filter-badge { background: var(--pp-navy); color: var(--pp-white); font-size: 10px; font-weight: 700; border-radius: 10px; padding: 1px 6px; }
-@media (max-width: 960px) { .pp .pp-mob-filter-btn { display: flex; } }
-
 /* ACTIVE TAGS */
 .pp .pp-active-tags { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
 .pp .pp-active-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: var(--pp-navy); background: rgba(7,35,75,.07); border: 1px solid rgba(7,35,75,.18); border-radius: 3px; padding: 4px 8px; }
@@ -670,16 +698,12 @@ const CSS = `
 .pp .pp-active-tag-clear { font-size: 11px; font-weight: 500; color: var(--pp-g4); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
 .pp .pp-active-tag-clear:hover { color: var(--pp-navy); }
 
-/* ── GRID ── */
-
+/* GRID */
 .pp .pp-grid { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: stretch; }
 @media (min-width: 540px)  { .pp .pp-grid { grid-template-columns: repeat(2,1fr); } }
 @media (min-width: 1100px) { .pp .pp-grid { grid-template-columns: repeat(3,1fr); } }
 
-/* Make property cards match sidebar height */
-.pp .pp-card { height: 100%; min-height: 100%; display: flex; flex-direction: column; }
-
-/* ── PROPERTY CARD ── */
+/* PROPERTY CARD */
 .pp .pp-card {
   display: flex; flex-direction: column;
   background: var(--pp-white); border-radius: 8px;
@@ -690,7 +714,7 @@ const CSS = `
 }
 .pp .pp-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(7,35,75,.12); }
 
-/* ── CAROUSEL ── */
+/* CAROUSEL */
 .pp .pp-card-carousel-wrap { position: relative; }
 .pp .pp-carousel {
   position: relative; width: 100%; aspect-ratio: 16/10;
@@ -749,6 +773,40 @@ const CSS = `
 .pp .pp-card-spec { display: inline-flex; align-items: center; gap: 4px; }
 .pp .pp-card-spec-sep { color: var(--pp-g5); }
 .pp .pp-card-tag { font-size: 9px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--pp-navy); border: 1px solid rgba(7,35,75,.25); border-radius: 2px; padding: 3px 7px; background: rgba(7,35,75,.05); display: inline-block; }
+
+/* ── CONTACT ACTION BAR ── */
+.pp .pp-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--pp-g6);
+  flex-shrink: 0;
+}
+.pp .pp-card-action {
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 11px 6px;
+  font-family: var(--pp-sans); font-size: 11px; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+  text-decoration: none; border: none; cursor: pointer;
+  background: var(--pp-white); color: var(--pp-g3);
+  transition: background .15s, color .15s;
+}
+.pp .pp-card-action + .pp-card-action {
+  border-left: 1px solid var(--pp-g6);
+}
+.pp .pp-card-action:hover {
+  background: var(--pp-g7);
+}
+
+/* Email — navy on hover */
+.pp .pp-card-action-email:hover { color: var(--pp-navy); }
+
+/* Call — amber always tinted, brighter on hover */
+.pp .pp-card-action-call        { color: #d97706; }
+.pp .pp-card-action-call:hover  { color: #b45309; background: #fffbeb; }
+
+/* WhatsApp — green always tinted, brighter on hover */
+.pp .pp-card-action-whatsapp        { color: #16a34a; }
+.pp .pp-card-action-whatsapp:hover  { color: #15803d; background: #f0fdf4; }
 
 /* EMPTY */
 .pp .pp-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; text-align: center; gap: 14px; }
