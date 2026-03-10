@@ -173,8 +173,8 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative w-full overflow-hidden"
-      style={{ height: "100svh", minHeight: 680 }}
+      className="relative w-full overflow-visible"
+      style={{ height: "100svh", minHeight: 680, zIndex: 50 }}
     >
       {/* ── VIDEO BACKGROUND ── */}
       <div className="absolute inset-0 z-0">
@@ -285,8 +285,8 @@ export default function HeroSection() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.16, ease: "easeOut" }}
-                      className="absolute top-[calc(100%+6px)] left-0 w-full min-w-50 z-100 overflow-y-auto max-h-64 list-none m-0 p-0"
-                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)" }}
+                      className="absolute top-[calc(100%+6px)] left-0 w-full min-w-50 overflow-y-auto max-h-64 list-none m-0 p-0"
+                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 9999 }}
                     >
                       {CITIES.map((c) => (
                         <li key={c}>
@@ -322,8 +322,8 @@ export default function HeroSection() {
                     <motion.div
                       initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 4 }}
                       transition={{ duration: 0.16 }}
-                      className="absolute top-[calc(100%+6px)] left-0 right-0 z-100 overflow-hidden"
-                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)" }}
+                      className="absolute top-[calc(100%+6px)] left-0 right-0 overflow-hidden"
+                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 9999 }}
                     >
                       {filteredSuggestions.map((s) => (
                         <button
@@ -369,8 +369,8 @@ export default function HeroSection() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.16, ease: "easeOut" }}
-                      className="absolute top-[calc(100%+6px)] left-0 z-100 w-full min-w-60 max-w-xs"
-                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)" }}
+                      className="absolute top-[calc(100%+6px)] left-0 w-full min-w-60 max-w-xs"
+                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 9999 }}
                     >
                       {isPlotsTab ? (
                         // Plots: flat list
@@ -445,8 +445,8 @@ export default function HeroSection() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.16, ease: "easeOut" }}
-                      className="absolute top-[calc(100%+6px)] left-0 z-100 p-4 w-full min-w-60 max-w-xs"
-                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)" }}
+                      className="absolute top-[calc(100%+6px)] left-0 p-4 w-full min-w-60 max-w-xs"
+                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 9999 }}
                       onMouseDown={(e) => e.stopPropagation()}
                     >
                       <div className="flex items-center gap-3">
@@ -493,8 +493,8 @@ export default function HeroSection() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.98 }}
                           transition={{ duration: 0.16, ease: "easeOut" }}
-                          className="absolute top-[calc(100%+6px)] left-0 right-0 lg:right-auto z-100 p-4 w-full lg:w-80"
-                          style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)" }}
+                          className="absolute top-[calc(100%+6px)] left-0 right-0 lg:right-auto p-4 w-full lg:w-80"
+                          style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 9999 }}
                           onMouseDown={(e) => e.stopPropagation()}
                         >
                           <div className="flex items-start gap-3">
@@ -550,8 +550,8 @@ export default function HeroSection() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.16, ease: "easeOut" }}
-                      className="absolute top-[calc(100%+6px)] right-0 left-0 md:left-auto z-100 w-full md:w-120"
-                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)" }}
+                      className="absolute top-[calc(100%+6px)] right-0 left-0 md:left-auto w-full md:w-120"
+                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 9999 }}
                       onMouseDown={(e) => e.stopPropagation()}
                     >
                       <div className="p-5">
