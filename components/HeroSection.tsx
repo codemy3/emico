@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ── Data ───────────────────────────────────────────────────────────
-const TABS = ["Buy", "Rent", "Off Plan"] as const;
+const TABS = ["Buy", "Rent", "Off Plan", "Plots"] as const;
 type Tab = (typeof TABS)[number];
 
-const PROPERTY_TYPES = ["Any Type", "Apartment", "Villa", "Penthouse", "Townhouse", "Commercial"];
-const BED_OPTIONS    = ["Any", "Studio", "1", "2", "3", "4", "5+"];
-const PRICE_RANGES   = [
+const PROPERTY_TYPES      = ["Any Type", "Apartment", "Villa", "Penthouse", "Townhouse", "Commercial"];
+const PLOT_PROPERTY_TYPES = ["Commercial", "Residential", "Industrial", "Mix use"];
+const BED_OPTIONS         = ["Any", "Studio", "1", "2", "3", "4", "5+"];
+const PRICE_RANGES        = [
   "Any Price",
   "Under AED 500K",
   "AED 500K – 1M",
@@ -48,9 +49,7 @@ const VDivider = () => (
 );
 
 // ── Reusable dropdown cell ─────────────────────────────────────────
-function DropdownCell({
-  label, value, options, open, onToggle, onSelect, formatLabel, menuWidth = "w-44",
-}: {
+interface DropdownCellProps {
   label: string;
   value: string;
   options: string[];
@@ -59,7 +58,11 @@ function DropdownCell({
   onSelect: (v: string) => void;
   formatLabel?: (v: string) => string;
   menuWidth?: string;
-}) {
+}
+
+function DropdownCell({
+  label, value, options, open, onToggle, onSelect, formatLabel, menuWidth = "w-44",
+}: DropdownCellProps) {
   const isDefault = value === options[0];
   const display   = formatLabel ? formatLabel(value) : value;
 
@@ -91,7 +94,7 @@ function DropdownCell({
               boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
             }}
           >
-            {options.map((opt) => (
+            {options.map((opt: string) => (
               <li key={opt}>
                 <button
                   onClick={() => onSelect(opt)}
@@ -123,9 +126,17 @@ export default function HeroSection() {
   const [videoLoaded, setVideoLoaded]         = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const isPlotsTab = activeTab === "Plots";
+  const propertyTypeOptions = isPlotsTab ? PLOT_PROPERTY_TYPES : PROPERTY_TYPES;
+
   useEffect(() => {
     videoRef.current?.play().catch(() => {});
   }, []);
+
+  // Reset propType when switching tabs so it doesn't carry over
+  useEffect(() => {
+    setPropType(propertyTypeOptions[0]);
+  }, [activeTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Close dropdowns when clicking outside the bar
   useEffect(() => {
@@ -205,11 +216,10 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.2, ease: "easeOut" }}
-            // Stop mousedown here so outside-click doesn't close dropdowns inside bar
             onMouseDown={(e) => e.stopPropagation()}
           >
 
-            {/* ── TABS — sit flush on top of the bar ── */}
+            {/* ── TABS ── */}
             <div className="flex items-end">
               {TABS.map((tab) => {
                 const isActive = activeTab === tab;
@@ -315,28 +325,31 @@ export default function HeroSection() {
               <DropdownCell
                 label="Property Type"
                 value={propType}
-                options={PROPERTY_TYPES}
+                options={propertyTypeOptions}
                 open={openDropdown === "type"}
                 onToggle={() => toggle("type")}
-                onSelect={(v) => { setPropType(v); setOpenDropdown(null); }}
+                onSelect={(v: string) => { setPropType(v); setOpenDropdown(null); }}
                 menuWidth="w-48"
               />
 
-              <VDivider />
+              {/* BEDS — only shown when NOT on Plots tab */}
+              {!isPlotsTab && (
+                <>
+                  <VDivider />
+                  <DropdownCell
+                    label="Beds"
+                    value={beds}
+                    options={BED_OPTIONS}
+                    open={openDropdown === "beds"}
+                    onToggle={() => toggle("beds")}
+                    onSelect={(v: string) => { setBeds(v); setOpenDropdown(null); }}
+                    formatLabel={formatBeds}
+                    menuWidth="w-40"
+                  />
+                </>
+              )}
 
-              {/* BEDS */}
-              <DropdownCell
-                label="Beds"
-                value={beds}
-                options={BED_OPTIONS}
-                open={openDropdown === "beds"}
-                onToggle={() => toggle("beds")}
-                onSelect={(v) => { setBeds(v); setOpenDropdown(null); }}
-                formatLabel={formatBeds}
-                menuWidth="w-40"
-              />
-
-              {/* PRICE — hidden on mobile */}
+              {/* PRICE — always shown, hidden on mobile */}
               <div className="hidden sm:flex items-stretch">
                 <VDivider />
                 <DropdownCell
@@ -345,7 +358,7 @@ export default function HeroSection() {
                   options={PRICE_RANGES}
                   open={openDropdown === "price"}
                   onToggle={() => toggle("price")}
-                  onSelect={(v) => { setPrice(v); setOpenDropdown(null); }}
+                  onSelect={(v: string) => { setPrice(v); setOpenDropdown(null); }}
                   menuWidth="w-52"
                 />
               </div>
@@ -363,7 +376,7 @@ export default function HeroSection() {
                 transition={{ duration: 0.2 }}
               >
                 {/* top shimmer */}
-                <span className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                <span className="absolute top-0 left-6 right-6 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <circle cx="11" cy="11" r="8" />
                   <path strokeLinecap="round" d="M21 21l-4.35-4.35" />
