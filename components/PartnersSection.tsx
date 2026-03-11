@@ -20,19 +20,19 @@ export default function PartnersSection() {
             className="block md:hidden text-gray-700 font-light whitespace-nowrap"
             style={{ fontSize: 13, letterSpacing: ".04em", fontFamily: "'Playfair Display', serif" }}
           >
-            Partners with Dubai's leading developers
+            Partners with Dubai&apos;s leading developers
           </span>
           {/* Desktop: 3 lines */}
           <span
             className="hidden md:block text-gray-700 text-lg font-light leading-snug text-left"
             style={{ letterSpacing: ".04em", fontFamily: "'Playfair Display', serif" }}
           >
-            Partners with<br />Dubai's leading<br />developers
+            Partners with<br />Dubai&apos;s leading<br />developers
           </span>
         </div>
 
         {/* Marquee */}
-        <div className="flex-[3] w-full max-w-4xl mx-auto overflow-hidden">
+        <div className="flex-3 w-full max-w-4xl mx-auto overflow-hidden">
           <div
             className="partner-marquee flex items-center gap-16"
             style={{ minWidth: "200vw", animation: "marquee-rtl 22s linear infinite" }}
@@ -55,6 +55,11 @@ export default function PartnersSection() {
         @keyframes marquee-rtl {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
+        }
+        @media (max-width: 768px) {
+          .partner-marquee {
+            animation-duration: 7s !important;
+          }
         }
         .partner-marquee:hover {
           animation-play-state: paused;

@@ -117,7 +117,7 @@ const CSS = `
   display: block; text-decoration: none; color: inherit;
   border-radius: 8px; overflow: hidden;
   position: relative; aspect-ratio: 4 / 3;
-  background: #0d1b3e;
+  background: var(--card-bg, #0d1b3e);
   animation: pvcardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1);
@@ -141,9 +141,9 @@ const CSS = `
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0.35) 35%,
-    rgba(0, 0, 0, 0.92) 100%
+    var(--card-grad-top, rgba(0, 0, 0, 0.15)) 0%,
+    var(--card-grad-mid, rgba(0, 0, 0, 0.35)) 35%,
+    var(--card-grad-bottom, rgba(0, 0, 0, 0.92)) 100%
   );
 }
 
@@ -209,8 +209,8 @@ const CSS = `
 .pv .pv-card-tags { display: flex; gap: 4px; flex-wrap: wrap; }
 .pv .pv-card-tag {
   font-size: clamp(7px, 1vw, 9px); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-  color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 2px; padding: 2px 6px; background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.82); border: 1px solid var(--card-tag-border, rgba(255,255,255,0.2));
+  border-radius: 2px; padding: 2px 6px; background: var(--card-tag-bg, rgba(255,255,255,0.07));
 }
 
 /* hide tags on very small screens to avoid overflow */
@@ -252,6 +252,20 @@ const CSS = `
 
 const PER_PAGE = 12;
 
+function getCardColorStyle(idx: number): Record<string, string> {
+  const hue = (idx * 37) % 360;
+  const hue2 = (hue + 28) % 360;
+
+  return {
+    "--card-bg": `hsl(${hue} 45% 17%)`,
+    "--card-grad-top": `hsla(${hue2} 60% 10% / 0.18)`,
+    "--card-grad-mid": `hsla(${hue} 65% 12% / 0.45)`,
+    "--card-grad-bottom": `hsla(${hue2} 60% 8% / 0.92)`,
+    "--card-tag-border": `hsla(${hue2} 55% 85% / 0.35)`,
+    "--card-tag-bg": `hsla(${hue} 80% 90% / 0.12)`,
+  };
+}
+
 export default function DevelopersPage() {
   const [query, setQuery] = useState("");
   const [input, setInput] = useState("");
@@ -282,6 +296,7 @@ export default function DevelopersPage() {
   };
 
   const handleSearch = () => { setQuery(input); setPage(1); };
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1); }, [query]);
 
   return (
@@ -290,7 +305,7 @@ export default function DevelopersPage() {
       {/* BREADCRUMB */}
       <nav>
         <ol className="pv-bc">
-          <li><a href="/">Home</a></li>
+          <li><Link href="/">Home</Link></li>
           <li><span className="pv-bc-sep">/</span></li>
           <li><span className="pv-bc-cur">Developers</span></li>
         </ol>
@@ -340,7 +355,7 @@ export default function DevelopersPage() {
               key={dev.id}
               href={dev.href}
               className="pv-card"
-              style={{ animationDelay: `${idx * 0.04}s` }}
+              style={{ ...getCardColorStyle(idx), animationDelay: `${idx * 0.04}s` }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

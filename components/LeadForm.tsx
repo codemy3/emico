@@ -6,9 +6,7 @@ const interests = [
   "Buy a Property",
   "Sell a Property",
   "Off-Plan Investment",
-  "Property Management",
-  "Mortgage Advice",
-  "Relocation Services",
+  "Investment Advisory",
 ];
 
 export default function LeadForm() {
@@ -16,6 +14,7 @@ export default function LeadForm() {
     name: "",
     email: "",
     phone: "",
+    buyingFor: "",
     budget: "",
     interest: "",
     message: "",
@@ -55,7 +54,7 @@ export default function LeadForm() {
                 fontWeight: 700,
               }}
             >
-              Let's Find Your
+              Let&apos;s Find Your
               <br />
               <em className="font-light italic">Perfect Property</em>
             </h2>
@@ -119,7 +118,7 @@ export default function LeadForm() {
                   Thank You!
                 </h3>
                 <p className="text-gray-500 text-sm">
-                  We've received your enquiry. One of our consultants will be in touch within 24 hours.
+                  We&apos;ve received your enquiry. One of our consultants will be in touch within 24 hours.
                 </p>
               </div>
             ) : (
@@ -128,7 +127,7 @@ export default function LeadForm() {
                   <h3 className="text-lg font-semibold text-gray-900 mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
                     Request a Consultation
                   </h3>
-                  <p className="text-gray-400 text-xs">Fill in the form and we'll get back to you promptly.</p>
+                  <p className="text-gray-400 text-xs">Fill in the form and we&apos;ll get back to you promptly.</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -189,6 +188,19 @@ export default function LeadForm() {
                 </div>
 
                 <div>
+                  <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1.5">Who Are You Buying For?</label>
+                  <select
+                    value={formData.buyingFor}
+                    onChange={(e) => setFormData({ ...formData, buyingFor: e.target.value })}
+                    className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors bg-white"
+                  >
+                    <option value="">Select Option</option>
+                    <option>Myself</option>
+                    <option>Someone Else</option>
+                  </select>
+                </div>
+
+                <div>
                   <label className="block text-xs text-gray-500 uppercase tracking-wide mb-1.5">Budget Range</label>
                   <select
                     value={formData.budget}
@@ -196,12 +208,9 @@ export default function LeadForm() {
                     className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors bg-white"
                   >
                     <option value="">Select Budget</option>
-                    <option>Under AED 1M</option>
-                    <option>AED 1M – 3M</option>
-                    <option>AED 3M – 5M</option>
-                    <option>AED 5M – 10M</option>
-                    <option>AED 10M – 20M</option>
-                    <option>Above AED 20M</option>
+                    <option>AED 500K – 1M</option>
+                    <option>AED 2M – 3M</option>
+                    <option>AED 3M+</option>
                   </select>
                 </div>
 
@@ -232,7 +241,7 @@ export default function LeadForm() {
                 </button>
 
                 <p className="text-gray-400 text-xs text-center">
-                  By submitting, you agree to our Privacy Policy. We'll never share your data with third parties.
+                  By submitting, you agree to our Privacy Policy. We&apos;ll never share your data with third parties.
                 </p>
               </form>
             )}

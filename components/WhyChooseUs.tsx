@@ -29,7 +29,7 @@ const reasons = [
     number: "03",
     title: "End-to-End Support",
     description:
-      "From property search to key handover — mortgage assistance, legal support, snagging, and property management all in one place.",
+      "From property search to key handover — legal guidance, transaction coordination, and after-sale support in one place.",
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -51,7 +51,7 @@ const reasons = [
     number: "05",
     title: "Multilingual Team",
     description:
-      "Our team speaks over 20 languages, serving a diverse global clientele from Europe, Asia, the Americas, and the Middle East.",
+      "Our team speaks 8+ languages, serving a diverse global clientele from Europe, Asia, the Americas, and the Middle East.",
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
@@ -180,8 +180,8 @@ export default function WhyChooseUs() {
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            We've built our reputation on one thing: delivering extraordinary outcomes
-            for every client. Here's what makes us different.
+            We&apos;ve built our reputation on one thing: delivering extraordinary outcomes
+            for every client. Here&apos;s what makes us different.
           </p>
         </div>
       </div>
@@ -194,8 +194,8 @@ export default function WhyChooseUs() {
         onMouseLeave={() => { pausedRef.current = false; }}
       >
         {/* Edge fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-linear-to-r from-white to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-linear-to-l from-white to-transparent pointer-events-none" />
 
         {/* Track — tripled so the seam is never visible */}
         <div
@@ -214,7 +214,7 @@ export default function WhyChooseUs() {
                 data-card
                 onMouseEnter={() => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                className="flex-shrink-0 p-8 cursor-default select-none"
+                className="shrink-0 p-8 cursor-default select-none"
                 style={{
                   width: CARD_WIDTH,
                   border: "1px solid",

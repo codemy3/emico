@@ -14,7 +14,7 @@ export default function Home() {
       <CreativeSection />
       <PartnersSection />
 
-      <ExploreProperties />
+     {/* <ExploreProperties />*/}
       <StatsSection />
       <CTASection />
       

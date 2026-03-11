@@ -1,32 +1,36 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
-const navLinks = [
+type DropdownItem = 
+  | { label: string; href: string; divider?: false }
+  | { divider: true; label?: undefined; href?: undefined };
+
+type NavLink = {
+  label: string;
+  href: string;
+  dropdown?: DropdownItem[];
+};
+
+const navLinks: NavLink[] = [
   {
     label: "Properties",
     href: "/properties",
     dropdown: [
-      { label: "Buy", href: "/properties/buy" },
-      { label: "Rent", href: "/properties/rent" },
-      { label: "Off-Plan Properties", href: "/properties/off-plan" },
-      { label: "Ready to Move", href: "/properties/ready" },
-      { label: "Luxury Villas", href: "/properties/villas" },
-      { label: "Apartments", href: "/properties/apartments" },
-      { label: "Penthouses", href: "/properties/penthouses" },
       { label: "Commercial", href: "/properties/commercial" },
+      { label: "Residential", href: "/properties/residential" },
     ],
   },
   {
     label: "Developers",
     href: "/developers",
     dropdown: [
-      { label: "Emaar Properties", href: "/developers/emaar-properties" },
-      { label: "DAMAC Properties", href: "/developers/damac-properties" },
+      { label: "Beyond", href: "/developers/beyond" },
       { label: "Nakheel", href: "/developers/nakheel" },
-      { label: "Sobha Realty", href: "/developers/sobha-realty" },
+      { label: "Emaar", href: "/developers/emaar-properties" },
+      { label: "DP World", href: "/developers/dp-world" },
+      { label: "Meraas", href: "/developers/meraas" },
       { label: "All Developers", href: "/developers" },
     ],
   },
@@ -43,39 +47,21 @@ const navLinks = [
     label: "Services",
     href: "/services",
     dropdown: [
-      { label: "Property Management", href: "/services/property-management" },
       { label: "Investment Advisory", href: "/services/investment" },
-      { label: "Mortgage Services", href: "/services/mortgage" },
-      { label: "Relocation Services", href: "/services/relocation" },
     ],
   },
   { label: "About", href: "/about" },
   { label: "Blogs", href: "/blogs" },
 ];
 
-/* Pages where the hero is a DARK background image → navbar should be white/transparent */
-const DARK_HERO_PAGES = ["/", "/home"];
-
-/* Pages where the hero is a LIGHT/WHITE background → navbar should be dark from the start */
-const LIGHT_HERO_PAGES = ["/developers", "/properties", "/projects", "/services", "/about", "/blogs"];
-
 export default function Navbar() {
-  const [scrolled, setScrolled]         = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen]     = useState(false);
-  const pathname                         = usePathname();
+  const [listFormOpen, setListFormOpen] = useState(false);
+  const [listFormSubmitted, setListFormSubmitted] = useState(false);
+  const [listFormData, setListFormData] = useState({ name: "", phone: "", email: "" });
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-    setActiveDropdown(null);
-  }, [pathname]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -83,13 +69,52 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    const openListingForm = () => {
+      setListFormSubmitted(false);
+      setListFormOpen(true);
+    };
+
+    window.addEventListener("open-list-property-form", openListingForm as EventListener);
+    return () => {
+      window.removeEventListener("open-list-property-form", openListingForm as EventListener);
+    };
+  }, []);
+
+  const openDropdown = (label: string) => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setActiveDropdown(label);
+  };
+
+  const closeDropdownWithDelay = () => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    closeTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 200);
+  };
+
+  const openListPropertyForm = () => {
+    setListFormSubmitted(false);
+    setListFormOpen(true);
+    setMobileOpen(false);
+  };
+
+  const submitListPropertyForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    const existing = localStorage.getItem("emico-list-property-leads");
+    const leads = existing ? JSON.parse(existing) : [];
+    leads.push({ ...listFormData, createdAt: new Date().toISOString() });
+    localStorage.setItem("emico-list-property-leads", JSON.stringify(leads));
+    setListFormSubmitted(true);
+  };
+
   /*
-    isTransparent = navbar sits on a dark hero image (transparent bg, white text)
-    Once scrolled past 50px, always switch to white bg + dark text.
-    On light-hero pages, always use white bg + dark text (never transparent).
+    Navbar is always visible with white background and dark text
   */
-  const pageHasDarkHero = DARK_HERO_PAGES.includes(pathname ?? "");
-  const isTransparent   = pageHasDarkHero && !scrolled;
+  const isTransparent   = false;
 
   // Derived color tokens so we only define once
   const textColor    = isTransparent ? "text-white/90"  : "text-gray-700";
@@ -102,7 +127,7 @@ export default function Navbar() {
       {/* ─── NAVBAR ─── */}
       <nav
         className={`
-          fixed top-0 left-0 right-0 z-50
+          fixed top-0 left-0 right-0 z-[1100]
           transition-all duration-500
           ${isTransparent
             ? "bg-transparent py-5"
@@ -112,7 +137,13 @@ export default function Navbar() {
         style={
           isTransparent
             ? { boxShadow: "none" }
-            : { boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }
+            : {
+                boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
+                borderBottom: "1px solid rgba(0,0,0,0.06)",
+                backgroundColor: "rgba(255,255,255,0.98)",
+                backdropFilter: "saturate(140%) blur(10px)",
+                WebkitBackdropFilter: "saturate(140%) blur(10px)",
+              }
         }
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -132,8 +163,8 @@ export default function Navbar() {
               <div
                 key={link.label}
                 className="relative"
-                onMouseEnter={() => link.dropdown && setActiveDropdown(link.label)}
-                onMouseLeave={() => setActiveDropdown(null)}
+                onMouseEnter={() => link.dropdown && openDropdown(link.label)}
+                onMouseLeave={closeDropdownWithDelay}
               >
                 <Link
                   href={link.href}
@@ -160,8 +191,11 @@ export default function Navbar() {
                 {/* Dropdown panel */}
                 {link.dropdown && (
                   <div
+                    onMouseEnter={() => openDropdown(link.label)}
+                    onMouseLeave={closeDropdownWithDelay}
                     className={`
-                      absolute top-full left-0 mt-2 w-52
+                      absolute top-full left-0 mt-2 
+                      ${link.label === "Properties" ? "w-80" : "w-52"}
                       bg-white rounded-sm border-t-2 border-black
                       shadow-2xl
                       transition-all duration-200
@@ -171,14 +205,18 @@ export default function Navbar() {
                       }
                     `}
                   >
-                    {link.dropdown.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className="block px-5 py-3 text-sm text-gray-700 hover:text-black hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
-                      >
-                        {item.label}
-                      </Link>
+                    {link.dropdown.map((item, idx) => (
+                      item.divider ? (
+                        <div key={`divider-${idx}`} className="border-t border-gray-200" />
+                      ) : (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          className="block px-5 py-3 text-sm text-gray-700 hover:text-black hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
+                        >
+                          {item.label}
+                        </Link>
+                      )
                     ))}
                   </div>
                 )}
@@ -195,7 +233,11 @@ export default function Navbar() {
               +971 4 XXX XXXX
             </a>
             <Link
-              href="/contact"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                openListPropertyForm();
+              }}
               className={`
                 px-5 py-2.5 text-sm font-semibold tracking-wide
                 transition-all duration-300
@@ -212,13 +254,13 @@ export default function Navbar() {
           {/* ── Mobile Hamburger ── */}
           <button
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            className="lg:hidden p-2 -mr-2 flex flex-col justify-center items-center gap-[5px]"
+            className="lg:hidden p-2 -mr-2 flex flex-col justify-center items-center gap-1.25"
             onClick={() => setMobileOpen((v) => !v)}
           >
             {/* Three lines — animate to X when open */}
             <span
               className={`block h-0.5 w-6 rounded-full transition-all duration-300 ${burgerColor} ${
-                mobileOpen ? "rotate-45 translate-y-[7px]" : ""
+                mobileOpen ? "rotate-45 translate-y-1.75" : ""
               }`}
             />
             <span
@@ -228,7 +270,7 @@ export default function Navbar() {
             />
             <span
               className={`block h-0.5 w-6 rounded-full transition-all duration-300 ${burgerColor} ${
-                mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                mobileOpen ? "-rotate-45 -translate-y-1.75" : ""
               }`}
             />
           </button>
@@ -282,15 +324,19 @@ export default function Navbar() {
               </Link>
               {link.dropdown && (
                 <div className="pb-2 px-6 pl-8 bg-gray-50/60">
-                  {link.dropdown.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className="block py-2.5 text-sm text-gray-600 hover:text-black transition-colors border-b border-gray-100 last:border-0"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
+                  {link.dropdown.map((item, idx) => (
+                    item.divider ? (
+                      <div key={`divider-${idx}`} className="border-t border-gray-200 my-2" />
+                    ) : (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className="block py-2.5 text-sm text-gray-600 hover:text-black transition-colors border-b border-gray-100 last:border-0"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    )
                   ))}
                 </div>
               )}
@@ -301,14 +347,85 @@ export default function Navbar() {
         {/* Panel footer CTA */}
         <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100">
           <Link
-            href="/contact"
+            href="#"
             className="block w-full text-center py-3.5 bg-black text-white text-sm font-semibold tracking-wide hover:bg-gray-800 transition-colors"
-            onClick={() => setMobileOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              openListPropertyForm();
+            }}
           >
             List Your Property
           </Link>
         </div>
       </div>
+
+      {listFormOpen && (
+        <div
+          className="fixed inset-0 z-60 bg-black/55 backdrop-blur-sm flex items-center justify-center px-4"
+          onClick={() => setListFormOpen(false)}
+        >
+          <div
+            className="w-full max-w-md bg-white p-6 sm:p-8 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {listFormSubmitted ? (
+              <div className="text-center py-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Property Submitted</h3>
+                <p className="text-sm text-gray-600 mb-6">Thanks. Our team will contact you shortly to complete your listing.</p>
+                <button
+                  type="button"
+                  onClick={() => setListFormOpen(false)}
+                  className="px-5 py-2.5 bg-black text-white text-sm font-semibold"
+                >
+                  Close
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={submitListPropertyForm} className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-1">List Your Property</h3>
+                  <p className="text-sm text-gray-500">Share your details and we will help publish your listing.</p>
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wide text-gray-500 mb-1.5">Name</label>
+                  <input
+                    required
+                    value={listFormData.name}
+                    onChange={(e) => setListFormData({ ...listFormData, name: e.target.value })}
+                    className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black"
+                    placeholder="Your full name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wide text-gray-500 mb-1.5">Phone Number</label>
+                  <input
+                    required
+                    value={listFormData.phone}
+                    onChange={(e) => setListFormData({ ...listFormData, phone: e.target.value })}
+                    className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black"
+                    placeholder="+971 50 XXX XXXX"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wide text-gray-500 mb-1.5">Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={listFormData.email}
+                    onChange={(e) => setListFormData({ ...listFormData, email: e.target.value })}
+                    className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black"
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <div className="flex items-center gap-3 pt-1">
+                  <button type="submit" className="flex-1 bg-black text-white py-3 text-sm font-semibold">Submit</button>
+                  <button type="button" onClick={() => setListFormOpen(false)} className="flex-1 border border-gray-300 py-3 text-sm font-semibold text-gray-700">Cancel</button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }

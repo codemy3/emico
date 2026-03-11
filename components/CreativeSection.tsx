@@ -35,8 +35,8 @@ function HangingBoard() {
       }}>
         <div style={{ position:"absolute", top:-8, left:"50%", transform:"translateX(-50%)", width:16, height:16, borderRadius:"50%", background:"#e5e7eb", border:"2px solid #d1d5db" }} />
         <div style={{ color:"rgba(255,255,255,0.35)", fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", marginBottom:4 }}>Starting From</div>
-        <div style={{ fontFamily:"var(--font-dm-serif), serif", color:"#fff", fontSize:"1.5rem", lineHeight:1 }}>AED 750K</div>
-        <div style={{ color:"rgba(255,255,255,0.35)", fontSize:10, marginTop:5 }}>Dubai Marina · 1BR</div>
+        <div style={{ fontFamily:"var(--font-dm-serif), serif", color:"#fff", fontSize:"1.5rem", lineHeight:1 }}>AED 590K</div>
+        <div style={{ color:"rgba(255,255,255,0.35)", fontSize:10, marginTop:5 }}>1BR</div>
         <div style={{ position:"absolute", inset:0, borderRadius:8, background:"linear-gradient(130deg,rgba(255,255,255,0.07) 0%,transparent 55%)", pointerEvents:"none" }} />
       </div>
       {/* Tip arrow */}
@@ -106,7 +106,7 @@ export default function CreativeSection() {
           </h2>
 
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "#6b7280", maxWidth: 400, marginBottom: 36 }}>
-            Zero tax. Guaranteed residency. Record yields. A stable currency pegged to the USD — and one of the safest, most liveable cities on earth.
+            Zero tax. UAE Golden Visa. Record yields. One of the safest, most liveable cities on earth.
           </p>
 
           <a
@@ -142,8 +142,8 @@ export default function CreativeSection() {
           </div>
 
           <img
-            src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=900&q=85"
-            alt="Luxury Dubai property"
+            src="https://images.unsplash.com/photo-1546412414-8035e1776c9a?w=1200&q=85"
+            alt="Dubai aerial satellite-style skyline view"
             style={{
               position: "absolute", inset: 0, width: "100%", height: "100%",
               objectFit: "cover",

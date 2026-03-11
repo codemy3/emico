@@ -14,8 +14,8 @@ const categories = ["All", "Apartment", "Villa", "Penthouse", "Townhouse", "Comm
 const properties = [
   {
     id: 1,
-    title: "Azure Residences",
-    location: "Dubai Marina",
+    title: "Signature Residence One",
+    location: "Prime Dubai District",
     type: "Apartment",
     price: "AED 2,500,000",
     beds: 2,
@@ -28,8 +28,8 @@ const properties = [
   },
   {
     id: 2,
-    title: "Palm Elite Villa",
-    location: "Palm Jumeirah",
+    title: "Waterfront Villa Collection",
+    location: "Coastal Community",
     type: "Villa",
     price: "AED 18,000,000",
     beds: 5,
@@ -42,8 +42,8 @@ const properties = [
   },
   {
     id: 3,
-    title: "Skyline Penthouse",
-    location: "Downtown Dubai",
+    title: "Skyline Penthouse Suite",
+    location: "Central Dubai",
     type: "Penthouse",
     price: "AED 12,500,000",
     beds: 4,
@@ -56,8 +56,8 @@ const properties = [
   },
   {
     id: 4,
-    title: "Marina Heights",
-    location: "Dubai Marina",
+    title: "Urban Heights Tower",
+    location: "Marina Side",
     type: "Apartment",
     price: "AED 1,800,000",
     beds: 1,
@@ -70,8 +70,8 @@ const properties = [
   },
   {
     id: 5,
-    title: "Creek Townhouse",
-    location: "Dubai Creek Harbour",
+    title: "Contemporary Townhouse",
+    location: "Creek Community",
     type: "Townhouse",
     price: "AED 4,200,000",
     beds: 3,
@@ -84,8 +84,8 @@ const properties = [
   },
   {
     id: 6,
-    title: "Business Bay Tower",
-    location: "Business Bay",
+    title: "Commercial Office Hub",
+    location: "Business District",
     type: "Commercial",
     price: "AED 3,500,000",
     beds: 0,
@@ -284,7 +284,7 @@ export default function ExploreProperties() {
                       whileHover={{ scale: 1.07 }}
                       transition={{ duration: 0.7, ease: EASE_CUBIC }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
 
                     <div
                       className="absolute top-4 left-4 text-white text-[10px] font-bold px-3 py-1 tracking-widest uppercase"
@@ -329,7 +329,7 @@ export default function ExploreProperties() {
                           {property.location}
                         </p>
                       </div>
-                      <div className="text-right flex-shrink-0">
+                      <div className="text-right shrink-0">
                         <div className="text-black font-bold text-sm">{property.price}</div>
                         <div className="text-gray-400 text-[10px] tracking-widest uppercase mt-0.5">
                           {property.type}

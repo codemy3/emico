@@ -19,7 +19,7 @@ export default function CTASection() {
   return (
     <section className="relative overflow-hidden bg-black" ref={ref}>
       {/* Big background image */}
-      <div className="relative h-[80vh] min-h-[600px]">
+      <div className="relative h-[80vh] min-h-150">
         <img
           src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1920&q=90"
           alt="Dubai skyline"
@@ -28,8 +28,8 @@ export default function CTASection() {
         />
 
         {/* Multi-layered overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/50 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
 
         {/* Content */}
         <div className="absolute inset-0 flex items-center">
@@ -57,8 +57,8 @@ export default function CTASection() {
               <p
                 className={`text-white/60 text-base mb-10 leading-relaxed max-w-lg transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               >
-                Our expert advisors have helped over 4,200 clients find their perfect property in Dubai. 
-                Whether you're an investor or looking for a family home — we match you with the right property, 
+                Our expert advisors have helped thousands of satisfied clients find their perfect property in Dubai. 
+                Whether you&apos;re an investor or looking for a family home — we match you with the right property, 
                 at the right price.
               </p>
 

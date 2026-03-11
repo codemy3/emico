@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ── Data ───────────────────────────────────────────────────────────
@@ -43,6 +44,7 @@ const PROP_TYPE_MAP: Record<SubTab, string[]> = {
 
 // Plots-specific property types
 const PLOT_PROPERTY_TYPES = ["Commercial", "Residential", "Industrial", "Mix use"];
+const PROPERTY_CATEGORIES = ["Residential", "Commercial", "Industrial", "Mixed Use"];
 
 // Price Range — shown as "Any" with min/max inputs like dubizzle
 // Beds
@@ -106,9 +108,11 @@ function Cell({ children, onClick, label, valueDisplay, isDefault }: {
 
 // ── Main Component ─────────────────────────────────────────────────
 export default function HeroSection() {
+  const router = useRouter();
   const [activeTab, setActiveTab]         = useState<Tab>("Buy");
   const [city, setCity]                   = useState("Dubai");
   const [location, setLocation]           = useState("");
+  const [category, setCategory]           = useState("Residential");
   const [activeSubTab, setActiveSubTab]   = useState<SubTab>("Residential");
   const [propType, setPropType]           = useState("All in Residential");
   const [plotType, setPlotType]           = useState("Commercial");
@@ -162,6 +166,21 @@ export default function HeroSection() {
     location.length > 0 && s.toLowerCase().includes(location.toLowerCase())
   );
 
+  const runSearch = () => {
+    const params = new URLSearchParams();
+    params.set("tab", activeTab.toLowerCase().replace(/\s+/g, "-"));
+    params.set("city", city);
+    if (location) params.set("location", location);
+    params.set("category", category);
+    params.set("propertyType", isPlotsTab ? plotType : propType);
+    if (priceMin) params.set("priceMin", priceMin);
+    if (priceMax) params.set("priceMax", priceMax);
+    if (!isPlotsTab && bedsMin) params.set("bedsMin", bedsMin);
+    if (!isPlotsTab && bedsMax) params.set("bedsMax", bedsMax);
+
+    router.push(`/properties?${params.toString()}`);
+  };
+
   // Display helpers
   const priceDisplay = priceMin || priceMax
     ? `${priceMin || "0"} – ${priceMax || "Any"}`
@@ -174,7 +193,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative w-full overflow-visible"
-      style={{ height: "100svh", minHeight: 680, zIndex: 50 }}
+      style={{ height: "100svh", minHeight: 680, zIndex: 1 }}
     >
       {/* ── VIDEO BACKGROUND ── */}
       <div className="absolute inset-0 z-0">
@@ -224,7 +243,7 @@ export default function HeroSection() {
             className="relative"
           >
             {/* ── TABS ── */}
-            <div className="flex items-end flex-wrap gap-1">
+            <div className="flex items-end flex-wrap gap-1.5 sm:gap-1">
               {TABS.map((tab) => {
                 const isActive = activeTab === tab;
                 return (
@@ -252,7 +271,7 @@ export default function HeroSection() {
 
             {/* ── SEARCH BAR ── */}
             <div
-              className="flex flex-col md:flex-row md:items-stretch relative overflow-visible"
+              className="hero-search-shell flex flex-col md:flex-row md:items-stretch relative overflow-visible"
               style={{
                 minHeight: 64,
                 zIndex: 2,
@@ -265,7 +284,7 @@ export default function HeroSection() {
             >
 
               {/* ── 1. CITY ── */}
-              <div className="relative flex-1 md:flex-initial md:shrink-0 min-w-0">
+              <div className="hero-search-cell relative flex-1 md:flex-initial md:shrink-0 min-w-0">
                 <button
                   onClick={() => toggle("city")}
                   className="w-full h-full min-h-16 px-4 flex flex-col justify-center hover:bg-white/5 transition-colors"
@@ -305,7 +324,7 @@ export default function HeroSection() {
               <div className="hidden md:block"><VDivider /></div>
 
               {/* ── 2. LOCATION ── */}
-              <div className="relative flex-1 flex flex-col justify-center min-w-0 px-4 min-h-16">
+              <div className="hero-search-cell relative flex-1 flex flex-col justify-center min-w-0 px-4 min-h-16">
                 <span className="text-[11px] text-white/60 leading-none mb-0.5" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>Location</span>
                 <input
                   type="text"
@@ -346,8 +365,48 @@ export default function HeroSection() {
 
               <div className="hidden md:block"><VDivider /></div>
 
-              {/* ── 3. PROPERTY TYPE ── */}
-              <div className="relative flex-1 md:flex-initial md:shrink-0 min-w-0">
+              {/* ── 3. CATEGORY ── */}
+              <div className="hero-search-cell relative flex-1 md:flex-initial md:shrink-0 min-w-0">
+                <button
+                  onClick={() => toggle("category")}
+                  className="w-full h-full min-h-16 px-4 flex flex-col justify-center hover:bg-white/5 transition-colors"
+                  style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
+                >
+                  <span className="text-[11px] text-white/60 leading-none mb-0.5">Category</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[13px] leading-none text-white font-medium truncate">{category}</span>
+                    <Chevron open={openDropdown === "category"} />
+                  </div>
+                </button>
+
+                <AnimatePresence>
+                  {openDropdown === "category" && (
+                    <motion.ul
+                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                      transition={{ duration: 0.16, ease: "easeOut" }}
+                      className="absolute top-[calc(100%+6px)] left-0 w-full min-w-52 list-none m-0 p-0"
+                      style={{ background: "rgba(12,12,12,0.97)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", boxShadow: "0 16px 48px rgba(0,0,0,0.5)", zIndex: 9999 }}
+                    >
+                      {PROPERTY_CATEGORIES.map((opt) => (
+                        <li key={opt}>
+                          <button
+                            onClick={() => { setCategory(opt); setOpenDropdown(null); }}
+                            className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${category === opt ? "text-white font-semibold" : "text-white/75"}`}
+                            style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
+                          >{opt}</button>
+                        </li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="hidden lg:block"><VDivider /></div>
+
+              {/* ── 4. PROPERTY TYPE ── */}
+              <div className="hero-search-cell relative flex-1 md:flex-initial md:shrink-0 min-w-0">
                 <button
                   onClick={() => toggle("type")}
                   className="w-full h-full min-h-16 px-4 flex flex-col justify-center hover:bg-white/5 transition-colors"
@@ -424,8 +483,8 @@ export default function HeroSection() {
 
               <div className="hidden lg:block"><VDivider /></div>
 
-              {/* ── 4. PRICE RANGE ── */}
-              <div className="relative flex-1 md:flex-initial md:shrink-0 min-w-0">
+              {/* ── 5. PRICE RANGE ── */}
+              <div className="hero-search-cell relative flex-1 md:flex-initial md:shrink-0 min-w-0">
                 <button
                   onClick={() => toggle("price")}
                   className="w-full h-full min-h-16 px-4 flex flex-col justify-center hover:bg-white/5 transition-colors"
@@ -469,11 +528,11 @@ export default function HeroSection() {
                 </AnimatePresence>
               </div>
 
-              {/* ── 5. BEDS — hidden on Plots ── */}
+              {/* ── 6. BEDS — hidden on Plots ── */}
               {!isPlotsTab && (
                 <>
                   <div className="hidden lg:block"><VDivider /></div>
-                  <div className="relative flex-1 md:flex-initial md:shrink-0 min-w-0">
+                  <div className="hero-search-cell relative flex-1 md:flex-initial md:shrink-0 min-w-0">
                     <button
                       onClick={() => toggle("beds")}
                       className="w-full h-full min-h-16 px-4 flex flex-col justify-center hover:bg-white/5 transition-colors"
@@ -527,8 +586,8 @@ export default function HeroSection() {
 
               <div className="hidden md:block"><VDivider /></div>
 
-              {/* ── 6. MORE ── */}
-              <div className="relative flex-1 md:flex-initial md:shrink-0 min-w-0">
+              {/* ── 7. MORE ── */}
+              <div className="hero-search-cell relative flex-1 md:flex-initial md:shrink-0 min-w-0">
                 <button
                   onClick={() => toggle("more")}
                   className="w-full h-full min-h-16 px-4 flex flex-col justify-center hover:bg-white/5 transition-colors"
@@ -594,11 +653,12 @@ export default function HeroSection() {
                 </AnimatePresence>
               </div>
 
-              {/* ── 7. SEARCH BUTTON ── */}
+              {/* ── 8. SEARCH BUTTON ── */}
               <motion.button
+                onClick={runSearch}
                 whileHover={{ backgroundColor: "#2a2a2a" }}
                 whileTap={{ scale: 0.97 }}
-                className="w-full md:w-auto h-full min-h-16 px-8 text-white text-[13px] font-semibold tracking-widest uppercase flex items-center justify-center gap-2.5 relative overflow-hidden"
+                className="hero-search-btn w-full md:w-auto h-full min-h-16 px-8 text-white text-[13px] font-semibold tracking-widest uppercase flex items-center justify-center gap-2.5 relative overflow-hidden"
                 style={{ backgroundColor: "#111", fontFamily: "var(--font-dm-sans), sans-serif", borderLeft: "1px solid rgba(255,255,255,0.12)" }}
                 transition={{ duration: 0.2 }}
               >
@@ -630,6 +690,34 @@ export default function HeroSection() {
 
         </div>
       </div>
+
+      <style jsx>{`
+        @media (max-width: 767px) {
+          .hero-search-shell {
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(8, 8, 8, 0.78) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45) !important;
+          }
+
+          .hero-search-cell {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+          }
+
+          .hero-search-cell button,
+          .hero-search-cell input {
+            min-height: 58px;
+          }
+
+          .hero-search-btn {
+            min-height: 58px;
+            border-left: 0 !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            letter-spacing: 0.14em;
+          }
+        }
+      `}</style>
     </section>
   );
 }

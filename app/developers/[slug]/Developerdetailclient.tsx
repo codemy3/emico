@@ -223,50 +223,16 @@ export default function DeveloperDetailClient({ dev }: { dev: Developer }) {
           <section className="cd-section">
             <div className="cd-section-header">
               <h2 className="cd-section-h">Projects by {dev.name}</h2>
-              <p className="cd-section-sub">Browse the latest off-plan and ready properties from {dev.name}.</p>
-              <div className="cd-tabs">
-                {dev.propertyTypes.map((t, i) => (
-                  <button key={t} className={`cd-tab${i === activeTab ? " active" : ""}`} onClick={() => setActiveTab(i)}>{t}</button>
-                ))}
-              </div>
+              <p className="cd-section-sub">Properties coming soon.</p>
             </div>
 
             <div className="cd-layout">
-              <div className="cd-prop-grid">
-                {projects.map((project) => (
-                  <div key={project.id} className="cd-prop-card">
-                    <div className="cd-prop-carousel-wrap" onClick={() => setSelectedProject(project)}>
-                      <ImageCarousel images={project.images} projectName={project.name} />
-                      <span className={`cd-prop-badge cd-badge-${project.status.toLowerCase().replace(/\s/g, "-")}`}>{project.status}</span>
-                      <div className="cd-prop-price-overlay">{project.price}</div>
-                    </div>
-                    <button className="cd-prop-card-inner" onClick={() => setSelectedProject(project)}>
-                      <div className="cd-prop-body">
-                        <p className="cd-prop-type">{project.type}</p>
-                        <h3 className="cd-prop-name">{project.name}</h3>
-                        <div className="cd-prop-location"><MapPin size={11} /><span>{project.location}</span></div>
-                        <div className="cd-prop-stats">
-                          <span className="cd-prop-stat"><BedDouble size={12} />{project.beds}</span>
-                          <span className="cd-prop-stat-sep" />
-                          <span className="cd-prop-stat"><Bath size={12} />{project.baths}</span>
-                          <span className="cd-prop-stat-sep" />
-                          <span className="cd-prop-stat"><Maximize2 size={12} />{project.size}</span>
-                        </div>
-                      </div>
-                    </button>
-                    <div className="cd-prop-contact">
-                      <a href={`mailto:${dev.contact?.email ?? "info@example.com"}?subject=Enquiry: ${encodeURIComponent(project.name)}`} className="cd-contact-btn cd-contact-email" onClick={e => e.stopPropagation()}>
-                        <Mail size={13} /><span>Email</span>
-                      </a>
-                      <a href={`tel:${dev.contact?.phone ?? "+97100000000"}`} className="cd-contact-btn cd-contact-call" onClick={e => e.stopPropagation()}>
-                        <Phone size={13} /><span>Call</span>
-                      </a>
-                      <a href={`https://wa.me/${(dev.contact?.whatsapp ?? "97100000000").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hi, I'm interested in ${project.name}`)}`} target="_blank" rel="noopener noreferrer" className="cd-contact-btn cd-contact-whatsapp" onClick={e => e.stopPropagation()}>
-                        <MessageCircle size={13} /><span>WhatsApp</span>
-                      </a>
-                    </div>
-                  </div>
-                ))}
+              <div className="cd-prop-grid" style={{ gridTemplateColumns: "1fr" }}>
+                <div className="cd-sidebar-card" style={{ minHeight: 180, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <p className="cd-section-text" style={{ textAlign: "center" }}>
+                    Listings for this developer will be published after Trakhees approval.
+                  </p>
+                </div>
               </div>
 
               <aside className="cd-sidebar">
