@@ -18,14 +18,14 @@ export default function PartnersSection() {
           {/* Mobile: one line */}
           <span
             className="block md:hidden text-gray-700 font-light whitespace-nowrap"
-            style={{ fontSize: 13, letterSpacing: ".04em", fontFamily: "'Playfair Display', serif" }}
+            style={{ fontSize: 13, letterSpacing: ".04em", fontFamily: "var(--font-dm-serif), serif" }}
           >
             Partners with Dubai&apos;s leading developers
           </span>
           {/* Desktop: 3 lines */}
           <span
             className="hidden md:block text-gray-700 text-lg font-light leading-snug text-left"
-            style={{ letterSpacing: ".04em", fontFamily: "'Playfair Display', serif" }}
+            style={{ letterSpacing: ".04em", fontFamily: "var(--font-dm-serif), serif" }}
           >
             Partners with<br />Dubai&apos;s leading<br />developers
           </span>

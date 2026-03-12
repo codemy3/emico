@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, ArrowUpRight } from "lucide-react";
 import { developers } from "@/lib/developers-data";
@@ -131,10 +131,10 @@ const CSS = `
 .pv .pv-card-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; display: block;
-  opacity: 0.42;
+  opacity: 0.48;
   transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.pv .pv-card:hover .pv-card-img { opacity: 0.32; transform: scale(1.07); }
+.pv .pv-card:hover .pv-card-img { opacity: 0.38; transform: scale(1.07); }
 
 /* vignette gradient */
 .pv .pv-card-gradient {
@@ -250,8 +250,6 @@ const CSS = `
 }
 `;
 
-const PER_PAGE = 12;
-
 function getCardColorStyle(idx: number): Record<string, string> {
   const hue = (idx * 37) % 360;
   const hue2 = (hue + 28) % 360;
@@ -269,8 +267,6 @@ function getCardColorStyle(idx: number): Record<string, string> {
 export default function DevelopersPage() {
   const [query, setQuery] = useState("");
   const [input, setInput] = useState("");
-  const [page, setPage] = useState(1);
-  const topRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const id = "pv-dev-css";
@@ -287,17 +283,7 @@ export default function DevelopersPage() {
     return !q || d.name.toLowerCase().includes(q) || d.description.toLowerCase().includes(q);
   });
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
-  const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
-
-  const goTo = (p: number) => {
-    setPage(p);
-    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const handleSearch = () => { setQuery(input); setPage(1); };
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { setPage(1); }, [query]);
+  const handleSearch = () => { setQuery(input); };
 
   return (
     <div className="pv">
@@ -344,13 +330,13 @@ export default function DevelopersPage() {
       <div className="pv-divider"><div className="pv-divider-line" /></div>
 
       {/* GRID */}
-      <div ref={topRef} className="pv-grid">
-        {paginated.length === 0 ? (
+      <div className="pv-grid">
+        {filtered.length === 0 ? (
           <div className="pv-empty" style={{ gridColumn: "1/-1" }}>
             No developers found for &ldquo;{query}&rdquo;.
           </div>
         ) : (
-          paginated.map((dev, idx) => (
+          filtered.map((dev, idx) => (
             <Link
               key={dev.id}
               href={dev.href}
@@ -395,28 +381,6 @@ export default function DevelopersPage() {
           ))
         )}
       </div>
-
-      {/* PAGINATION */}
-      {totalPages > 1 && (
-        <div className="pv-pag">
-          <button className="pv-pag-btn" onClick={() => goTo(page - 1)} disabled={page === 1}>Back</button>
-          <div className="pv-pag-center">
-            <span>Page:</span>
-            <div className="pv-pag-sel-wrap">
-              <select className="pv-pag-sel" value={page} onChange={(e) => goTo(Number(e.target.value))}>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                  <option key={p} value={p}>{p}</option>
-                ))}
-              </select>
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span>of {totalPages}</span>
-          </div>
-          <button className="pv-pag-btn" onClick={() => goTo(page + 1)} disabled={page === totalPages}>Next</button>
-        </div>
-      )}
 
     </div>
   );

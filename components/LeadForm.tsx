@@ -35,7 +35,7 @@ export default function LeadForm() {
       <div
         className="absolute right-0 top-0 bottom-0 w-1/3 opacity-5 hidden lg:block"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C%2Fg%3E%3C%2Fsvg%3E")`,
         }}
       />
 
@@ -49,7 +49,7 @@ export default function LeadForm() {
             <h2
               className="text-black mb-6 leading-tight"
               style={{
-                fontFamily: "'Playfair Display', serif",
+                fontFamily: "var(--font-dm-serif), serif",
                 fontSize: "clamp(2rem, 4vw, 3.5rem)",
                 fontWeight: 700,
               }}
@@ -114,7 +114,7 @@ export default function LeadForm() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: "var(--font-dm-serif), serif" }}>
                   Thank You!
                 </h3>
                 <p className="text-gray-500 text-sm">
@@ -124,7 +124,7 @@ export default function LeadForm() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1" style={{ fontFamily: "var(--font-dm-serif), serif" }}>
                     Request a Consultation
                   </h3>
                   <p className="text-gray-400 text-xs">Fill in the form and we&apos;ll get back to you promptly.</p>
@@ -138,7 +138,7 @@ export default function LeadForm() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors"
+                      className="lead-field w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors"
                       placeholder="John Smith"
                     />
                   </div>
@@ -149,7 +149,7 @@ export default function LeadForm() {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors"
+                      className="lead-field w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors"
                       placeholder="+971 50 XXX XXXX"
                     />
                   </div>
@@ -162,7 +162,7 @@ export default function LeadForm() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors"
+                    className="lead-field w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -178,7 +178,7 @@ export default function LeadForm() {
                         className={`text-left px-4 py-2.5 text-xs border transition-all duration-200 ${
                           formData.interest === item
                             ? "border-black bg-black text-white"
-                            : "border-gray-200 text-gray-600 hover:border-gray-400"
+                            : "border-gray-700 bg-black text-white/60 hover:text-white hover:border-gray-400"
                         }`}
                       >
                         {item}
@@ -192,7 +192,7 @@ export default function LeadForm() {
                   <select
                     value={formData.buyingFor}
                     onChange={(e) => setFormData({ ...formData, buyingFor: e.target.value })}
-                    className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors bg-white"
+                    className="lead-field w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors bg-white"
                   >
                     <option value="">Select Option</option>
                     <option>Myself</option>
@@ -205,7 +205,7 @@ export default function LeadForm() {
                   <select
                     value={formData.budget}
                     onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors bg-white"
+                    className="lead-field w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors bg-white"
                   >
                     <option value="">Select Budget</option>
                     <option>AED 500K – 1M</option>
@@ -220,7 +220,7 @@ export default function LeadForm() {
                     rows={3}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors resize-none"
+                    className="lead-field w-full border border-gray-200 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:border-black transition-colors resize-none"
                     placeholder="Tell us about your requirements..."
                   />
                 </div>
@@ -248,6 +248,22 @@ export default function LeadForm() {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @media (min-width: 768px) {
+          .lead-field {
+            background: #000 !important;
+            color: #fff !important;
+            border: 1px solid #333 !important;
+            -webkit-appearance: none;
+            appearance: none;
+          }
+
+          .lead-field::placeholder {
+            color: #a3a3a3;
+          }
+        }
+      `}</style>
     </section>
   );
 }

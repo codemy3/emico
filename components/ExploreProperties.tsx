@@ -9,7 +9,7 @@ import {
   type Variants,
 } from "framer-motion";
 
-const categories = ["All", "Apartment", "Villa", "Penthouse", "Townhouse", "Commercial"];
+const categories = ["All", "Apartment", "Villa", "Studio", "Townhouse", "Commercial", "Rental Properties"];
 
 const properties = [
   {
@@ -42,9 +42,9 @@ const properties = [
   },
   {
     id: 3,
-    title: "Skyline Penthouse Suite",
+    title: "Skyline Studio Suite",
     location: "Central Dubai",
-    type: "Penthouse",
+    type: "Studio",
     price: "AED 12,500,000",
     beds: 4,
     baths: 5,

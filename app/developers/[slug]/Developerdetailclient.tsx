@@ -223,16 +223,63 @@ export default function DeveloperDetailClient({ dev }: { dev: Developer }) {
           <section className="cd-section">
             <div className="cd-section-header">
               <h2 className="cd-section-h">Projects by {dev.name}</h2>
-              <p className="cd-section-sub">Properties coming soon.</p>
+              <p className="cd-section-sub">Explore live and upcoming projects from {dev.name}.</p>
+              <div className="cd-tabs">
+                <button className={`cd-tab${activeTab === 0 ? " active" : ""}`} onClick={() => setActiveTab(0)}>
+                  All Projects
+                </button>
+                {projects.map((project, idx) => (
+                  <button
+                    key={project.id}
+                    className={`cd-tab${activeTab === idx + 1 ? " active" : ""}`}
+                    onClick={() => setActiveTab(idx + 1)}
+                  >
+                    {project.name}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="cd-layout">
-              <div className="cd-prop-grid" style={{ gridTemplateColumns: "1fr" }}>
-                <div className="cd-sidebar-card" style={{ minHeight: 180, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <p className="cd-section-text" style={{ textAlign: "center" }}>
-                    Listings for this developer will be published after Trakhees approval.
-                  </p>
-                </div>
+              <div className="cd-prop-grid">
+                {(activeTab === 0 ? projects : [projects[activeTab - 1]]).map((project) => (
+                  <article key={project.id} className="cd-prop-card">
+                    <div className="cd-prop-carousel-wrap">
+                      <ImageCarousel images={project.images} projectName={project.name} />
+                      <span className={`cd-prop-badge cd-badge-${project.status.toLowerCase().replace(/\s/g, "-")}`}>{project.status}</span>
+                      <span className="cd-prop-price-overlay">{project.price}</span>
+                    </div>
+
+                    <button className="cd-prop-card-inner" onClick={() => setSelectedProject(project)}>
+                      <div className="cd-prop-body">
+                        <p className="cd-prop-type">{project.type}</p>
+                        <h3 className="cd-prop-name">{project.name}</h3>
+                        <div className="cd-prop-location"><MapPin size={12} /><span>{project.location}</span></div>
+                        <div className="cd-prop-stats">
+                          <div className="cd-prop-stat"><BedDouble size={12} /><span>{project.beds}</span></div>
+                          <div className="cd-prop-stat-sep" />
+                          <div className="cd-prop-stat"><Bath size={12} /><span>{project.baths}</span></div>
+                          <div className="cd-prop-stat-sep" />
+                          <div className="cd-prop-stat"><Maximize2 size={12} /><span>{project.size}</span></div>
+                        </div>
+                      </div>
+                    </button>
+
+                    {dev.contact && (
+                      <div className="cd-prop-contact">
+                        <a className="cd-contact-btn cd-contact-email" href={`mailto:${dev.contact.email}`}>
+                          <Mail size={14} /> Email
+                        </a>
+                        <a className="cd-contact-btn cd-contact-call" href={`tel:${dev.contact.phone}`}>
+                          <Phone size={14} /> Call
+                        </a>
+                        <a className="cd-contact-btn cd-contact-whatsapp" href={`https://wa.me/${dev.contact.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer">
+                          <MessageCircle size={14} /> WhatsApp
+                        </a>
+                      </div>
+                    )}
+                  </article>
+                ))}
               </div>
 
               <aside className="cd-sidebar">
@@ -283,8 +330,8 @@ const CSS = `
   --cd-border:  #e2ddd6;
   --cd-muted:   #8a8178;
   --cd-accent:  #b8955a;
-  --cd-sans:    'Jost', ui-sans-serif, system-ui, sans-serif;
-  --cd-serif:   'Cormorant Garamond', Georgia, serif;
+  --cd-sans:    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --cd-serif:   var(--font-dm-serif), Georgia, serif;
   --cd-radius:  10px;
   --cd-shadow:  0 2px 8px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.08);
   --cd-shadow-hover: 0 6px 24px rgba(0,0,0,0.1), 0 24px 60px rgba(0,0,0,0.13);

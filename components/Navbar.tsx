@@ -18,8 +18,8 @@ const navLinks: NavLink[] = [
     label: "Properties",
     href: "/properties",
     dropdown: [
-      { label: "Commercial", href: "/properties/commercial" },
-      { label: "Residential", href: "/properties/residential" },
+      { label: "Commercial", href: "/properties?category=Commercial" },
+      { label: "Residential", href: "/properties?category=Residential" },
     ],
   },
   {
@@ -127,7 +127,7 @@ export default function Navbar() {
       {/* ─── NAVBAR ─── */}
       <nav
         className={`
-          fixed top-0 left-0 right-0 z-[1100]
+          fixed top-0 left-0 right-0 z-1100
           transition-all duration-500
           ${isTransparent
             ? "bg-transparent py-5"
@@ -292,13 +292,13 @@ export default function Navbar() {
       <div
         className={`
           fixed top-0 right-0 bottom-0 z-40 w-80 max-w-[90vw]
-          bg-white shadow-2xl
+          bg-white shadow-2xl flex flex-col
           transition-transform duration-500 ease-in-out lg:hidden
           ${mobileOpen ? "translate-x-0" : "translate-x-full"}
         `}
       >
         {/* Panel header */}
-        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100">
+        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100 shrink-0">
           <img src="/logo-black.png" alt="Logo" className="h-7 w-28 object-contain" />
           <button
             aria-label="Close menu"
@@ -312,7 +312,7 @@ export default function Navbar() {
         </div>
 
         {/* Links */}
-        <div className="overflow-y-auto h-[calc(100%-130px)]">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           {navLinks.map((link) => (
             <div key={link.label} className="border-b border-gray-100">
               <Link
@@ -345,7 +345,7 @@ export default function Navbar() {
         </div>
 
         {/* Panel footer CTA */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100">
+        <div className="shrink-0 p-6 bg-white border-t border-gray-100">
           <Link
             href="#"
             className="block w-full text-center py-3.5 bg-black text-white text-sm font-semibold tracking-wide hover:bg-gray-800 transition-colors"
@@ -387,34 +387,34 @@ export default function Navbar() {
                   <p className="text-sm text-gray-500">Share your details and we will help publish your listing.</p>
                 </div>
                 <div>
-                  <label className="block text-xs uppercase tracking-wide text-gray-500 mb-1.5">Name</label>
                   <input
                     required
+                    aria-label="Name"
+                    placeholder="Name"
                     value={listFormData.name}
                     onChange={(e) => setListFormData({ ...listFormData, name: e.target.value })}
                     className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black"
-                    placeholder="Your full name"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase tracking-wide text-gray-500 mb-1.5">Phone Number</label>
                   <input
                     required
+                    aria-label="Phone Number"
+                    placeholder="Phone Number"
                     value={listFormData.phone}
                     onChange={(e) => setListFormData({ ...listFormData, phone: e.target.value })}
                     className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black"
-                    placeholder="+971 50 XXX XXXX"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase tracking-wide text-gray-500 mb-1.5">Email</label>
                   <input
                     type="email"
                     required
+                    aria-label="Email"
+                    placeholder="Email"
                     value={listFormData.email}
                     onChange={(e) => setListFormData({ ...listFormData, email: e.target.value })}
                     className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-black"
-                    placeholder="you@example.com"
                   />
                 </div>
                 <div className="flex items-center gap-3 pt-1">
