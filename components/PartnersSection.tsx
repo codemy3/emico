@@ -11,33 +11,34 @@ const partners = [
 export default function PartnersSection() {
   return (
     <section className="py-10 bg-[#f3f6fa] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-6 md:gap-0">
+      <div className="w-full px-6 md:px-14 flex flex-col md:flex-row items-center gap-6 md:gap-8">
 
-        {/* Label — single line on mobile, 3 lines on desktop */}
-        <div className="flex-1 flex items-center justify-center md:justify-start w-full">
-          {/* Mobile: one line */}
+        {/* Label — mobile unchanged, desktop centered without extra width */}
+        <div
+          className="w-full md:shrink-0 flex items-center justify-center md:justify-start"
+          style={{ flexBasis: "430px" }}
+        >
           <span
             className="block md:hidden text-gray-700 font-light whitespace-nowrap"
             style={{ fontSize: 13, letterSpacing: ".04em", fontFamily: "var(--font-dm-serif), serif" }}
           >
             Partners with Dubai&apos;s leading developers
           </span>
-          {/* Desktop: 3 lines */}
           <span
-            className="hidden md:block text-gray-700 text-lg font-light leading-snug text-left"
-            style={{ letterSpacing: ".04em", fontFamily: "var(--font-dm-serif), serif" }}
+            className="hidden md:inline-block text-gray-700 font-light whitespace-nowrap text-center"
+            style={{ fontSize: 22, letterSpacing: ".03em", fontFamily: "var(--font-dm-serif), serif", lineHeight: 1.2 }}
           >
-            Partners with<br />Dubai&apos;s leading<br />developers
+            Partners with Dubai&apos;s leading developers
           </span>
         </div>
 
         {/* Marquee */}
-        <div className="flex-3 w-full max-w-4xl mx-auto overflow-hidden">
+        <div className="w-full md:flex-1 overflow-hidden">
           <div
             className="partner-marquee flex items-center gap-16"
-            style={{ minWidth: "200vw", animation: "marquee-rtl 22s linear infinite" }}
+            style={{ width: "max-content", animation: "marquee-rtl 22s linear infinite" }}
           >
-            {[...partners, ...partners, ...partners].map((partner, i) => (
+            {[...partners, ...partners].map((partner, i) => (
               <div key={i} className="flex items-center justify-center h-16">
                 <img
                   src={partner.src}

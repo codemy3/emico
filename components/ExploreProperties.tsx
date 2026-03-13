@@ -175,13 +175,13 @@ export default function ExploreProperties() {
       <div className="max-w-7xl mx-auto">
 
         {/* ── Header ── */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-6 gap-4">
+        <div className="flex flex-col items-center mb-6 gap-4 text-center">
           <motion.div
             variants={headerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center justify-center gap-3 mb-3">
               <motion.div
                 className="h-px bg-black origin-left"
                 style={{ width: 36 }}
@@ -215,16 +215,15 @@ export default function ExploreProperties() {
 
           {/* View All CTA */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.35 }}
           >
             <Link
               href="/properties"
-              className="group flex items-center gap-3 text-black text-xs font-bold tracking-[0.2em] uppercase hover:gap-5 transition-all duration-300"
+              className="inline-flex items-center text-black/80 text-[11px] font-semibold tracking-[0.18em] uppercase border-b border-black/30 pb-1 hover:text-black hover:border-black transition-colors duration-300"
             >
               View All Properties
-              <span className="block h-px bg-black w-8 group-hover:w-12 transition-all duration-300" />
             </Link>
           </motion.div>
         </div>

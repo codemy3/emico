@@ -41,7 +41,6 @@ const PROP_TYPE_MAP: Record<SubTab, string[]> = {
   "Multiple Units": PROPERTY_TYPES_MULTIPLE,
 };
 
-const PLOT_PROPERTY_TYPES = ["Commercial", "Residential", "Industrial", "Mix use"];
 const PROPERTY_CATEGORIES = ["Residential", "Commercial", "Industrial", "Mixed Use"] as const;
 type PropertyCategory = (typeof PROPERTY_CATEGORIES)[number];
 
@@ -120,7 +119,6 @@ export default function HeroSection() {
   const [category, setCategory]                 = useState<PropertyCategory>("Residential");
   const [activeSubTab, setActiveSubTab]         = useState<SubTab>("Residential");
   const [propType, setPropType]                 = useState("All in Residential");
-  const [plotType, setPlotType]                 = useState("Commercial");
   const [priceMin, setPriceMin]                 = useState("");
   const [priceMax, setPriceMax]                 = useState("");
   const [bedsMin, setBedsMin]                   = useState("");
@@ -148,7 +146,6 @@ export default function HeroSection() {
   useEffect(() => {
     setActiveSubTab("Residential");
     setPropType("All in Residential");
-    setPlotType("Commercial");
     setBedsMin(""); setBedsMax("");
     setPriceMin(""); setPriceMax("");
   }, [activeTab]);
@@ -192,7 +189,7 @@ export default function HeroSection() {
     params.set("city", city);
     if (location) params.set("location", location);
     params.set("category", category);
-    params.set("propertyType", isPlotsTab ? plotType : propType);
+    params.set("propertyType", isPlotsTab ? category : propType);
     if (priceMin) params.set("priceMin", priceMin);
     if (priceMax) params.set("priceMax", priceMax);
     if (!isPlotsTab && bedsMin) params.set("bedsMin", bedsMin);
@@ -202,7 +199,7 @@ export default function HeroSection() {
 
   const priceDisplay = priceMin || priceMax ? `${priceMin || "0"}–${priceMax || "Any"}` : "Any";
   const bedsDisplay  = bedsMin  || bedsMax  ? `${bedsMin  || "0"}–${bedsMax  || "Any"}` : "Any";
-  const moreCount    = (completionStatus !== "All" ? 1 : 0) + amenities.length;
+  const moreCount    = (completionStatus !== "All" ? 1 : 0) + (isPlotsTab ? 0 : amenities.length);
 
   return (
     <section
@@ -355,63 +352,49 @@ export default function HeroSection() {
                     </div>
                   </div>
 
-                  {/* ROW 2: PROP TYPE | PRICE | BEDS (3 equal cols, or 2 if Plots) */}
+                  {/* ROW 2: PROP TYPE | PRICE | BEDS (property type hidden for Plots) */}
                   <div style={{
                     display: "grid",
-                    gridTemplateColumns: isPlotsTab ? "1fr 1fr" : "1fr 1fr 1fr",
+                    gridTemplateColumns: isPlotsTab ? "1fr" : "1fr 1fr 1fr",
                     borderBottom: "1px solid rgba(255,255,255,0.08)",
                     position: "relative", zIndex: 20, overflow: "visible",
                   }}>
 
-                    {/* PROPERTY TYPE */}
-                    <div style={{ position: "relative", borderRight: "1px solid rgba(255,255,255,0.08)", overflow: "visible", zIndex: openDropdown === "type" ? 50 : "auto" }}>
-                      <button onClick={() => toggle("type")} style={{ width: "100%", minHeight: 48, padding: "10px 14px", display: "flex", flexDirection: "column", justifyContent: "center", background: "transparent", border: "none", cursor: "pointer", textAlign: "left" }}>
-                        <span style={labelStyle}>Prop. Type</span>
-                        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                          <span style={{ ...valueStyle, fontSize: 12 }}>
-                            {isPlotsTab ? plotType : propType.replace("All in ", "")}
-                          </span>
-                          <Chevron open={openDropdown === "type"} />
-                        </div>
-                      </button>
-                      <AnimatePresence>
-                        {openDropdown === "type" && (
-                          <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                            style={{ ...dropdownPanelStyle, position: "absolute", top: "calc(100% + 4px)", left: 0, width: "min(280px, 90vw)" }}>
-                            {isPlotsTab ? (
-                              <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                                {PLOT_PROPERTY_TYPES.map((opt) => (
+                    {/* PROPERTY TYPE (hidden on Plots) */}
+                    {!isPlotsTab && (
+                      <div style={{ position: "relative", borderRight: "1px solid rgba(255,255,255,0.08)", overflow: "visible", zIndex: openDropdown === "type" ? 50 : "auto" }}>
+                        <button onClick={() => toggle("type")} style={{ width: "100%", minHeight: 48, padding: "10px 14px", display: "flex", flexDirection: "column", justifyContent: "center", background: "transparent", border: "none", cursor: "pointer", textAlign: "left" }}>
+                          <span style={labelStyle}>Prop. Type</span>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <span style={{ ...valueStyle, fontSize: 12 }}>{propType.replace("All in ", "")}</span>
+                            <Chevron open={openDropdown === "type"} />
+                          </div>
+                        </button>
+                        <AnimatePresence>
+                          {openDropdown === "type" && (
+                            <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                              style={{ ...dropdownPanelStyle, position: "absolute", top: "calc(100% + 4px)", left: 0, width: "min(280px, 90vw)" }}>
+                              <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.1)", overflowX: "auto" }}>
+                                {SUB_TABS.map((sub) => (
+                                  <button key={sub} onClick={() => setActiveSubTab(sub)}
+                                    style={{ flex: 1, padding: "9px 6px", fontSize: 10, fontWeight: 600, whiteSpace: "nowrap", color: activeSubTab === sub ? "#fff" : "rgba(255,255,255,0.45)", borderBottom: activeSubTab === sub ? "2px solid rgba(255,255,255,0.7)" : "2px solid transparent", background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
+                                  >{sub}</button>
+                                ))}
+                              </div>
+                              <ul style={{ listStyle: "none", margin: 0, padding: 0, maxHeight: 200, overflowY: "auto" }}>
+                                {PROP_TYPE_MAP[activeSubTab].map((opt) => (
                                   <li key={opt}>
-                                    <button onClick={() => { setPlotType(opt); setOpenDropdown(null); }}
-                                      style={{ width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: plotType === opt ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: plotType === opt ? 600 : 400, background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
+                                    <button onClick={() => { setPropType(opt); setOpenDropdown(null); }}
+                                      style={{ width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: propType === opt ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: propType === opt ? 600 : 400, background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
                                     >{opt}</button>
                                   </li>
                                 ))}
                               </ul>
-                            ) : (
-                              <>
-                                <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.1)", overflowX: "auto" }}>
-                                  {SUB_TABS.map((sub) => (
-                                    <button key={sub} onClick={() => setActiveSubTab(sub)}
-                                      style={{ flex: 1, padding: "9px 6px", fontSize: 10, fontWeight: 600, whiteSpace: "nowrap", color: activeSubTab === sub ? "#fff" : "rgba(255,255,255,0.45)", borderBottom: activeSubTab === sub ? "2px solid rgba(255,255,255,0.7)" : "2px solid transparent", background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
-                                    >{sub}</button>
-                                  ))}
-                                </div>
-                                <ul style={{ listStyle: "none", margin: 0, padding: 0, maxHeight: 200, overflowY: "auto" }}>
-                                  {PROP_TYPE_MAP[activeSubTab].map((opt) => (
-                                    <li key={opt}>
-                                      <button onClick={() => { setPropType(opt); setOpenDropdown(null); }}
-                                        style={{ width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: propType === opt ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: propType === opt ? 600 : 400, background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
-                                      >{opt}</button>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </>
-                            )}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
 
                     {/* PRICE RANGE */}
                     <div style={{ position: "relative", borderRight: isPlotsTab ? undefined : "1px solid rgba(255,255,255,0.08)", overflow: "visible", zIndex: openDropdown === "price" ? 50 : "auto" }}>
@@ -615,38 +598,36 @@ export default function HeroSection() {
                     </AnimatePresence>
                   </div>
 
-                  <VDivider />
+                  {!isPlotsTab ? (
+                    <>
+                      <VDivider />
 
-                  {/* PROPERTY TYPE */}
-                  <div className="relative flex-1 min-w-0">
-                    <button onClick={() => toggle("type")} className="w-full h-full min-h-16 px-5 flex flex-col justify-center hover:bg-white/5 transition-colors" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>
-                      <span style={labelStyle}>Property Type</span>
-                      <div className="flex items-center gap-1.5"><span style={valueStyle}>{isPlotsTab ? plotType : propType}</span><Chevron open={openDropdown === "type"} /></div>
-                    </button>
-                    <AnimatePresence>
-                      {openDropdown === "type" && (
-                        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.16 }}
-                          className="absolute top-[calc(100%+6px)] left-0 w-full min-w-60 max-w-xs" style={dropdownPanelStyle}>
-                          {isPlotsTab ? (
-                            <ul className="list-none m-0 p-0">
-                              {PLOT_PROPERTY_TYPES.map((opt) => (<li key={opt}><button onClick={() => { setPlotType(opt); setOpenDropdown(null); }} className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${plotType === opt ? "text-white font-semibold" : "text-white/75"}`} style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{opt}</button></li>))}
-                            </ul>
-                          ) : (
-                            <>
+                      {/* PROPERTY TYPE */}
+                      <div className="relative flex-1 min-w-0">
+                        <button onClick={() => toggle("type")} className="w-full h-full min-h-16 px-5 flex flex-col justify-center hover:bg-white/5 transition-colors" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>
+                          <span style={labelStyle}>Property Type</span>
+                          <div className="flex items-center gap-1.5"><span style={valueStyle}>{propType}</span><Chevron open={openDropdown === "type"} /></div>
+                        </button>
+                        <AnimatePresence>
+                          {openDropdown === "type" && (
+                            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.16 }}
+                              className="absolute top-[calc(100%+6px)] left-0 w-full min-w-60 max-w-xs" style={dropdownPanelStyle}>
                               <div className="flex border-b border-white/10 overflow-x-auto">
                                 {SUB_TABS.map((sub) => (<button key={sub} onClick={() => setActiveSubTab(sub)} className="flex-1 py-2.5 px-2 text-[11px] font-semibold transition-colors whitespace-nowrap" style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: activeSubTab === sub ? "#fff" : "rgba(255,255,255,0.5)", borderBottom: activeSubTab === sub ? "2px solid rgba(255,255,255,0.7)" : "2px solid transparent", background: "transparent" }}>{sub}</button>))}
                               </div>
                               <ul className="list-none m-0 p-0 overflow-y-auto max-h-52">
                                 {PROP_TYPE_MAP[activeSubTab].map((opt) => (<li key={opt}><button onClick={() => { setPropType(opt); setOpenDropdown(null); }} className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${propType === opt ? "text-white font-semibold" : "text-white/75"}`} style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{opt}</button></li>))}
                               </ul>
-                            </>
+                            </motion.div>
                           )}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                        </AnimatePresence>
+                      </div>
 
-                  <VDivider />
+                      <VDivider />
+                    </>
+                  ) : (
+                    <VDivider />
+                  )}
 
                   {/* PRICE RANGE */}
                   <div className="relative flex-1 min-w-0">
@@ -715,15 +696,19 @@ export default function HeroSection() {
                                 </label>
                               ))}
                             </div>
-                            <p className="text-[12px] text-white/60 uppercase tracking-wide mb-3" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>Amenities</p>
-                            <div className="grid grid-cols-2 gap-y-2.5 gap-x-4">
-                              {AMENITIES.map((a) => (
-                                <label key={a} className="flex items-center gap-2 cursor-pointer">
-                                  <input type="checkbox" checked={amenities.includes(a)} onChange={() => toggleAmenity(a)} className="w-4 h-4 cursor-pointer accent-white" />
-                                  <span className="text-[13px] text-white/80" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{a}</span>
-                                </label>
-                              ))}
-                            </div>
+                            {!isPlotsTab && (
+                              <>
+                                <p className="text-[12px] text-white/60 uppercase tracking-wide mb-3" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>Amenities</p>
+                                <div className="grid grid-cols-2 gap-y-2.5 gap-x-4">
+                                  {AMENITIES.map((a) => (
+                                    <label key={a} className="flex items-center gap-2 cursor-pointer">
+                                      <input type="checkbox" checked={amenities.includes(a)} onChange={() => toggleAmenity(a)} className="w-4 h-4 cursor-pointer accent-white" />
+                                      <span className="text-[13px] text-white/80" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{a}</span>
+                                    </label>
+                                  ))}
+                                </div>
+                              </>
+                            )}
                           </div>
                           <div className="px-5 pb-5">
                             <motion.button onClick={() => setOpenDropdown(null)} whileHover={{ backgroundColor: "#2a2a2a" }} whileTap={{ scale: 0.97 }}

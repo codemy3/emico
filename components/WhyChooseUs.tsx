@@ -155,7 +155,7 @@ export default function WhyChooseUs() {
       <div className="max-w-7xl mx-auto px-6 mb-16">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div
-            className={`transition-all duration-700 ${
+            className={`transition-all duration-700 text-center lg:text-center ${
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >

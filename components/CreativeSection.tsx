@@ -26,8 +26,16 @@ function HangingBoard() {
       }}>
         <div style={{ position: "absolute", top: -8, left: "50%", transform: "translateX(-50%)", width: 16, height: 16, borderRadius: "50%", background: "#e5e7eb", border: "2px solid #d1d5db" }} />
         <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 4 }}>Starting From</div>
-        <div style={{ fontFamily: "var(--font-dm-serif), serif", color: "#fff", fontSize: "1.5rem", lineHeight: 1 }}>AED 590K</div>
-        <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, marginTop: 5 }}>1BR</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <img
+            src="/dirham.png"
+            alt=""
+            aria-hidden
+            style={{ width: 22, height: 22, objectFit: "contain", filter: "brightness(0) invert(1)" }}
+          />
+          <div style={{ fontFamily: "var(--font-dm-serif), serif", color: "#fff", fontSize: "1.5rem", lineHeight: 1 }}>590K</div>
+        </div>
+        <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, marginTop: 5 }}>Onwards</div>
         <div style={{ position: "absolute", inset: 0, borderRadius: 8, background: "linear-gradient(130deg,rgba(255,255,255,0.07) 0%,transparent 55%)", pointerEvents: "none" }} />
       </div>
       <div style={{ width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderTop: "8px solid #111", marginTop: -1 }} />
@@ -216,11 +224,11 @@ export default function CreativeSection() {
             ))}
           </div>
 
-          <div style={{ background: "#0a0a0a", padding: "36px 32px", display: "flex", flexDirection: "column", justifyContent: "center", minWidth: 260, flexShrink: 0 }}>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 12 }}>Ready to invest?</p>
-            <h3 style={{ fontFamily: "var(--font-dm-serif), serif", color: "#fff", fontSize: "1.55rem", fontWeight: 400, lineHeight: 1.2, marginBottom: 20 }}>
-              Talk to an expert<br />
-              <em style={{ color: "rgba(255,255,255,0.5)" }}>today — free.</em>
+          <div style={{ background: "#0a0a0a", padding: "36px 32px", display: "flex", flexDirection: "column", justifyContent: "center", minWidth: 260, flexShrink: 0, textAlign: "left" }}>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: 12, textAlign: "left" }}>Ready to invest?</p>
+            <h3 style={{ fontFamily: "var(--font-dm-serif), serif", color: "#fff", fontSize: "1.55rem", fontWeight: 400, lineHeight: 1.15, marginBottom: 20, textAlign: "left" }}>
+              <span style={{ display: "block" }}>Talk to an expert</span>
+              <em style={{ display: "block", color: "rgba(255,255,255,0.5)", fontStyle: "italic" }}>today — free.</em>
             </h3>
             <a
               href="/contact"
