@@ -59,22 +59,21 @@ const PROPERTIES: Property[] = [
   { id: "p27", title: "La Rosa Townhouses",            developer: "Dubai Properties",  developerLogo: "/developers/dubai-properties-logo.png", location: "Villanova",          community: "Villanova",               type: "Townhouse",  status: "Ready",              beds: "3",      baths: 3, size: 1900,  price: 1400000,  priceLabel: "AED 1,400,000",  image: "/developers/valley.jpg",           roi: "5.6%",  tags: ["Family", "Spanish Style"] },
 ];
 
-const TYPES: PropertyType[] = ["Apartment", "Villa", "Townhouse", "Penthouse", "Studio", "Commercial"];
-const STATUSES: PropertyStatus[] = ["Ready", "Off-Plan", "Under Construction"];
+const TYPES: PropertyType[] = ["Apartment", "Villa", "Townhouse", "Penthouse", "Commercial"];
+const STATUSES: PropertyStatus[] = ["Ready", "Off-Plan"];
 const BEDS = ["Studio", "1", "2", "3", "4", "5+"] as const;
-const DEVELOPERS = Array.from(new Set(PROPERTIES.map((p) => p.developer))).sort();
-const PRICE_OPTIONS = ["Under AED 1M", "AED 1M – 3M", "AED 3M – 7M", "AED 7M+"] as const;
-const RESIDENTIAL_TYPES: PropertyType[] = ["Apartment", "Villa", "Townhouse", "Penthouse", "Studio"];
+const DEVELOPERS = ["Beyond", "Nakheel", "Emaar", "DP World", "Meraas", "Sobha"] as const;
+const PRICE_OPTIONS = ["AED 500K - 1M", "AED 2M - 3M", "AED 3M+"] as const;
+const RESIDENTIAL_TYPES: PropertyType[] = ["Apartment", "Villa", "Townhouse", "Penthouse"];
 
 function isValidCategory(value: string | null): value is PropertyCategory {
   return value === "Residential" || value === "Commercial";
 }
 
 function inPriceRange(price: number, range: string) {
-  if (range === "Under AED 1M") return price < 1000000;
-  if (range === "AED 1M – 3M") return price >= 1000000 && price <= 3000000;
-  if (range === "AED 3M – 7M") return price > 3000000 && price <= 7000000;
-  if (range === "AED 7M+") return price > 7000000;
+  if (range === "AED 500K - 1M") return price >= 500000 && price <= 1000000;
+  if (range === "AED 2M - 3M") return price >= 2000000 && price <= 3000000;
+  if (range === "AED 3M+") return price >= 3000000;
   return true;
 }
 

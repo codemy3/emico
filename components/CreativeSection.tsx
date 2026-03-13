@@ -86,7 +86,7 @@ export default function CreativeSection() {
             <em style={{ fontStyle: "italic", color: "#888" }}>investable city.</em>
           </h2>
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "#6b7280", maxWidth: 400, marginBottom: 36 }}>
-            Zero tax. UAE Golden Visa. Record yields. One of the safest, most liveable cities on earth.
+            Zero property tax, access to the UAE Golden Visa, strong yield potential, and one of the world's safest and most liveable places to call home.
           </p>
           <a
             href="/properties"

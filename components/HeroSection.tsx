@@ -16,11 +16,12 @@ const CITIES = [
 const PROPERTY_TYPES_RESIDENTIAL = [
   "All in Residential", "Apartment", "Villa", "Townhouse",
   "Penthouse", "Hotel Apartment", "Residential Building",
-  "Residential Floor", "Villa Compound",
+  "Residential Floor",
 ];
 const PROPERTY_TYPES_COMMERCIAL = [
-  "All in Commercial", "Office", "Shop", "Warehouse",
-  "Labour Camp", "Commercial Building", "Commercial Floor", "Commercial Villa",
+  "All in Commercial", "Office", "Retail", "Industrial",
+  "Staff Accomm", "Shop", "Warehouse", "Commercial Floor",
+  "Commercial Building", "Commercial Villa", "Factory", "Showroom", "Other",
 ];
 const PROPERTY_TYPES_LAND = [
   "All in Land", "Residential Land", "Commercial Land",
