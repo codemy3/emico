@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Bath, BedDouble, MapPin, Maximize2, Search, SlidersHorizontal, X } from "lucide-react";
 
@@ -83,7 +84,7 @@ function filterButtonClass(isActive: boolean) {
   }`;
 }
 
-export default function PropertiesPage() {
+function PropertiesPageClient() {
   const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
@@ -350,5 +351,13 @@ export default function PropertiesPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={<div className="bg-[#f8f7f5] min-h-screen pt-24 pb-16 px-4 md:px-6" />}>
+      <PropertiesPageClient />
+    </Suspense>
   );
 }
