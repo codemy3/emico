@@ -4,7 +4,7 @@ export interface ProjectItem {
   name: string;
   image?: string;
   type?: string;
-  status?: "Off-Plan" | "Ready" | "Under Construction";
+  status?: "Off-Plan" | "Ready";
   price?: string;
   beds?: string;
   baths?: string;
@@ -77,7 +77,7 @@ export const developers: Developer[] = [
         name: "Emaar Beachfront – Beach Vista",
         image: "/developers/emaar.jpeg",
         type: "Apartment",
-        status: "Under Construction",
+        status: "Off-Plan",
         price: "From AED 1,800,000",
         beds: "1–3 Beds",
         baths: "1–3 Baths",
@@ -596,7 +596,7 @@ export const developers: Developer[] = [
         name: "BEYOND Marina Lofts",
         image: "/developers/al.jpg",
         type: "Penthouse",
-        status: "Under Construction",
+        status: "Off-Plan",
         price: "From AED 3,900,000",
         beds: "2-4 Beds",
         baths: "2-4 Baths",
@@ -629,7 +629,7 @@ export const developers: Developer[] = [
         name: "Logistics Hub Warehouses",
         image: "/developers/dubaisportcity.webp",
         type: "Warehouse",
-        status: "Under Construction",
+        status: "Off-Plan",
         price: "From AED 6,100,000",
         beds: "N/A",
         baths: "2 Baths",

@@ -20,7 +20,7 @@ const stageCards = [
     icon: Sparkles,
   },
   {
-    title: "Under Construction",
+    title: "Off-Plan",
     href: "/properties",
     description:
       "Projects already in motion for buyers who want staged payments with clearer delivery visibility and construction progress.",
@@ -42,7 +42,7 @@ const stageCards = [
 const featuredProjects = [
   {
     name: "Beach Vista",
-    stage: "Under Construction",
+    stage: "Off-Plan",
     location: "Emaar Beachfront",
     developer: "Emaar Properties",
     price: "From AED 1.8M",

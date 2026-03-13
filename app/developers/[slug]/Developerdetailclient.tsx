@@ -12,7 +12,7 @@ interface Project {
   name: string;
   images: string[];
   type: string;
-  status: "Off-Plan" | "Ready" | "Under Construction";
+  status: "Off-Plan" | "Ready";
   price: string;
   beds: string;
   baths: string;

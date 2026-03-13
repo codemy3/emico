@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Bath, BedDouble, MapPin, Maximize2, Search, SlidersHorizontal, X } from "lucide-react";
 
 type PropertyType = "Apartment" | "Villa" | "Townhouse" | "Penthouse" | "Studio" | "Commercial";
-type PropertyStatus = "Ready" | "Off-Plan" | "Under Construction";
+type PropertyStatus = "Ready" | "Off-Plan";
 type PropertyCategory = "Residential" | "Commercial";
 
 interface Property {
@@ -32,7 +32,7 @@ interface Property {
 const PROPERTIES: Property[] = [
   { id: "p1",  title: "The Address Residences",       developer: "Emaar Properties",  developerLogo: "/developers/emaar-logo.png",            location: "Downtown Dubai",     community: "Downtown Dubai",          type: "Apartment",  status: "Ready",              beds: "2",      baths: 2, size: 1250,  price: 2500000,  priceLabel: "AED 2,500,000",  image: "/developers/downtown.jpeg",        roi: "6.2%",  tags: ["Burj Views", "High ROI"] },
   { id: "p2",  title: "Park Lane Villas",              developer: "Emaar Properties",  developerLogo: "/developers/emaar-logo.png",            location: "Dubai Hills Estate", community: "Dubai Hills Estate",      type: "Villa",      status: "Off-Plan",           beds: "4",      baths: 4, size: 3400,  price: 3200000,  priceLabel: "AED 3,200,000",  image: "/developers/dubaihills.jpeg",      completionYear: 2027, tags: ["Golf Views", "Gated"] },
-  { id: "p3",  title: "Beach Vista",                   developer: "Emaar Properties",  developerLogo: "/developers/emaar-logo.png",            location: "Emaar Beachfront",   community: "Emaar Beachfront",        type: "Apartment",  status: "Under Construction", beds: "1",      baths: 1, size: 780,   price: 1800000,  priceLabel: "AED 1,800,000",  image: "/developers/emaar.jpeg",           completionYear: 2026, tags: ["Sea Views", "Beach Access"] },
+  { id: "p3",  title: "Beach Vista",                   developer: "Emaar Properties",  developerLogo: "/developers/emaar-logo.png",            location: "Emaar Beachfront",   community: "Emaar Beachfront",        type: "Apartment",  status: "Off-Plan",          beds: "1",      baths: 1, size: 780,   price: 1800000,  priceLabel: "AED 1,800,000",  image: "/developers/emaar.jpeg",           completionYear: 2026, tags: ["Sea Views", "Beach Access"] },
   { id: "p4",  title: "Trump Villas",                  developer: "DAMAC Properties",  developerLogo: "/developers/damac-logo.png",            location: "DAMAC Hills",        community: "DAMAC Hills",             type: "Villa",      status: "Ready",              beds: "4",      baths: 4, size: 3800,  price: 2800000,  priceLabel: "AED 2,800,000",  image: "/developers/damac.jpg",            roi: "5.8%",  tags: ["Golf Club", "Gated"] },
   { id: "p5",  title: "Malta Cluster Townhouses",      developer: "DAMAC Properties",  developerLogo: "/developers/damac-logo.png",            location: "DAMAC Lagoons",      community: "DAMAC Lagoons",           type: "Townhouse",  status: "Off-Plan",           beds: "3",      baths: 3, size: 2200,  price: 1600000,  priceLabel: "AED 1,600,000",  image: "/developers/lagoos.jpg",           completionYear: 2027, tags: ["Lagoon", "Beach"] },
   { id: "p6",  title: "DAMAC Bay by Cavalli",          developer: "DAMAC Properties",  developerLogo: "/developers/damac-logo.png",            location: "Dubai Harbour",      community: "Dubai Harbour",           type: "Apartment",  status: "Off-Plan",           beds: "3",      baths: 3, size: 2100,  price: 4500000,  priceLabel: "AED 4,500,000",  image: "/developers/damac2.webp",          completionYear: 2026, tags: ["Cavalli Design", "Ultra Luxury"] },
@@ -182,7 +182,7 @@ function PropertiesPageClient() {
           <h1 className="text-2xl md:text-4xl font-bold" style={{ fontFamily: "var(--font-dm-serif), serif" }}>
             Find Your Perfect Property in Dubai
           </h1>
-          <div className="flex items-center bg-white border border-gray-200 w-full lg:w-[430px]">
+          <div className="flex items-center bg-white border border-gray-200 w-full" style={{ maxWidth: 430 }}>
             <Search size={16} className="text-gray-400 ml-3 shrink-0" />
             <input
               value={search}
