@@ -26,8 +26,8 @@ function HangingBoard() {
       }}>
         <div style={{ position: "absolute", top: -8, left: "50%", transform: "translateX(-50%)", width: 16, height: 16, borderRadius: "50%", background: "#e5e7eb", border: "2px solid #d1d5db" }} />
         <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 4 }}>Starting From</div>
-        <div style={{ fontFamily: "var(--font-dm-serif), serif", color: "#fff", fontSize: "1.5rem", lineHeight: 1 }}>1BR onwards</div>
-        <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, marginTop: 5 }}>Limited inventory</div>
+        <div style={{ fontFamily: "var(--font-dm-serif), serif", color: "#fff", fontSize: "1.5rem", lineHeight: 1 }}>AED 590K</div>
+        <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, marginTop: 5 }}>1BR</div>
         <div style={{ position: "absolute", inset: 0, borderRadius: 8, background: "linear-gradient(130deg,rgba(255,255,255,0.07) 0%,transparent 55%)", pointerEvents: "none" }} />
       </div>
       <div style={{ width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderTop: "8px solid #111", marginTop: -1 }} />

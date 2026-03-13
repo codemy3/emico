@@ -37,11 +37,6 @@ const navLinks: NavLink[] = [
   {
     label: "Projects",
     href: "/projects",
-    dropdown: [
-      { label: "New Launches", href: "/projects/new-launches" },
-      { label: "Under Construction", href: "/projects/under-construction" },
-      { label: "Completed Projects", href: "/projects/completed" },
-    ],
   },
   {
     label: "Services",

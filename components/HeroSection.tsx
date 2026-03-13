@@ -13,12 +13,43 @@ const CITIES = [
   "Sharjah", "Fujairah", "Ajman", "Umm al Quwain", "Al Ain",
 ];
 
-const PROPERTY_TYPES = [
-  "Apartment", "Villa", "Studio", "Townhouse", "Commercial", "Rental Properties",
+const PROPERTY_TYPES_RESIDENTIAL = [
+  "All in Residential", "Apartment", "Villa", "Townhouse",
+  "Penthouse", "Hotel Apartment", "Residential Building",
+  "Residential Floor", "Villa Compound",
+];
+const PROPERTY_TYPES_COMMERCIAL = [
+  "All in Commercial", "Office", "Shop", "Warehouse",
+  "Labour Camp", "Commercial Building", "Commercial Floor", "Commercial Villa",
+];
+const PROPERTY_TYPES_LAND = [
+  "All in Land", "Residential Land", "Commercial Land",
+  "Industrial Land", "Mixed Use Land",
+];
+const PROPERTY_TYPES_MULTIPLE = [
+  "All in Multiple Units", "Full Building", "Full Floor", "Full Villa Compound",
 ];
 
+const SUB_TABS = ["Residential", "Commercial", "Land", "Multiple Units"] as const;
+type SubTab = (typeof SUB_TABS)[number];
+
+const PROP_TYPE_MAP: Record<SubTab, string[]> = {
+  "Residential":    PROPERTY_TYPES_RESIDENTIAL,
+  "Commercial":     PROPERTY_TYPES_COMMERCIAL,
+  "Land":           PROPERTY_TYPES_LAND,
+  "Multiple Units": PROPERTY_TYPES_MULTIPLE,
+};
+
 const PLOT_PROPERTY_TYPES = ["Commercial", "Residential", "Industrial", "Mix use"];
-const PROPERTY_CATEGORIES = ["Residential", "Commercial", "Industrial", "Mixed Use"];
+const PROPERTY_CATEGORIES = ["Residential", "Commercial", "Industrial", "Mixed Use"] as const;
+type PropertyCategory = (typeof PROPERTY_CATEGORIES)[number];
+
+const CATEGORY_TO_SUBTAB: Record<PropertyCategory, SubTab> = {
+  "Residential": "Residential",
+  "Commercial": "Commercial",
+  "Industrial": "Land",
+  "Mixed Use": "Multiple Units",
+};
 
 const AMENITIES = [
   "Maids Room", "Study", "Central A/C & Heating", "Concierge Service",
@@ -85,8 +116,9 @@ export default function HeroSection() {
   const [activeTab, setActiveTab]               = useState<Tab>("Buy");
   const [city, setCity]                         = useState("Dubai");
   const [location, setLocation]                 = useState("");
-  const [category, setCategory]                 = useState("Residential");
-  const [propType, setPropType]                 = useState("Apartment");
+  const [category, setCategory]                 = useState<PropertyCategory>("Residential");
+  const [activeSubTab, setActiveSubTab]         = useState<SubTab>("Residential");
+  const [propType, setPropType]                 = useState("All in Residential");
   const [plotType, setPlotType]                 = useState("Commercial");
   const [priceMin, setPriceMin]                 = useState("");
   const [priceMax, setPriceMax]                 = useState("");
@@ -113,11 +145,24 @@ export default function HeroSection() {
   useEffect(() => { videoRef.current?.play().catch(() => {}); }, []);
 
   useEffect(() => {
-    setPropType("Apartment");
+    setActiveSubTab("Residential");
+    setPropType("All in Residential");
     setPlotType("Commercial");
     setBedsMin(""); setBedsMax("");
     setPriceMin(""); setPriceMax("");
   }, [activeTab]);
+
+  useEffect(() => {
+    setPropType(PROP_TYPE_MAP[activeSubTab][0]);
+  }, [activeSubTab]);
+
+  const applyCategory = (nextCategory: PropertyCategory) => {
+    setCategory(nextCategory);
+    if (!isPlotsTab) {
+      setActiveSubTab(CATEGORY_TO_SUBTAB[nextCategory]);
+    }
+    setOpenDropdown(null);
+  };
 
   useEffect(() => {
     const close = (e: MouseEvent) => {
@@ -298,7 +343,7 @@ export default function HeroSection() {
                             style={{ ...dropdownPanelStyle, position: "absolute", top: "calc(100% + 4px)", right: 0, width: "200%", listStyle: "none", margin: 0, padding: 0 }}>
                             {PROPERTY_CATEGORIES.map((opt) => (
                               <li key={opt}>
-                                <button onClick={() => { setCategory(opt); setOpenDropdown(null); }}
+                                <button onClick={() => applyCategory(opt)}
                                   style={{ width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: category === opt ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: category === opt ? 600 : 400, background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
                                 >{opt}</button>
                               </li>
@@ -343,15 +388,24 @@ export default function HeroSection() {
                                 ))}
                               </ul>
                             ) : (
-                              <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                                {PROPERTY_TYPES.map((opt) => (
-                                  <li key={opt}>
-                                    <button onClick={() => { setPropType(opt); setOpenDropdown(null); }}
-                                      style={{ width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: propType === opt ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: propType === opt ? 600 : 400, background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
-                                    >{opt}</button>
-                                  </li>
-                                ))}
-                              </ul>
+                              <>
+                                <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.1)", overflowX: "auto" }}>
+                                  {SUB_TABS.map((sub) => (
+                                    <button key={sub} onClick={() => setActiveSubTab(sub)}
+                                      style={{ flex: 1, padding: "9px 6px", fontSize: 10, fontWeight: 600, whiteSpace: "nowrap", color: activeSubTab === sub ? "#fff" : "rgba(255,255,255,0.45)", borderBottom: activeSubTab === sub ? "2px solid rgba(255,255,255,0.7)" : "2px solid transparent", background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
+                                    >{sub}</button>
+                                  ))}
+                                </div>
+                                <ul style={{ listStyle: "none", margin: 0, padding: 0, maxHeight: 200, overflowY: "auto" }}>
+                                  {PROP_TYPE_MAP[activeSubTab].map((opt) => (
+                                    <li key={opt}>
+                                      <button onClick={() => { setPropType(opt); setOpenDropdown(null); }}
+                                        style={{ width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: propType === opt ? "#fff" : "rgba(255,255,255,0.7)", fontWeight: propType === opt ? 600 : 400, background: "transparent", border: "none", cursor: "pointer", fontFamily: "var(--font-dm-sans), sans-serif" }}
+                                      >{opt}</button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </>
                             )}
                           </motion.div>
                         )}
@@ -554,7 +608,7 @@ export default function HeroSection() {
                       {openDropdown === "category" && (
                         <motion.ul initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.16 }}
                           className="absolute top-[calc(100%+6px)] left-0 w-full min-w-50 list-none m-0 p-0" style={dropdownPanelStyle}>
-                          {PROPERTY_CATEGORIES.map((opt) => (<li key={opt}><button onClick={() => { setCategory(opt); setOpenDropdown(null); }} className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${category === opt ? "text-white font-semibold" : "text-white/75"}`} style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{opt}</button></li>))}
+                          {PROPERTY_CATEGORIES.map((opt) => (<li key={opt}><button onClick={() => applyCategory(opt)} className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${category === opt ? "text-white font-semibold" : "text-white/75"}`} style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{opt}</button></li>))}
                         </motion.ul>
                       )}
                     </AnimatePresence>
@@ -577,9 +631,14 @@ export default function HeroSection() {
                               {PLOT_PROPERTY_TYPES.map((opt) => (<li key={opt}><button onClick={() => { setPlotType(opt); setOpenDropdown(null); }} className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${plotType === opt ? "text-white font-semibold" : "text-white/75"}`} style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{opt}</button></li>))}
                             </ul>
                           ) : (
-                            <ul className="list-none m-0 p-0">
-                              {PROPERTY_TYPES.map((opt) => (<li key={opt}><button onClick={() => { setPropType(opt); setOpenDropdown(null); }} className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${propType === opt ? "text-white font-semibold" : "text-white/75"}`} style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{opt}</button></li>))}
-                            </ul>
+                            <>
+                              <div className="flex border-b border-white/10 overflow-x-auto">
+                                {SUB_TABS.map((sub) => (<button key={sub} onClick={() => setActiveSubTab(sub)} className="flex-1 py-2.5 px-2 text-[11px] font-semibold transition-colors whitespace-nowrap" style={{ fontFamily: "var(--font-dm-sans), sans-serif", color: activeSubTab === sub ? "#fff" : "rgba(255,255,255,0.5)", borderBottom: activeSubTab === sub ? "2px solid rgba(255,255,255,0.7)" : "2px solid transparent", background: "transparent" }}>{sub}</button>))}
+                              </div>
+                              <ul className="list-none m-0 p-0 overflow-y-auto max-h-52">
+                                {PROP_TYPE_MAP[activeSubTab].map((opt) => (<li key={opt}><button onClick={() => { setPropType(opt); setOpenDropdown(null); }} className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-white/10 transition-colors ${propType === opt ? "text-white font-semibold" : "text-white/75"}`} style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>{opt}</button></li>))}
+                              </ul>
+                            </>
                           )}
                         </motion.div>
                       )}

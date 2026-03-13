@@ -255,7 +255,7 @@ export default function ServicesPage() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(15,12,8,0.93) 0%, rgba(15,12,8,0.6) 55%, rgba(15,12,8,0.15) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,12,8,0.55) 0%, transparent 50%)" }} />
 
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center" }}>
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", paddingTop: "84px" }}>
           <div className="svc-hero-content">
             <div className="svc-hero-text">
               <p style={{

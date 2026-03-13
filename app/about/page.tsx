@@ -68,12 +68,6 @@ const pillars = [
   { num: "03", title: "End-to-End Support",       description: "From shortlisting and developer negotiations through to documentation and key handover — one dedicated team handles the entire process.",                          img: "/developers/dubaicreek.jpeg" },
 ];
 
-const values = [
-  { roman: "I",   title: "Transparency First", body: "No hidden fees or conflicting incentives. We disclose pricing, developer margins, and our advisory structure so every decision is made with complete clarity." },
-  { roman: "II",  title: "Dubai Specialists",   body: "We work exclusively in Dubai's property market. That singular focus gives us deeper developer relationships, sharper market intelligence, and better client outcomes." },
-  { roman: "III", title: "Client-Aligned",       body: "Every recommendation is shaped around your objective — whether lifestyle, rental yield, or long-term capital appreciation — never by developer commissions." },
-];
-
 const snapshot = [
   { label: "Focus Market",  value: "Dubai, UAE" },
   { label: "Inventory",     value: "Ready & Off-Plan" },
@@ -148,22 +142,6 @@ export default function AboutPage() {
         @media (max-width: 480px) {
           .ab-who-badge { top: -10px; right: -10px; padding: 12px 16px; }
         }
-
-        /* ── MOSAIC ── */
-        .ab-mosaic { display: grid; grid-template-columns: 1.9fr 1fr 1fr; height: 340px; gap: 4px; }
-        @media (max-width: 900px) {
-          .ab-mosaic { grid-template-columns: 1fr 1fr; height: auto; }
-          .ab-mosaic > div:first-child { grid-column: span 2; height: 240px; }
-          .ab-mosaic > div:not(:first-child) { height: 180px; }
-        }
-        @media (max-width: 480px) {
-          .ab-mosaic { grid-template-columns: 1fr; }
-          .ab-mosaic > div:first-child { grid-column: span 1; height: 200px; }
-          .ab-mosaic > div:not(:first-child) { height: 160px; }
-        }
-
-        .mosaic-img { transition: transform 0.7s ease; }
-        .mosaic-wrap:hover .mosaic-img { transform: scale(1.05); }
 
         /* ── VALUES ── */
         .ab-principles-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
@@ -301,6 +279,47 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* ══ COMPANY SNAPSHOT ══ */}
+        <section className="ab-section" style={{ backgroundColor: "#0a0908" }}>
+          <div className="ab-container">
+            <div className="ab-snapshot-grid">
+
+              <FadeLeft>
+                <div className="ab-collage">
+                  <div className="ab-collage-top">
+                    <img src="/developers/emaar.webp" alt="Dubai skyline" className="snap-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 1s ease" }} />
+                  </div>
+                  <div className="ab-collage-bot">
+                    <img src="/developers/dubaihills.jpeg" alt="Dubai Hills" className="snap-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 1s ease" }} />
+                  </div>
+                  <div className="ab-collage-bot">
+                    <img src="/developers/valley.jpg" alt="The Valley" className="snap-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 1s ease" }} />
+                  </div>
+                </div>
+              </FadeLeft>
+
+              <FadeRight delay={100}>
+                <p style={{ fontSize: 10, letterSpacing: "0.44em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: 22 }}>Company Snapshot</p>
+                <h2 className="ab-serif" style={{ fontSize: "clamp(1.7rem, 3.2vw, 3rem)", fontWeight: 400, color: "#fff", lineHeight: 1.18, marginBottom: 36 }}>
+                  Operating at the<br /><em style={{ fontStyle: "italic", fontWeight: 600 }}>heart of Dubai's</em><br />property market.
+                </h2>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {snapshot.map((row, i) => (
+                    <div key={row.label} className="snap-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "13px 8px", borderBottom: i < snapshot.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none", gap: 12 }}>
+                      <span style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.32)" }}>{row.label}</span>
+                      <span style={{ fontSize: 13, color: "rgba(255,255,255,0.78)", fontWeight: 500, textAlign: "right" }}>{row.value}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link href="/contact" className="cta-primary" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 32, padding: "14px 30px", backgroundColor: "#1a1814", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.2s" }}>
+                  Speak With an Advisor
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ width: 12, height: 12 }}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </Link>
+              </FadeRight>
+            </div>
+          </div>
+        </section>
+
         {/* ══ WHO WE ARE ══ */}
         <section style={{ paddingTop: "clamp(40px,6vw,72px)" }}>
           <div className="ab-container">
@@ -339,59 +358,6 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Mosaic */}
-          <div className="ab-mosaic">
-            {[
-              { src: "/developers/dubaicreek.jpeg", area: "Dubai Creek Harbour", label: "Waterfront Living" },
-              { src: "/developers/dubaihills.jpeg", area: "Dubai Hills",          label: "Urban Retreat" },
-              { src: "/developers/sobha.webp",      area: "Sobha Realty",         label: "Crafted Excellence" },
-            ].map((item, i) => (
-              <FadeUp key={item.area} delay={i * 100} style={{ height: "100%" }}>
-                <div className="mosaic-wrap" style={{ position: "relative", overflow: "hidden", height: "100%" }}>
-                  <img src={item.src} alt={item.area} className="mosaic-img" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.08) 55%, transparent 100%)" }} />
-                  <div style={{ position: "absolute", bottom: 20, left: 20 }}>
-                    <p style={{ fontSize: 9, letterSpacing: "0.34em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", margin: "0 0 4px" }}>{item.area}</p>
-                    <p className="ab-serif" style={{ fontSize: "clamp(1.1rem,1.8vw,1.45rem)", fontWeight: 600, color: "#fff", margin: 0, lineHeight: 1.2 }}>{item.label}</p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </section>
-
-        {/* ══ VALUES ══ */}
-        <section className="ab-section" style={{ backgroundColor: "#0a0908" }}>
-          <div className="ab-container">
-            <div className="ab-principles-header">
-              <FadeLeft>
-                <p style={{ fontSize: 10, letterSpacing: "0.44em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: 18 }}>Our Principles</p>
-                <h2 className="ab-serif" style={{ fontSize: "clamp(2rem, 3.8vw, 3.4rem)", fontWeight: 400, color: "#fff", lineHeight: 1.12, margin: 0 }}>
-                  What guides every<br /><em style={{ fontStyle: "italic", fontWeight: 600 }}>conversation.</em>
-                </h2>
-              </FadeLeft>
-              <FadeRight>
-                <Link href="/contact" style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 600, color: "rgba(255,255,255,0.8)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.35)", paddingBottom: 3, whiteSpace: "nowrap" }}>
-                  Talk To Us →
-                </Link>
-              </FadeRight>
-            </div>
-
-            <div className="ab-values-grid">
-              {values.map((item, i) => (
-                <FadeUp key={item.title} delay={i * 110}>
-                  <article className="ab-val" style={{ backgroundColor: "#141210", padding: "clamp(24px,3vw,36px) clamp(20px,2.5vw,28px)", position: "relative", overflow: "hidden", height: "100%" }}>
-                    <span className="ab-vn ab-serif" style={{ position: "absolute", top: 12, right: 20, fontSize: "clamp(3.5rem,5vw,5.5rem)", fontWeight: 700, color: "rgba(255,255,255,0.04)", lineHeight: 1, userSelect: "none" }}>
-                      {item.roman}
-                    </span>
-                    <div className="ab-vbar" style={{ width: 30, height: 2, backgroundColor: "rgba(255,255,255,0.25)", marginBottom: 28 }} />
-                    <h3 className="ab-vt ab-serif" style={{ fontSize: "clamp(1.3rem,2vw,1.55rem)", fontWeight: 600, color: "#fff", marginBottom: 14, lineHeight: 1.2 }}>{item.title}</h3>
-                    <p className="ab-vb" style={{ fontSize: 13.5, lineHeight: 1.9, color: "rgba(255,255,255,0.42)", margin: 0 }}>{item.body}</p>
-                  </article>
-                </FadeUp>
-              ))}
-            </div>
-          </div>
         </section>
 
         {/* ══ HOW WE WORK (pillars) ══ */}
@@ -430,47 +396,6 @@ export default function AboutPage() {
                   </div>
                 </FadeUp>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ══ COMPANY SNAPSHOT ══ */}
-        <section className="ab-section" style={{ backgroundColor: "#0a0908" }}>
-          <div className="ab-container">
-            <div className="ab-snapshot-grid">
-
-              <FadeLeft>
-                <div className="ab-collage">
-                  <div className="ab-collage-top">
-                    <img src="/developers/emaar.webp" alt="Dubai skyline" className="snap-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 1s ease" }} />
-                  </div>
-                  <div className="ab-collage-bot">
-                    <img src="/developers/dubaihills.jpeg" alt="Dubai Hills" className="snap-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 1s ease" }} />
-                  </div>
-                  <div className="ab-collage-bot">
-                    <img src="/developers/valley.jpg" alt="The Valley" className="snap-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 1s ease" }} />
-                  </div>
-                </div>
-              </FadeLeft>
-
-              <FadeRight delay={100}>
-                <p style={{ fontSize: 10, letterSpacing: "0.44em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: 22 }}>Company Snapshot</p>
-                <h2 className="ab-serif" style={{ fontSize: "clamp(1.7rem, 3.2vw, 3rem)", fontWeight: 400, color: "#fff", lineHeight: 1.18, marginBottom: 36 }}>
-                  Operating at the<br /><em style={{ fontStyle: "italic", fontWeight: 600 }}>heart of Dubai's</em><br />property market.
-                </h2>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {snapshot.map((row, i) => (
-                    <div key={row.label} className="snap-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "13px 8px", borderBottom: i < snapshot.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none", gap: 12 }}>
-                      <span style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.32)" }}>{row.label}</span>
-                      <span style={{ fontSize: 13, color: "rgba(255,255,255,0.78)", fontWeight: 500, textAlign: "right" }}>{row.value}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link href="/contact" className="cta-primary" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 32, padding: "14px 30px", backgroundColor: "#1a1814", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.2s" }}>
-                  Speak With an Advisor
-                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ width: 12, height: 12 }}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                </Link>
-              </FadeRight>
             </div>
           </div>
         </section>

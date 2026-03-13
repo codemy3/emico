@@ -12,7 +12,7 @@ import {
 const stageCards = [
   {
     title: "New Launches",
-    href: "/projects/new-launches",
+    href: "/properties",
     description:
       "Fresh market entries with early pricing, launch incentives, and the strongest upside for buyers entering ahead of the curve.",
     stat: "14 active launches",
@@ -21,7 +21,7 @@ const stageCards = [
   },
   {
     title: "Under Construction",
-    href: "/projects/under-construction",
+    href: "/properties",
     description:
       "Projects already in motion for buyers who want staged payments with clearer delivery visibility and construction progress.",
     stat: "22 progressing sites",
@@ -30,7 +30,7 @@ const stageCards = [
   },
   {
     title: "Completed",
-    href: "/projects/completed",
+    href: "/properties",
     description:
       "Move-in ready communities and income-producing assets for end users and investors who want immediate access or rental yield.",
     stat: "31 ready communities",
@@ -104,7 +104,7 @@ export default function ProjectsPage() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/projects/new-launches"
+                href="/properties"
                 className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#0a1325] transition-transform hover:-translate-y-0.5"
               >
                 Explore New Launches

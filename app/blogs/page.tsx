@@ -1,51 +1,5 @@
 import Link from "next/link";
-
-const categories = ["Market Intelligence", "Developer Watch", "Investment Guides", "Area Reports"];
-
-const posts = [
-  {
-    title: "Dubai Off-Plan vs Ready: How Emico Advises Different Buyer Profiles",
-    excerpt:
-      "A practical framework we use to match investors and end-users with the right segment based on timeline, yield expectations, and risk tolerance.",
-    meta: "7 min read",
-    tag: "Investment Guides",
-  },
-  {
-    title: "What We Track Before Recommending Any Developer Project",
-    excerpt:
-      "From delivery history to master-community fundamentals, this is the due-diligence checklist behind Emico recommendations.",
-    meta: "5 min read",
-    tag: "Developer Watch",
-  },
-  {
-    title: "Dubai Yield Corridors in 2026: Areas with Strong Rental Demand",
-    excerpt:
-      "An advisory-level breakdown of demand drivers, tenant depth, and inventory pressure in key Dubai districts.",
-    meta: "8 min read",
-    tag: "Market Intelligence",
-  },
-  {
-    title: "Business Bay, Dubai Marina, or JVC: Selecting by Strategy, Not Hype",
-    excerpt:
-      "How location choice changes for capital growth goals versus immediate rental performance.",
-    meta: "6 min read",
-    tag: "Area Reports",
-  },
-  {
-    title: "Golden Visa Thresholds and Property Structuring: What Buyers Should Know",
-    excerpt:
-      "A concise guide to eligibility planning, value thresholds, and ownership considerations for residency-focused investors.",
-    meta: "6 min read",
-    tag: "Investment Guides",
-  },
-  {
-    title: "How Emico Builds Shortlists for First-Time Dubai Investors",
-    excerpt:
-      "Inside our advisory process: objective setting, budget mapping, scenario comparison, and final selection.",
-    meta: "5 min read",
-    tag: "Market Intelligence",
-  },
-];
+import { blogCategories, blogPosts } from "@/lib/blogs-data";
 
 export default function BlogsPage() {
   return (
@@ -70,7 +24,7 @@ export default function BlogsPage() {
 
       <section className="max-w-7xl mx-auto px-6 py-10 md:py-14">
         <div className="flex flex-wrap gap-3">
-          {categories.map((category) => (
+          {blogCategories.map((category) => (
             <span key={category} className="px-3 py-1.5 bg-white border border-[#ddd5ca] text-[11px] uppercase tracking-[0.14em] text-[#6d6458]">
               {category}
             </span>
@@ -80,21 +34,34 @@ export default function BlogsPage() {
 
       <section className="max-w-7xl mx-auto px-6 pb-16 md:pb-24">
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6">
-          {posts.map((post) => (
-            <article key={post.title} className="bg-white border border-[#e4ddd4] p-6 md:p-7 hover:shadow-[0_14px_34px_rgba(0,0,0,0.07)] transition-shadow">
-              <p className="text-[10px] tracking-[0.18em] uppercase text-[#9a8b78] mb-3">{post.tag}</p>
-              <h2
-                className="text-[28px] leading-[1.08] mb-4"
-                style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', serif", fontWeight: 600 }}
-              >
-                {post.title}
-              </h2>
-              <p className="text-sm leading-7 text-[#585044] mb-6">{post.excerpt}</p>
-              <div className="flex items-center justify-between border-t border-[#eee5da] pt-4">
-                <span className="text-xs tracking-[0.12em] uppercase text-[#8d8274]">{post.meta}</span>
-                <span className="text-xs font-semibold tracking-[0.12em] uppercase text-black">Read More</span>
+          {blogPosts.map((post) => (
+            <Link
+              key={post.slug}
+              href={`/blogs/${post.slug}`}
+              className="group bg-white border border-[#e4ddd4] overflow-hidden hover:shadow-[0_14px_34px_rgba(0,0,0,0.07)] transition-shadow"
+            >
+              <div className="h-56 overflow-hidden">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
               </div>
-            </article>
+              <article className="p-6 md:p-7">
+                <p className="text-[10px] tracking-[0.18em] uppercase text-[#9a8b78] mb-3">{post.tag}</p>
+                <h2
+                  className="text-[28px] leading-[1.08] mb-4"
+                  style={{ fontFamily: "'Cormorant Garamond', 'Playfair Display', serif", fontWeight: 600 }}
+                >
+                  {post.title}
+                </h2>
+                <p className="text-sm leading-7 text-[#585044] mb-6">{post.excerpt}</p>
+                <div className="flex items-center justify-between border-t border-[#eee5da] pt-4">
+                  <span className="text-xs tracking-[0.12em] uppercase text-[#8d8274]">{post.readTime}</span>
+                  <span className="text-xs font-semibold tracking-[0.12em] uppercase text-black">Read More</span>
+                </div>
+              </article>
+            </Link>
           ))}
         </div>
 
