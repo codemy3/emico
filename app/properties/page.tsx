@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Bath, BedDouble, MapPin, Maximize2, Search, SlidersHorizontal, X } from "lucide-react";
+import { Bath, BedDouble, MapPin, Maximize2, Search, SlidersHorizontal, X, Mail, Phone, MessageCircle } from "lucide-react";
 
-type PropertyType = "Apartment" | "Villa" | "Townhouse" | "Penthouse" | "Studio" | "Commercial";
+type PropertyType = "Apartment" | "Villa" | "Townhouse" | "Penthouse" | "Commercial";
 type PropertyStatus = "Ready" | "Off-Plan";
 type PropertyCategory = "Residential" | "Commercial";
 
@@ -18,7 +18,7 @@ interface Property {
   developerLogo: string;
   type: PropertyType;
   status: PropertyStatus;
-  beds: "Studio" | "1" | "2" | "3" | "4" | "5+";
+  beds: "1" | "2" | "3" | "4" | "5+";
   baths: number;
   size: number;
   price: number;
@@ -44,7 +44,6 @@ const PROPERTIES: Property[] = [
   { id: "p12", title: "Bugatti Residences",            developer: "Binghatti",         developerLogo: "/developers/binghatti-logo.png",        location: "Business Bay",       community: "Business Bay",            type: "Penthouse",  status: "Off-Plan",           beds: "5+",     baths: 6, size: 14000, price: 52000000, priceLabel: "AED 52,000,000", image: "/developers/dubaicreek.jpeg",      completionYear: 2026, tags: ["World First", "Ultra Luxury"] },
   { id: "p13", title: "Orchid – JVC",                  developer: "Binghatti",         developerLogo: "/developers/binghatti-logo.png",        location: "JVC",                community: "Jumeirah Village Circle", type: "Apartment",  status: "Ready",              beds: "1",      baths: 1, size: 820,   price: 750000,   priceLabel: "AED 750,000",    image: "/developers/jvc.webp",             roi: "7.2%",  tags: ["High ROI", "Ready"] },
   { id: "p14", title: "Oceanz",                        developer: "Danube",            developerLogo: "/developers/danube-logo.png",           location: "Dubai Maritime City",community: "Dubai Maritime City",      type: "Apartment",  status: "Off-Plan",           beds: "2",      baths: 2, size: 1100,  price: 950000,   priceLabel: "AED 950,000",    image: "/developers/dubaisportcity.webp",  completionYear: 2027, tags: ["1% Payment", "Sea Views"] },
-  { id: "p15", title: "Sportz",                        developer: "Danube",            developerLogo: "/developers/danube-logo.png",           location: "Dubai Sports City",  community: "Dubai Sports City",       type: "Studio",     status: "Ready",              beds: "Studio", baths: 1, size: 490,   price: 600000,   priceLabel: "AED 600,000",    image: "/developers/dubaisportcity.webp",  roi: "7.8%",  tags: ["Affordable", "High Yield"] },
   { id: "p16", title: "Bluewaters Island Residences",  developer: "Meraas",            developerLogo: "/developers/Meraas-logo.svg",           location: "Bluewaters Island",  community: "Bluewaters Island",       type: "Apartment",  status: "Ready",              beds: "2",      baths: 2, size: 1400,  price: 3000000,  priceLabel: "AED 3,000,000",  image: "/developers/dubaihills.jpeg",      roi: "5.4%",  tags: ["Island Living", "Ain Dubai"] },
   { id: "p17", title: "City Walk Residences",          developer: "Meraas",            developerLogo: "/developers/Meraas-logo.svg",           location: "City Walk",          community: "City Walk",               type: "Apartment",  status: "Ready",              beds: "2",      baths: 2, size: 1150,  price: 2200000,  priceLabel: "AED 2,200,000",  image: "/developers/arjan.jpg",            roi: "5.9%",  tags: ["Lifestyle", "Retail"] },
   { id: "p18", title: "Ellington House",               developer: "Ellington",         developerLogo: "/developers/ellington-logo.png",        location: "Dubai Hills Estate", community: "Dubai Hills Estate",      type: "Apartment",  status: "Ready",              beds: "1",      baths: 1, size: 870,   price: 1400000,  priceLabel: "AED 1,400,000",  image: "/developers/meydan.jpg",           roi: "6.1%",  tags: ["Design-Led", "Boutique"] },
@@ -61,7 +60,7 @@ const PROPERTIES: Property[] = [
 
 const TYPES: PropertyType[] = ["Apartment", "Villa", "Townhouse", "Penthouse", "Commercial"];
 const STATUSES: PropertyStatus[] = ["Ready", "Off-Plan"];
-const BEDS = ["Studio", "1", "2", "3", "4", "5+"] as const;
+const BEDS = ["1", "2", "3", "4", "5+"] as const;
 const DEVELOPERS = ["Beyond", "Nakheel", "Emaar", "DP World", "Meraas", "Sobha"] as const;
 const PRICE_OPTIONS = ["AED 500K - 1M", "AED 2M - 3M", "AED 3M+"] as const;
 const RESIDENTIAL_TYPES: PropertyType[] = ["Apartment", "Villa", "Townhouse", "Penthouse"];
@@ -175,6 +174,37 @@ function PropertiesPageClient() {
         }
 
         .filter-chip { position: relative; }
+
+        .prop-contact {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          border-top: 1px solid #e5e7eb;
+          margin-top: 12px;
+          padding-top: 12px;
+        }
+
+        .prop-contact-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 8px 6px;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+          text-decoration: none;
+          border: 1px solid #e5e7eb;
+          background: transparent;
+          transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .prop-contact-email { color: #374151; }
+        .prop-contact-email:hover { background: #f9f8f6; color: #0d0d0d; }
+        .prop-contact-call { color: #b45309; }
+        .prop-contact-call:hover { background: #fffbeb; }
+        .prop-contact-whatsapp { color: #15803d; }
+        .prop-contact-whatsapp:hover { background: #f0fdf4; }
       `}</style>
 
       <div className="max-w-7xl mx-auto">
@@ -296,16 +326,37 @@ function PropertiesPageClient() {
                     <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs font-bold px-2 py-1">{p.priceLabel}</span>
                   </div>
                   <div className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <img src={p.developerLogo} alt={p.developer} className="h-4 w-12 object-contain" />
-                      <span className="text-xs text-gray-400">{p.developer}</span>
-                    </div>
                     <h3 className="font-semibold text-gray-900 mb-1" style={{ fontFamily: "var(--font-dm-serif), serif" }}>{p.title}</h3>
                     <p className="text-xs text-gray-500 flex items-center gap-1 mb-3"><MapPin size={12} />{p.location}</p>
                     <div className="flex items-center gap-3 text-xs text-gray-600">
-                      <span className="flex items-center gap-1"><BedDouble size={12} />{p.beds === "Studio" ? "Studio" : `${p.beds} Beds`}</span>
+                      <span className="flex items-center gap-1"><BedDouble size={12} />{`${p.beds} Beds`}</span>
                       <span className="flex items-center gap-1"><Bath size={12} />{p.baths} Baths</span>
                       <span className="flex items-center gap-1"><Maximize2 size={12} />{p.size.toLocaleString()} sqft</span>
+                    </div>
+                    <div className="prop-contact">
+                      <a
+                        href="mailto:info@emico.ae"
+                        onClick={(e) => e.stopPropagation()}
+                        className="prop-contact-btn prop-contact-email"
+                      >
+                        <Mail size={12} /> Email
+                      </a>
+                      <a
+                        href="tel:+9714XXXXXXX"
+                        onClick={(e) => e.stopPropagation()}
+                        className="prop-contact-btn prop-contact-call"
+                      >
+                        <Phone size={12} /> Call
+                      </a>
+                      <a
+                        href="https://wa.me/9714XXXXXXX"
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="prop-contact-btn prop-contact-whatsapp"
+                      >
+                        <MessageCircle size={12} /> WhatsApp
+                      </a>
                     </div>
                   </div>
                 </button>
@@ -334,7 +385,7 @@ function PropertiesPageClient() {
               <p className="text-sm text-gray-600 flex items-center gap-1"><MapPin size={14} />{activeProperty.location}</p>
               <p className="text-sm text-gray-600"><span className="font-semibold text-gray-900">Developer:</span> {activeProperty.developer}</p>
               <div className="grid grid-cols-3 gap-3 text-xs text-gray-600 pt-2">
-                <div className="border border-gray-200 p-2.5 flex items-center gap-1 justify-center"><BedDouble size={12} />{activeProperty.beds === "Studio" ? "Studio" : `${activeProperty.beds} Beds`}</div>
+                <div className="border border-gray-200 p-2.5 flex items-center gap-1 justify-center"><BedDouble size={12} />{`${activeProperty.beds} Beds`}</div>
                 <div className="border border-gray-200 p-2.5 flex items-center gap-1 justify-center"><Bath size={12} />{activeProperty.baths} Baths</div>
                 <div className="border border-gray-200 p-2.5 flex items-center gap-1 justify-center"><Maximize2 size={12} />{activeProperty.size.toLocaleString()} sqft</div>
               </div>

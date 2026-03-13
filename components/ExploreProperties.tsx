@@ -8,6 +8,7 @@ import {
   AnimatePresence,
   type Variants,
 } from "framer-motion";
+import { Mail, Phone, MessageCircle } from "lucide-react";
 
 const categories = ["All", "Apartment", "Villa", "Penthouse", "Townhouse", "Commercial"];
 
@@ -269,8 +270,7 @@ export default function ExploreProperties() {
                 exit="exit"
                 layout
               >
-                <Link
-                  href={`/properties/${property.id}`}
+                <article
                   className="group block bg-white overflow-hidden"
                   style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}
                 >
@@ -353,7 +353,30 @@ export default function ExploreProperties() {
                       </span>
                     </div>
 
-                    <div className="mt-4 flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-black opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="mt-4 grid grid-cols-3 border-t border-gray-100 pt-4">
+                      <a
+                        href="mailto:info@emico.ae"
+                        className="inline-flex items-center justify-center gap-1.5 px-2 py-2 text-[11px] font-semibold tracking-[0.03em] uppercase border border-gray-200 text-[#374151] hover:bg-[#f9f8f6] hover:text-[#0d0d0d] transition-colors"
+                      >
+                        <Mail size={12} /> Email
+                      </a>
+                      <a
+                        href="tel:+9714XXXXXXX"
+                        className="inline-flex items-center justify-center gap-1.5 px-2 py-2 text-[11px] font-semibold tracking-[0.03em] uppercase border border-gray-200 text-[#b45309] hover:bg-[#fffbeb] transition-colors"
+                      >
+                        <Phone size={12} /> Call
+                      </a>
+                      <a
+                        href="https://wa.me/9714XXXXXXX"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center gap-1.5 px-2 py-2 text-[11px] font-semibold tracking-[0.03em] uppercase border border-gray-200 text-[#15803d] hover:bg-[#f0fdf4] transition-colors"
+                      >
+                        <MessageCircle size={12} /> WhatsApp
+                      </a>
+                    </div>
+
+                    <Link href={`/properties/${property.id}`} className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-black opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       View Details
                       <motion.span
                         animate={{ x: [0, 4, 0] }}
@@ -361,9 +384,9 @@ export default function ExploreProperties() {
                       >
                         →
                       </motion.span>
-                    </div>
+                    </Link>
                   </div>
-                </Link>
+                </article>
               </motion.div>
             ))}
           </AnimatePresence>

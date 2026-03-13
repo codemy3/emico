@@ -153,9 +153,9 @@ export default function WhyChooseUs() {
     <section className="py-24 bg-white overflow-hidden" ref={sectionRef}>
       {/* ── Header ── */}
       <div className="max-w-7xl mx-auto px-6 mb-16">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+        <div className="flex flex-col items-center text-center gap-5">
           <div
-            className={`transition-all duration-700 text-center lg:text-center ${
+            className={`transition-all duration-700 ${
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -170,13 +170,11 @@ export default function WhyChooseUs() {
                 fontWeight: 700,
               }}
             >
-              Why Choose
-              <br />
-              <em className="font-light italic">Emico?</em>
+                Why Choose <em className="font-light italic">Emico?</em>
             </h2>
           </div>
           <p
-            className={`text-gray-500 text-sm max-w-md leading-relaxed transition-all duration-700 delay-100 ${
+            className={`text-gray-500 text-sm max-w-xl leading-relaxed transition-all duration-700 delay-100 ${
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >

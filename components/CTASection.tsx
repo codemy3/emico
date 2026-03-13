@@ -92,7 +92,7 @@ export default function CTASection() {
                 className={`mt-12 flex items-center gap-6 transition-all duration-700 delay-400 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               >
                 {[
-                  { icon: "★★★★★", text: "4.9/5 Client Rating" },
+                  { icon: "★", text: "Trusted by Homebuyers & Investors" },
                   { icon: "✓", text: "RERA Certified Agency" },
                   { icon: "◎", text: "15+ Years in Dubai" },
                 ].map((item) => (

@@ -70,7 +70,7 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section className="bg-black py-24 px-6 relative overflow-hidden" ref={ref}>
+    <section className="bg-black py-10 px-6 relative overflow-hidden" ref={ref}>
       {/* Background accent */}
       <div
         className="absolute top-0 left-0 w-full h-1"
@@ -79,7 +79,7 @@ export default function StatsSection() {
 
       <div className="max-w-7xl mx-auto">
         <div
-          className={`text-center mb-16 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          className={`text-center mb-8 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           <span className="text-white/30 text-xs tracking-[0.4em] uppercase block mb-4">By The Numbers</span>
           <h2

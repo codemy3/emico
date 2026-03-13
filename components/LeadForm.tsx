@@ -40,7 +40,7 @@ export default function LeadForm() {
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left content */}
           <div>
             <span className="text-black/40 text-xs tracking-[0.4em] uppercase block mb-5">

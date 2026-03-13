@@ -11,44 +11,39 @@ const partners = [
 export default function PartnersSection() {
   return (
     <section className="py-10 bg-[#f3f6fa] overflow-hidden">
-      <div className="w-full px-6 md:px-14 flex flex-col md:flex-row items-center gap-6 md:gap-8">
-
-        {/* Label — mobile unchanged, desktop centered without extra width */}
-        <div
-          className="w-full md:shrink-0 flex items-center justify-center md:justify-start"
-          style={{ flexBasis: "430px" }}
+      <div className="px-6 md:px-14 mb-6 md:mb-8 text-center">
+        <h2
+          className="text-gray-900 font-semibold"
+          style={{
+            fontSize: "clamp(1.4rem, 2.5vw, 2rem)",
+            letterSpacing: ".01em",
+            fontFamily: "var(--font-dm-serif), serif",
+            lineHeight: 1.2,
+            background: "linear-gradient(90deg, #0a0a0a 0%, #555 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
         >
-          <span
-            className="block md:hidden text-gray-700 font-light whitespace-nowrap"
-            style={{ fontSize: 13, letterSpacing: ".04em", fontFamily: "var(--font-dm-serif), serif" }}
-          >
-            Partners with Dubai&apos;s leading developers
-          </span>
-          <span
-            className="hidden md:inline-block text-gray-700 font-light whitespace-nowrap text-center"
-            style={{ fontSize: 22, letterSpacing: ".03em", fontFamily: "var(--font-dm-serif), serif", lineHeight: 1.2 }}
-          >
-            Partners with Dubai&apos;s leading developers
-          </span>
-        </div>
+          Partners with Dubai&apos;s leading developers
+        </h2>
+      </div>
 
-        {/* Marquee */}
-        <div className="w-full md:flex-1 overflow-hidden">
-          <div
-            className="partner-marquee flex items-center gap-16"
-            style={{ width: "max-content", animation: "marquee-rtl 22s linear infinite" }}
-          >
-            {[...partners, ...partners].map((partner, i) => (
-              <div key={i} className="flex items-center justify-center h-16">
-                <img
-                  src={partner.src}
-                  alt={partner.alt}
-                  className="h-12 md:h-14 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
-                  style={{ maxWidth: 160 }}
-                />
-              </div>
-            ))}
-          </div>
+      <div className="w-full overflow-hidden">
+        <div
+          className="partner-marquee flex items-center gap-16 md:gap-24"
+          style={{ width: "max-content", animation: "marquee-rtl 22s linear infinite", paddingInline: "3.5rem" }}
+        >
+          {[...partners, ...partners, ...partners].map((partner, i) => (
+            <div key={i} className="flex items-center justify-center h-16 md:h-20 shrink-0">
+              <img
+                src={partner.src}
+                alt={partner.alt}
+                className="h-10 md:h-14 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                style={{ maxWidth: 180 }}
+              />
+            </div>
+          ))}
         </div>
       </div>
 

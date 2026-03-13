@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 const stats = [
   { num: "0%",   label: "Tax on Income",  sub: "No income, capital gains or property tax — ever." },
   { num: "8.2%", label: "Rental Yield",   sub: "Highest average yield among all prime global markets." },
-  { num: "10yr", label: "Golden Visa",    sub: "Full UAE residency from AED 2M+ investment." },
-  { num: "#1",   label: "Safest City",    sub: "Ranked world's safest major city, 5 years running." },
+  { num: "10yr", label: "UAE Golden Visa",sub: "UAE Golden Visa eligibility from AED 2M+ property investment." },
+  { num: "24/7", label: "Global Hub",     sub: "A business-friendly city with world-class infrastructure and year-round demand." },
 ];
 
 function HangingBoard() {
@@ -25,7 +25,7 @@ function HangingBoard() {
         transform: "perspective(500px) rotateX(4deg)",
       }}>
         <div style={{ position: "absolute", top: -8, left: "50%", transform: "translateX(-50%)", width: 16, height: 16, borderRadius: "50%", background: "#e5e7eb", border: "2px solid #d1d5db" }} />
-        <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 4 }}>Starting From</div>
+        <div style={{ color: "rgba(255,255,255,0.68)", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, marginBottom: 6 }}>STARTING FROM</div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <img
             src="/dirham.png"
@@ -35,7 +35,7 @@ function HangingBoard() {
           />
           <div style={{ fontFamily: "var(--font-dm-serif), serif", color: "#fff", fontSize: "1.5rem", lineHeight: 1 }}>590K</div>
         </div>
-        <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, marginTop: 5 }}>Onwards</div>
+        <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600, marginTop: 7 }}>ONWARDS</div>
         <div style={{ position: "absolute", inset: 0, borderRadius: 8, background: "linear-gradient(130deg,rgba(255,255,255,0.07) 0%,transparent 55%)", pointerEvents: "none" }} />
       </div>
       <div style={{ width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderTop: "8px solid #111", marginTop: -1 }} />

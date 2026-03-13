@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "../components/Footer";
 
 // Body font — clean modern sans matching the reference website
 const dmSans = DM_Sans({
@@ -40,6 +41,8 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <div style={{ height: 1, background: "linear-gradient(to right, transparent, #d1d5db 20%, #d1d5db 80%, transparent)" }} />
+        <Footer />
       </body>
     </html>
   );
