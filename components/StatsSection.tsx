@@ -12,7 +12,6 @@ interface Stat {
 
 const stats: Stat[] = [
   { value: 15, suffix: "+", label: "Years of Excellence", sublabel: "Established in Dubai's property market since 2009" },
-  { value: 1000, suffix: "+", label: "Properties Sold", sublabel: "Across Dubai's most sought-after communities" },
   { value: 97, suffix: "%", label: "Client Satisfaction", sublabel: "Based on verified client reviews and feedback" },
 ];
 
@@ -94,7 +93,7 @@ export default function StatsSection() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-px bg-white/10">
           {stats.map((stat, i) => (
             <div
               key={stat.label}

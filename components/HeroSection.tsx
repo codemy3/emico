@@ -738,21 +738,6 @@ export default function HeroSection() {
 
           </motion.div>
 
-          {/* STATS ROW */}
-          <motion.div
-            className="mt-4 sm:mt-5 flex flex-wrap items-center text-white/70 text-xs sm:text-[13px]"
-            style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-          >
-            {["4,000+ listings", "400+ agents", "Serving 80+ countries"].map((item, i) => (
-              <span key={item} className="flex items-center">
-                {i > 0 && <span className="mx-2 sm:mx-2.5 text-white/35">·</span>}
-                {item}
-              </span>
-            ))}
-          </motion.div>
-
         </div>
       </div>
     </section>

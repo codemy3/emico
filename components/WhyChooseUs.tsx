@@ -170,7 +170,7 @@ export default function WhyChooseUs() {
                 fontWeight: 700,
               }}
             >
-                Why Choose <em className="font-light italic">Emico?</em>
+                Why Choose <em className="font-light italic" style={{ fontFamily: "var(--font-dm-serif), serif" }}>Emico?</em>
             </h2>
           </div>
           <p
