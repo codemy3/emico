@@ -6,12 +6,14 @@ interface Stat {
   value: number;
   suffix: string;
   prefix?: string;
+  displayValue?: string;
   label: string;
   sublabel: string;
 }
 
 const stats: Stat[] = [
-  { value: 15, suffix: "+", label: "Years of Excellence", sublabel: "Established in Dubai's property market since 2009" },
+  { value: 3, suffix: "+", label: "Years of Excellence", sublabel: "Established in Dubai's property market since 2009" },
+  { value: 0, suffix: "", displayValue: "Multiple", label: "Properties Sold", sublabel: "Across Dubai's most sought-after communities" },
   { value: 97, suffix: "%", label: "Client Satisfaction", sublabel: "Based on verified client reviews and feedback" },
 ];
 
@@ -93,14 +95,23 @@ export default function StatsSection() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-px bg-white/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
               className={`bg-black p-8 lg:p-12 text-center transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transitionDelay: `${i * 0.1}s` }}
             >
-              <CountUp target={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
+              {stat.displayValue ? (
+                <div
+                  className="text-4xl lg:text-5xl font-black text-white"
+                  style={{ fontFamily: "var(--font-dm-serif), serif" }}
+                >
+                  {stat.displayValue}
+                </div>
+              ) : (
+                <CountUp target={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
+              )}
               <div className="mt-3 text-white font-semibold text-sm tracking-wide">{stat.label}</div>
               <div className="mt-2 text-white/30 text-xs leading-relaxed">{stat.sublabel}</div>
             </div>
