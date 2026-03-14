@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 const stats = [
   { num: "0%",   label: "Tax on Income",  sub: "No income, capital gains or property tax — ever." },
-  { num: "8.2%", label: "Rental Yield",   sub: "Highest average yield among all prime global markets." },
   { num: "10yr", label: "UAE Golden Visa",sub: "UAE Golden Visa eligibility from AED 2M+ property investment." },
   { num: "24/7", label: "Global Hub",     sub: "A business-friendly city with world-class infrastructure and year-round demand." },
 ];
@@ -137,39 +136,20 @@ export default function CreativeSection() {
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, transparent 35%, rgba(0,0,0,0.18) 100%)" }} />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(255,255,255,0.06), transparent 40%)" }} />
 
-          {/* Yield card */}
-          <div style={{
-            position: "absolute", bottom: 28, left: 28,
-            background: "rgba(255,255,255,0.96)", backdropFilter: "blur(8px)",
-            padding: "14px 18px",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-            opacity: vis ? 1 : 0,
-            transform: vis ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 0.7s ease 0.55s, transform 0.7s ease 0.55s",
-            minWidth: 170,
-          }}>
-            <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#9ca3af", marginBottom: 4 }}>Avg. Rental Yield</div>
-            <div style={{ fontFamily: "var(--font-dm-serif), serif", fontSize: "2rem", color: "#0a0a0a", lineHeight: 1 }}>8.2%</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6 }}>
-              <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#0a0a0a" }} />
-              <span style={{ fontSize: 11, color: "#0a0a0a", fontWeight: 600 }}>World&apos;s highest</span>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* ── STATS ROW ── */}
       <div style={{ borderTop: "1px solid #f0f0f0" }}>
-        <div className="grid grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 md:grid-cols-3">
           {stats.map((s, i) => (
             <div
               key={s.label}
+              className="border-b border-[#f0f0f0] md:border-b-0 md:border-r md:border-[#f0f0f0] last:border-b-0 last:md:border-r-0"
               onMouseEnter={() => setHov(i)}
               onMouseLeave={() => setHov(null)}
               style={{
                 padding: "36px 28px",
-                borderRight: i < 3 ? "1px solid #f0f0f0" : "none",
-                borderBottom: i < 2 ? "1px solid #f0f0f0" : "none",
                 background: hov === i ? "#0a0a0a" : "#fff",
                 cursor: "default",
                 transition: "background 0.35s ease, opacity 0.7s ease, transform 0.7s ease",
